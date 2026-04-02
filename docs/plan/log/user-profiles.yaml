@@ -29,3 +29,10 @@ entries:
     result: pass
     notes: "113 tests (unchanged — component not yet wired). US-09 criteria 1-8 met. Remaining: App.tsx integration (9), lastPlayedAt (10), validation test (11)."
     tokens: ~6000
+  - task: 5
+    time: "2026-04-02T10:30:00Z"
+    story: null
+    description: "Queue App.tsx integration + mapProgress profileId scoping + legacy migration."
+    result: pass
+    notes: "Branch B. Covers US-09 criterion 9 + US-10 criteria 1-6."
+    tokens: ~500
