@@ -22,3 +22,10 @@ entries:
     result: pass
     notes: "Branch B. ProfileScreen is the main UI component for US-09."
     tokens: ~500
+  - task: 4
+    time: "2026-04-02T10:28:00Z"
+    story: US-09
+    description: "Implement ProfileScreen.tsx + ProfileScreen.css — avatar selection (4 animals), profile cards with last-played badge, creation flow with name validation, reset confirmation dialog. Adventure parchment styling."
+    result: pass
+    notes: "113 tests (unchanged — component not yet wired). US-09 criteria 1-8 met. Remaining: App.tsx integration (9), lastPlayedAt (10), validation test (11)."
+    tokens: ~6000
