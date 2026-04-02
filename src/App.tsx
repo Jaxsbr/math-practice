@@ -27,6 +27,12 @@ function App() {
     setView({ screen: 'map' })
   }, [])
 
+  const handleSwitchProfile = useCallback(() => {
+    setActiveProfile(null)
+    setProgress({})
+    setView({ screen: 'profile' })
+  }, [])
+
   const handleSelectChallenge = useCallback((node: ChallengeNode) => {
     setView({ screen: 'quiz', node })
   }, [])
@@ -58,6 +64,7 @@ function App() {
           node={view.node}
           problemCount={PROBLEMS_PER_CHALLENGE}
           progress={progress}
+          activeProfile={activeProfile}
           onComplete={(correct, total, elapsed) => handleQuizComplete(view.node, correct, total, elapsed)}
           onAbandon={handleAbandon}
         />
@@ -75,7 +82,9 @@ function App() {
       return (
         <MapScreen
           progress={progress}
+          activeProfile={activeProfile}
           onSelectChallenge={handleSelectChallenge}
+          onSwitchProfile={handleSwitchProfile}
         />
       )
   }

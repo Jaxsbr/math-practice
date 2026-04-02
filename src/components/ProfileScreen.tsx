@@ -3,6 +3,7 @@ import type { Profile } from '../lib/profiles'
 import {
   loadProfiles,
   saveProfile,
+  deleteProfile,
   getLastActiveProfileId,
   validateProfileName,
   createProfileId,
@@ -47,7 +48,15 @@ export function ProfileScreen({ onSelectProfile }: ProfileScreenProps) {
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)
   const [nameInput, setNameInput] = useState('')
   const [nameError, setNameError] = useState<string | null>(null)
-  const [resetTarget, setResetTarget] = useState<Profile | null>(null)
+  const [editTarget, setEditTarget] = useState<Profile | null>(null)
+  const [editName, setEditName] = useState('')
+  const [editAvatar, setEditAvatar] = useState<number>(0)
+  const [editNameError, setEditNameError] = useState<string | null>(null)
+  const [confirmAction, setConfirmAction] = useState<{ type: 'reset' | 'delete'; profile: Profile } | null>(null)
+
+  const reloadProfiles = useCallback(() => {
+    setProfiles(loadProfiles())
+  }, [])
 
   const handleSelectProfile = useCallback((profile: Profile) => {
     const updated: Profile = { ...profile, lastPlayedAt: new Date().toISOString() }
@@ -89,25 +98,58 @@ export function ProfileScreen({ onSelectProfile }: ProfileScreenProps) {
       lastPlayedAt: now,
     }
     saveProfile(profile)
-    setProfiles(loadProfiles())
+    reloadProfiles()
     setCreating(false)
     onSelectProfile(profile)
-  }, [selectedAvatar, nameInput, onSelectProfile])
+  }, [selectedAvatar, nameInput, onSelectProfile, reloadProfiles])
 
-  const handleResetRequest = useCallback((e: React.MouseEvent, profile: Profile) => {
+  // Edit handlers
+  const handleOpenEdit = useCallback((e: React.MouseEvent, profile: Profile) => {
     e.stopPropagation()
-    setResetTarget(profile)
+    setEditTarget(profile)
+    setEditName(profile.name)
+    setEditAvatar(profile.avatarId)
+    setEditNameError(null)
   }, [])
 
-  const handleResetConfirm = useCallback(() => {
-    if (!resetTarget) return
-    clearMapProgress(resetTarget.id)
-    setResetTarget(null)
-    setProfiles(loadProfiles())
-  }, [resetTarget])
+  const handleCloseEdit = useCallback(() => {
+    setEditTarget(null)
+    setEditNameError(null)
+  }, [])
 
-  const handleResetCancel = useCallback(() => {
-    setResetTarget(null)
+  const handleSaveEdit = useCallback(() => {
+    if (!editTarget) return
+    const error = validateProfileName(editName)
+    if (error) {
+      setEditNameError(error)
+      return
+    }
+    const updated: Profile = {
+      ...editTarget,
+      name: editName.trim(),
+      avatarId: editAvatar,
+    }
+    saveProfile(updated)
+    reloadProfiles()
+    setEditTarget(null)
+  }, [editTarget, editName, editAvatar, reloadProfiles])
+
+  // Confirm action handlers (reset / delete)
+  const handleConfirmAction = useCallback(() => {
+    if (!confirmAction) return
+    if (confirmAction.type === 'reset') {
+      clearMapProgress(confirmAction.profile.id)
+    } else {
+      clearMapProgress(confirmAction.profile.id)
+      deleteProfile(confirmAction.profile.id)
+    }
+    setConfirmAction(null)
+    setEditTarget(null)
+    reloadProfiles()
+  }, [confirmAction, reloadProfiles])
+
+  const handleCancelConfirm = useCallback(() => {
+    setConfirmAction(null)
   }, [])
 
   const canCreateNew = profiles.length < MAX_PROFILES
@@ -132,10 +174,10 @@ export function ProfileScreen({ onSelectProfile }: ProfileScreenProps) {
               <div className="profile-name">{profile.name}</div>
               <div className="profile-card-actions">
                 <button
-                  className="reset-button"
-                  onClick={(e) => handleResetRequest(e, profile)}
+                  className="edit-button"
+                  onClick={(e) => handleOpenEdit(e, profile)}
                 >
-                  Reset
+                  Edit
                 </button>
               </div>
             </div>
@@ -143,7 +185,7 @@ export function ProfileScreen({ onSelectProfile }: ProfileScreenProps) {
         </div>
       )}
 
-      {!creating && (
+      {!creating && !editTarget && (
         <button
           className="new-adventurer-button"
           onClick={handleStartCreation}
@@ -203,21 +245,92 @@ export function ProfileScreen({ onSelectProfile }: ProfileScreenProps) {
         </div>
       )}
 
-      {resetTarget && (
-        <div className="confirm-overlay" onClick={handleResetCancel}>
-          <div className="confirm-dialog" onClick={e => e.stopPropagation()}>
-            <div className="confirm-avatar">{AVATARS[resetTarget.avatarId]}</div>
-            <p className="confirm-message">
-              Reset {resetTarget.name}&apos;s adventure?
-            </p>
-            <p className="confirm-warning">
-              All stars and progress will be lost!
-            </p>
-            <div className="confirm-actions">
-              <button className="confirm-reset" onClick={handleResetConfirm}>
-                Reset
+      {editTarget && !confirmAction && (
+        <div className="creation-panel">
+          <h2 className="creation-title">Edit Adventurer</h2>
+          <div className="avatar-picker">
+            {AVATARS.map((emoji, idx) => (
+              <button
+                key={idx}
+                className={`avatar-option${editAvatar === idx ? ' selected' : ''}`}
+                onClick={() => { setEditAvatar(idx); setEditNameError(null) }}
+              >
+                {emoji}
               </button>
-              <button className="confirm-cancel" onClick={handleResetCancel}>
+            ))}
+          </div>
+
+          <div className="name-input-group">
+            <input
+              className={`name-input${editNameError ? ' invalid' : ''}`}
+              type="text"
+              placeholder="Your name"
+              value={editName}
+              onChange={e => {
+                setEditName(e.target.value)
+                setEditNameError(null)
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter') handleSaveEdit()
+              }}
+              maxLength={12}
+              autoFocus
+            />
+            <button className="go-button" onClick={handleSaveEdit}>
+              Save
+            </button>
+          </div>
+          {editNameError && <div className="validation-error">{editNameError}</div>}
+
+          <div className="edit-danger-zone">
+            <button
+              className="edit-danger-button reset-danger"
+              onClick={() => setConfirmAction({ type: 'reset', profile: editTarget })}
+            >
+              Reset Progress
+            </button>
+            <button
+              className="edit-danger-button delete-danger"
+              onClick={() => setConfirmAction({ type: 'delete', profile: editTarget })}
+            >
+              Delete Profile
+            </button>
+          </div>
+
+          <button className="cancel-button" onClick={handleCloseEdit}>
+            Cancel
+          </button>
+        </div>
+      )}
+
+      {confirmAction && (
+        <div className="confirm-overlay" onClick={handleCancelConfirm}>
+          <div className="confirm-dialog" onClick={e => e.stopPropagation()}>
+            <div className="confirm-avatar">{AVATARS[confirmAction.profile.avatarId]}</div>
+            {confirmAction.type === 'reset' ? (
+              <>
+                <p className="confirm-message">
+                  Reset {confirmAction.profile.name}&apos;s adventure?
+                </p>
+                <p className="confirm-warning">
+                  All stars and progress will be lost!
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="confirm-message">
+                  Delete {confirmAction.profile.name}?
+                </p>
+                <p className="confirm-warning">
+                  This adventurer and all their progress will be removed forever!
+                </p>
+              </>
+            )}
+            <div className="confirm-actions">
+              <button className="confirm-reset" onClick={handleConfirmAction}>
+                {confirmAction.type === 'reset' ? 'Reset' : 'Delete'}
+              </button>
+              <button className="confirm-cancel" onClick={handleCancelConfirm}>
                 Cancel
               </button>
             </div>

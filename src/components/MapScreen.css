@@ -15,6 +15,17 @@
   align-items: center;
 }
 
+.map-header-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 900px;
+  justify-content: center;
+  position: relative;
+  padding: 0 1rem;
+}
+
 .map-title {
   font-family: 'Fredoka', sans-serif;
   font-weight: 700;
@@ -23,6 +34,46 @@
   text-shadow: 2px 2px 0 rgba(212, 160, 23, 0.3);
   margin: 0.5rem 0 0.5rem;
   letter-spacing: -0.5px;
+}
+
+/* ── Profile badge — top-right of map ── */
+
+.profile-badge {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem 0.3rem 0.4rem;
+  border: 2px solid #d4a017;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #fff9e6, #fff3c4);
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(212, 160, 23, 0.15);
+}
+
+.profile-badge:hover {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 4px 14px rgba(212, 160, 23, 0.3);
+}
+
+.badge-avatar {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.badge-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #5b3a1a;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .map-legend {

@@ -104,7 +104,7 @@
   margin-top: 0.5rem;
 }
 
-.reset-button {
+.edit-button {
   font-family: 'Fredoka', sans-serif;
   font-size: 0.7rem;
   font-weight: 500;
@@ -117,9 +117,9 @@
   transition: color 0.2s, background 0.2s;
 }
 
-.reset-button:hover {
-  color: #ef4444;
-  background: rgba(239, 68, 68, 0.08);
+.edit-button:hover {
+  color: #d4a017;
+  background: rgba(212, 160, 23, 0.08);
 }
 
 /* ── New Adventurer button ── */
@@ -311,7 +311,52 @@
   color: #374151;
 }
 
-/* ── Reset confirmation dialog ── */
+/* ── Edit danger zone ── */
+
+.edit-danger-zone {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(212, 160, 23, 0.2);
+}
+
+.edit-danger-button {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.35rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.2s;
+}
+
+.edit-danger-button:hover {
+  transform: translateY(-1px);
+}
+
+.reset-danger {
+  border: 2px solid #f59e0b;
+  background: transparent;
+  color: #d97706;
+}
+
+.reset-danger:hover {
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.delete-danger {
+  border: 2px solid #ef4444;
+  background: transparent;
+  color: #ef4444;
+}
+
+.delete-danger:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ── Reset/Delete confirmation dialog ── */
 
 .confirm-overlay {
   position: fixed;
