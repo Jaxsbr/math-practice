@@ -14,13 +14,13 @@ Playful adventure — bright colors, cartoon-style treasure map aesthetic, fun a
 
 ### Done-when (observable)
 
-- [ ] `src/components/MapScreen.tsx` exists and renders 4 visually distinct operation paths with challenge nodes [US-01]
-- [ ] Each path has exactly 5 challenge nodes with unique themed names defined in a data structure [US-01]
-- [ ] Challenge nodes render in one of three visual states: locked (greyed), unlocked (glowing), completed (with star count) [US-01]
-- [ ] The first challenge on each path is unlocked by default when no saved progress exists [US-01]
-- [ ] `App.tsx` renders `MapScreen` as the entry point — `ConfigScreen` is no longer used or imported [US-01]
-- [ ] Map progress (per-node completion state and star count) is saved to localStorage under a `math-practice:map-progress` key [US-01]
-- [ ] On app load, `MapScreen` restores saved progress from localStorage and renders correct node states [US-01]
+- [x] `src/components/MapScreen.tsx` exists and renders 4 visually distinct operation paths with challenge nodes [US-01]
+- [x] Each path has exactly 5 challenge nodes with unique themed names defined in a data structure [US-01]
+- [x] Challenge nodes render in one of three visual states: locked (greyed), unlocked (glowing), completed (with star count) [US-01]
+- [x] The first challenge on each path is unlocked by default when no saved progress exists [US-01]
+- [x] `App.tsx` renders `MapScreen` as the entry point — `ConfigScreen` is no longer used or imported [US-01]
+- [x] Map progress (per-node completion state and star count) is saved to localStorage under a `math-practice:map-progress` key [US-01]
+- [x] On app load, `MapScreen` restores saved progress from localStorage and renders correct node states [US-01]
 - [ ] Tapping an unlocked challenge node navigates to a quiz round with exactly 5 problems of the challenge's operation type [US-02]
 - [ ] A visible timer displays elapsed seconds during the challenge quiz [US-02]
 - [ ] After answering all 5 problems, a results screen displays: correct count, time taken, and stars earned (1–3) [US-02]

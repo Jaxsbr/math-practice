@@ -15,3 +15,10 @@ entries:
     result: pass
     notes: "Data layer complete. 62 total tests. Next: MapScreen UI."
     tokens: ~5000
+  - task: 3
+    time: "2026-04-02T02:55:00Z"
+    story: US-01
+    description: "Implement MapScreen, ResultsScreen, challenge-mode QuizScreen. Wire App.tsx to map→quiz→results flow."
+    result: pass
+    notes: "✓ US-01 complete. 63 tests. Playful adventure aesthetic with Fredoka font, parchment bg, color-coded paths."
+    tokens: ~8000
