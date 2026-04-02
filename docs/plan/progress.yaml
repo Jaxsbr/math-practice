@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-09] Implement ProfileScreen.tsx + ProfileScreen.css — avatar selection, profile cards, creation flow, name validation, adventure-themed parchment styling consistent with MapScreen"
   consecutive_fails: 0
   completed_stories: []
