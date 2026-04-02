@@ -47,3 +47,7 @@ npm run lint      # Lint check
 ```
 
 Deployed to GitHub Pages on push to `main`.
+
+<!-- build-loop -->
+---
+*Built with [build-loop](docs/plan/) — init v9 | builds v9, v11*

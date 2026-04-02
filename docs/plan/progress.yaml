@@ -5,6 +5,9 @@ config:
   verify: "npx tsc --noEmit && npm run lint && npm test"
   max_tasks_per_phase: 200
   quality_check_suppressions: []
+  build_loop_version:
+    init_version: 9
+    builds: [9, 11]
 
 state:
   task_number: 17
