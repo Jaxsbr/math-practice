@@ -25,20 +25,20 @@ Deliver the foundation of the math-practice app: a React + Vite + TypeScript pro
 - [x] Generator accepts an operations subset — test verifies only selected operations appear in generated problems [US-MP2]
 
 #### US-MP3 — Quiz UI
-- [ ] Quiz screen renders: a problem display, a numeric input field, and a submit button [US-MP3]
-- [ ] Submitting a correct answer shows "Correct" feedback [US-MP3]
-- [ ] Submitting an incorrect answer shows "Incorrect" feedback and displays the correct answer [US-MP3]
-- [ ] After feedback, the next problem loads (via auto-advance or "Next" button) [US-MP3]
-- [ ] Running score is displayed in the format "N / M correct" (or equivalent) [US-MP3]
-- [ ] Session score is written to `localStorage` — test or manual verification that refreshing mid-session restores score and problem count [US-MP3]
+- [x] Quiz screen renders: a problem display, a numeric input field, and a submit button [US-MP3]
+- [x] Submitting a correct answer shows "Correct" feedback [US-MP3]
+- [x] Submitting an incorrect answer shows "Incorrect" feedback and displays the correct answer [US-MP3]
+- [x] After feedback, the next problem loads (via auto-advance or "Next" button) [US-MP3]
+- [x] Running score is displayed in the format "N / M correct" (or equivalent) [US-MP3]
+- [x] Session score is written to `localStorage` — test or manual verification that refreshing mid-session restores score and problem count [US-MP3]
 
 #### US-MP4 — Adaptive difficulty
-- [ ] After 3 consecutive correct answers, the number range increases by a defined step — unit test verifies [US-MP4]
-- [ ] After 3 consecutive incorrect answers, the number range decreases by a defined step — unit test verifies [US-MP4]
-- [ ] Range never goes below the configured floor (e.g., 1-10) — unit test verifies [US-MP4]
-- [ ] Range never goes above the configured ceiling (e.g., 1-100) — unit test verifies [US-MP4]
-- [ ] Current difficulty level is visible on the quiz screen (e.g., "Level 2" or "Numbers up to 50") [US-MP4]
-- [ ] Difficulty state (range, streak counters) is written to `localStorage` — refreshing mid-session resumes at the same difficulty [US-MP4]
+- [x] After 3 consecutive correct answers, the number range increases by a defined step — unit test verifies [US-MP4]
+- [x] After 3 consecutive incorrect answers, the number range decreases by a defined step — unit test verifies [US-MP4]
+- [x] Range never goes below the configured floor (e.g., 1-10) — unit test verifies [US-MP4]
+- [x] Range never goes above the configured ceiling (e.g., 1-100) — unit test verifies [US-MP4]
+- [x] Current difficulty level is visible on the quiz screen (e.g., "Level 2" or "Numbers up to 50") [US-MP4]
+- [x] Difficulty state (range, streak counters) is written to `localStorage` — refreshing mid-session resumes at the same difficulty [US-MP4]
 
 #### Structural
 - [ ] AGENTS.md reflects project structure, modules, directory layout, run/test commands, and behavior rules introduced in this phase [phase]
@@ -47,8 +47,8 @@ Deliver the foundation of the math-practice app: a React + Vite + TypeScript pro
 - [ ] README.md contains a "How to play" section documenting: operation selection, quiz interaction, and adaptive difficulty [phase]
 
 #### Auto-added safety criteria
-- [ ] Answer input validates that the entered value is numeric before comparison (non-numeric input does not crash or produce NaN comparisons) [US-MP3]
-- [ ] User-provided answer text is rendered via React JSX, not `dangerouslySetInnerHTML` — grep confirms zero occurrences of `dangerouslySetInnerHTML` in the codebase [US-MP3]
+- [x] Answer input validates that the entered value is numeric before comparison (non-numeric input does not crash or produce NaN comparisons) [US-MP3]
+- [x] User-provided answer text is rendered via React JSX, not `dangerouslySetInnerHTML` — grep confirms zero occurrences of `dangerouslySetInnerHTML` in the codebase [US-MP3]
 
 ### Golden principles (phase-relevant)
 - (No golden principles defined in AGENTS.md yet — the foundation phase will establish them)
