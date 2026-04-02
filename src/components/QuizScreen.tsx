@@ -119,24 +119,20 @@ function DigitBuilderView({ problem, onAnswer, feedback }: {
     setSelected(next)
     setUsedIndices(nextUsed)
 
-    // Auto-submit when all digits placed
     if (next.length === digits.length) {
-      const builtNumber = parseInt(next.join(''))
-      onAnswer(builtNumber)
+      onAnswer(parseInt(next.join('')))
     }
   }
 
-  const handleClear = () => {
-    if (feedback) return
-    setSelected([])
-    setUsedIndices(new Set())
-  }
-
-  const builtDisplay = selected.length > 0 ? selected.join('') : '\u00a0'
+  // Build the slot display: filled digits + empty placeholders
+  const slots = Array.from({ length: digits.length }, (_, i) =>
+    i < selected.length ? String(selected[i]) : '_',
+  )
 
   return (
     <div className="number-challenge-view">
       <p className="challenge-question">{displayQuestion}</p>
+      <p className="builder-hint">Tap digits in order to build your number</p>
 
       <div className="digit-stars">
         {digits.map((d, i) => (
@@ -152,10 +148,9 @@ function DigitBuilderView({ problem, onAnswer, feedback }: {
       </div>
 
       <div className="built-answer">
-        <span className="built-digits">{builtDisplay}</span>
-        {!feedback && selected.length > 0 && (
-          <button className="clear-btn" onClick={handleClear}>Clear</button>
-        )}
+        {slots.map((s, i) => (
+          <span key={i} className={`answer-slot${s === '_' ? ' empty' : ''}`}>{s}</span>
+        ))}
       </div>
     </div>
   )
