@@ -1,4 +1,11 @@
 phase: "foundation"
 started: "2026-04-02T01:26:21Z"
-entries: []
+entries:
+  - task: 1
+    time: "2026-04-02T01:26:21Z"
+    story: US-MP1
+    description: "Investigation — all US-MP1 criteria unmet, no package.json. Queued full scaffolding task."
+    result: pass
+    notes: "Branch B investigation. Phase type: CSS/JS-only."
+    tokens: ~1000
 # Each entry: {task, time, story, description, result, notes, tokens}
