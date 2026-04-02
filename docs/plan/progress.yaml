@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 5
+  task_number: 6
   phase: number-sense
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-07] Refactor challenges.ts: add R1-R5 + N1-N5 nodes, replace C1/C2 with MS1/MS2 milestones, add requiredCount/MILESTONE_REQUIRED, update tier-3 prerequisites"
   consecutive_fails: 0
   completed_stories: []

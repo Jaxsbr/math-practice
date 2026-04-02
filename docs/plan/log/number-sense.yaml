@@ -29,3 +29,10 @@ entries:
     result: pass
     notes: "81 tests (70→81). Criteria 1,2,3,5 for US-06 met. Remaining: N1-N5 challenge nodes."
     tokens: ~6000
+  - task: 5
+    time: "2026-04-02T05:19:00Z"
+    story: null
+    description: "Queue challenges.ts refactor: add R1-R5, N1-N5, replace C1/C2 with MS1/MS2, add requiredCount + MILESTONE_REQUIRED, update tier-3 prerequisites."
+    result: pass
+    notes: "Branch B. This task covers US-05 criterion 4, US-06 criterion 4, and US-07 criteria 1-4."
+    tokens: ~500
