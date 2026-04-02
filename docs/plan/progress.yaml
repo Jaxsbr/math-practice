@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 7
+  task_number: 9
   phase: user-profiles
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-10] Wire legacy migration into ProfileScreen (auto-create Player 1 on first load if legacy key exists), add independence test (two profiles have separate progress)"
+  next_task: null
   consecutive_fails: 0
   completed_stories: [US-09, US-10]

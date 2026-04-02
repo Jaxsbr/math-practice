@@ -43,6 +43,13 @@ entries:
     result: pass
     notes: "Branch B. Completes US-10."
     tokens: ~500
+  - task: 8
+    time: "2026-04-02T10:33:00Z"
+    story: US-10
+    description: "Wire legacy migration into ProfileScreen (auto-create Player 1), add per-profile independence test."
+    result: pass
+    notes: "116 tests (115→116). ✓ US-10 complete. All 7 criteria met."
+    tokens: ~3000
   - task: 5
     time: "2026-04-02T10:30:00Z"
     story: null
