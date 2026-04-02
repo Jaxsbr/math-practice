@@ -22,4 +22,4 @@ Children (ages 6–12) learning basic arithmetic.
 | Phase | Status | Stories | Spec |
 |---|---|---|---|
 | foundation | Shipped | US-MP1, US-MP2, US-MP3, US-MP4 | [phases/foundation.md](phases/foundation.md) |
-| adventure-map | Draft | US-01, US-02, US-03, US-04 | [phases/adventure-map.md](phases/adventure-map.md) |
+| adventure-map | Shipped | US-01, US-02, US-03, US-04 | [phases/adventure-map.md](phases/adventure-map.md) |
