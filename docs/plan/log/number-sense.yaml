@@ -50,3 +50,10 @@ entries:
     result: pass
     notes: "Branch B. Affected files: generator.ts or challenges.ts (helper), QuizScreen (pass progress), App.tsx (thread progress)."
     tokens: ~500
+  - task: 8
+    time: "2026-04-02T05:28:00Z"
+    story: US-07
+    description: "Implement getMilestoneOperations in mapProgress.ts — filters milestone ops to completed lanes. Pass progress to QuizScreen. 4 new tests."
+    result: pass
+    notes: "94 tests (90→94). ✓ US-07 complete. US-05, US-06, US-07 all shipped. Remaining: US-08 (scalable map layout)."
+    tokens: ~3000
