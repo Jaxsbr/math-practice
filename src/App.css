@@ -1,75 +1,79 @@
-.config-screen,
-.quiz-screen {
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+
+/* ── Quiz screen (challenge mode) ── */
+
+.quiz-screen.challenge-mode {
   max-width: 500px;
   margin: 2rem auto;
   padding: 2rem;
   text-align: center;
-  font-family: system-ui, sans-serif;
-}
-
-h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.operation-checkboxes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin: 1.5rem 0;
-  text-align: left;
-}
-
-.operation-checkbox {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-.start-button,
-.submit-button,
-.next-button,
-.end-button {
-  padding: 0.75rem 2rem;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #4f46e5;
-  color: white;
-}
-
-.start-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.end-button {
-  background: #6b7280;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
+  font-family: 'Fredoka', sans-serif;
 }
 
 .quiz-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  gap: 1rem;
+  margin-bottom: 1rem;
+  gap: 0.75rem;
   flex-wrap: wrap;
 }
 
-.score {
-  font-weight: bold;
-  font-size: 1.1rem;
+.challenge-name {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #5b3a1a;
 }
 
-.difficulty-indicator {
+.timer {
+  font-size: 1.1rem;
+  font-weight: 500;
   color: #6b7280;
-  font-size: 0.9rem;
 }
+
+.progress-count {
+  font-size: 0.95rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.abandon-button {
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  border: 2px solid #ef4444;
+  border-radius: 8px;
+  background: transparent;
+  color: #ef4444;
+  cursor: pointer;
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.abandon-button:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* ── Progress bar ── */
+
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background: #e5e7eb;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* ── Problem display ── */
 
 .problem-display {
   margin: 2rem 0;
@@ -77,8 +81,11 @@ h1 {
 
 .problem-text {
   font-size: 2.5rem;
-  font-weight: bold;
+  font-weight: 700;
+  color: #1f2937;
 }
+
+/* ── Answer form ── */
 
 .answer-form {
   display: flex;
@@ -88,26 +95,153 @@ h1 {
 }
 
 .answer-input {
+  font-family: 'Fredoka', sans-serif;
   font-size: 1.5rem;
   padding: 0.5rem 1rem;
-  width: 150px;
+  width: 120px;
   text-align: center;
-  border: 2px solid #d1d5db;
-  border-radius: 8px;
+  border: 3px solid #d1d5db;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s;
 }
 
+.answer-input:focus {
+  border-color: #3b82f6;
+}
+
+.submit-button,
+.next-button {
+  font-family: 'Fredoka', sans-serif;
+  padding: 0.6rem 1.8rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  box-shadow: 0 3px 8px rgba(59, 130, 246, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.submit-button:hover,
+.next-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* ── Feedback ── */
+
 .feedback {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .feedback.correct p {
   color: #16a34a;
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .feedback.incorrect p {
   color: #dc2626;
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* ── Results screen ── */
+
+.results-screen {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  text-align: center;
+  font-family: 'Fredoka', sans-serif;
+  background: linear-gradient(135deg, #fef9ef, #fef3c7);
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.results-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #5b3a1a;
+  margin: 0 0 0.25rem;
+}
+
+.results-message {
+  font-size: 1.2rem;
+  color: #92400e;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.results-stars {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.result-star {
+  font-size: 2.5rem;
+  animation: star-pop 0.4s ease-out both;
+}
+
+.result-star.empty {
+  opacity: 0.2;
+  filter: grayscale(1);
+}
+
+@keyframes star-pop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.results-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.back-to-map-button {
+  font-family: 'Fredoka', sans-serif;
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #d4a017, #b8860b);
+  color: white;
+  box-shadow: 0 3px 10px rgba(212, 160, 23, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.back-to-map-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(212, 160, 23, 0.4);
 }
