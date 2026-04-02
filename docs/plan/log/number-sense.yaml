@@ -71,3 +71,17 @@ entries:
     result: pass
     notes: "94 tests. ✓ US-08 complete. All 4 stories shipped. Phase-level criteria remaining."
     tokens: ~5000
+  - task: 11
+    time: "2026-04-02T05:32:00Z"
+    story: phase
+    description: "Queue AGENTS.md + README.md update."
+    result: pass
+    notes: "Branch B."
+    tokens: ~200
+  - task: 12
+    time: "2026-04-02T05:33:00Z"
+    story: phase
+    description: "Update AGENTS.md with rounding, number-challenge, milestone rules, 32-node inventory. Rewrite README.md with 6-lane adventure guide. Phase completion gate passed."
+    result: pass
+    notes: "94 tests. All 22 story criteria + 2 phase criteria verified. Phase complete."
+    tokens: ~3000

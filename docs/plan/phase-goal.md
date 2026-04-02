@@ -44,8 +44,8 @@ Keep current parchment/adventure style. New lanes use the same visual language â
 - [x] All nodes are reachable at 375px viewport width via horizontal scroll or responsive scaling (CSS sets `min-width` or `overflow-x: auto` on the map container) [US-08]
 
 #### Phase-level
-- [ ] `AGENTS.md` reflects rounding and number-challenge operations, milestone convergence rules, and updated node inventory [phase]
-- [ ] README.md documents the 6 lanes (addition, subtraction, multiplication, division, rounding, number challenge) and the milestone convergence system [phase]
+- [x] `AGENTS.md` reflects rounding and number-challenge operations, milestone convergence rules, and updated node inventory [phase]
+- [x] README.md documents the 6 lanes (addition, subtraction, multiplication, division, rounding, number challenge) and the milestone convergence system [phase]
 
 ### Golden principles (phase-relevant)
 - All generated problems have clean, unambiguous numeric answers
