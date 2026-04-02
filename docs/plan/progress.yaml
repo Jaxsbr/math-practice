@@ -18,4 +18,4 @@ state:
   last_result: pass
   next_task: "[US-11] Add reset test — verify loadMapProgress returns default progress after profile reset (clear scoped key)"
   consecutive_fails: 0
-  completed_stories: [US-09, US-10]
+  completed_stories: [US-09, US-10, US-11]

@@ -36,12 +36,12 @@ Adventure character selection — consistent with the existing parchment/adventu
 - [x] Test: two profiles have independent progress — completing a node on profile A does not affect profile B's progress [US-10]
 
 #### US-11 — Profile reset with confirmation
-- [ ] A reset button (e.g., small icon or text link) is accessible on the profile selection screen for each existing profile [US-11]
-- [ ] Tapping reset shows a confirmation dialog with the profile name and a clear warning (e.g., "Reset Luna's adventure? All stars and progress will be lost!") [US-11]
-- [ ] Confirming reset clears all map progress for that profile (resets to default starter-node state) but preserves the profile itself (name, avatar) [US-11]
-- [ ] Cancelling the confirmation dialog returns to the profile screen with no changes [US-11]
-- [ ] After reset, the profile card on the selection screen reflects zero progress (no star count or completion indicators if shown) [US-11]
-- [ ] Test: after reset, `loadMapProgress(profileId)` returns default progress (starter nodes unlocked, zero stars, no completions) [US-11]
+- [x] A reset button (e.g., small icon or text link) is accessible on the profile selection screen for each existing profile [US-11]
+- [x] Tapping reset shows a confirmation dialog with the profile name and a clear warning (e.g., "Reset Luna's adventure? All stars and progress will be lost!") [US-11]
+- [x] Confirming reset clears all map progress for that profile (resets to default starter-node state) but preserves the profile itself (name, avatar) [US-11]
+- [x] Cancelling the confirmation dialog returns to the profile screen with no changes [US-11]
+- [x] After reset, the profile card on the selection screen reflects zero progress (no star count or completion indicators if shown) [US-11]
+- [x] Test: after reset, `loadMapProgress(profileId)` returns default progress (starter nodes unlocked, zero stars, no completions) [US-11]
 
 #### Auto-added safety criteria
 - [x] Profile name input renders via JSX textContent (not innerHTML) — no XSS vector from child-entered names [US-09]
