@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 11
+  task_number: 12
   phase: number-sense
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[phase] Update AGENTS.md and README.md with rounding, number-challenge, milestone rules, 6-lane map, updated node inventory"
   consecutive_fails: 0
   completed_stories: [US-05, US-06, US-07, US-08]
