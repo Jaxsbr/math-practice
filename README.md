@@ -1,73 +1,46 @@
-# React + TypeScript + Vite
+# Math Practice
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive math tutoring app for children with adaptive difficulty. Built with React + TypeScript, deployed on GitHub Pages.
 
-Currently, two official plugins are available:
+## How to play
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Choosing operations
 
-## React Compiler
+1. On the start screen, you'll see checkboxes for four math operations: Addition (+), Subtraction (-), Multiplication (x), and Division (/).
+2. Check or uncheck the operations you want to practice. All four are selected by default.
+3. Press **Start** to begin your session.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Answering problems
 
-## Expanding the ESLint configuration
+1. A math problem is displayed (e.g., "7 + 3 = ?").
+2. Type your answer in the number input field.
+3. Press **Enter** or click **Submit**.
+4. You'll see immediate feedback:
+   - **Correct!** (in green) if your answer is right.
+   - **Incorrect. The answer is X.** (in red) if your answer is wrong.
+5. Click **Next** to move to the next problem.
+6. Your running score is shown at the top (e.g., "5 / 8 correct").
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Adaptive difficulty
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The app automatically adjusts difficulty based on your performance:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **3 correct answers in a row** increases the number range (harder problems).
+- **3 incorrect answers in a row** decreases the number range (easier problems).
+- The difficulty level is shown at the top of the quiz screen (e.g., "Level 2 (up to 20)").
+- The range starts at 1-10 and can go up to 1-100.
+- Your difficulty level and score are saved in the browser, so refreshing the page mid-session keeps your progress.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Ending a session
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Click **End Session** at the top right to return to the start screen. This resets your score and difficulty for the next session.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Development
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev       # Start dev server
+npm run build     # Production build
+npm test          # Run tests
+npm run lint      # Lint check
 ```
