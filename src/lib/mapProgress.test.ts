@@ -10,6 +10,7 @@ import {
   getNodeProgress,
   getMilestoneOperations,
   getMilestoneGeneratorConfig,
+  migrateLegacyProgress,
 } from './mapProgress'
 import { getNode } from './challenges'
 
@@ -20,7 +21,7 @@ describe('mapProgress', () => {
 
   describe('loadMapProgress', () => {
     it('returns default progress with 6 starter nodes', () => {
-      const progress = loadMapProgress()
+      const progress = loadMapProgress('test-profile')
       const keys = Object.keys(progress).sort()
       expect(keys).toEqual(['A1', 'D1', 'M1', 'N1', 'R1', 'S1'])
       for (const key of keys) {
@@ -30,14 +31,14 @@ describe('mapProgress', () => {
 
     it('loads saved progress from localStorage', () => {
       const saved = { A1: { stars: 3, completed: true }, S1: { stars: 0, completed: false } }
-      localStorage.setItem('math-practice:map-progress', JSON.stringify(saved))
-      const progress = loadMapProgress()
+      localStorage.setItem('math-practice:map-progress:test-profile', JSON.stringify(saved))
+      const progress = loadMapProgress('test-profile')
       expect(progress).toEqual(saved)
     })
 
     it('returns default on corrupted localStorage', () => {
-      localStorage.setItem('math-practice:map-progress', '{invalid')
-      const progress = loadMapProgress()
+      localStorage.setItem('math-practice:map-progress:test-profile', '{invalid')
+      const progress = loadMapProgress('test-profile')
       expect(Object.keys(progress).sort()).toEqual(['A1', 'D1', 'M1', 'N1', 'R1', 'S1'])
     })
   })
@@ -45,14 +46,14 @@ describe('mapProgress', () => {
   describe('saveMapProgress / clearMapProgress', () => {
     it('round-trips through localStorage', () => {
       const data = { A1: { stars: 2, completed: true } }
-      saveMapProgress(data)
-      expect(loadMapProgress()).toEqual(data)
+      saveMapProgress(data, 'test-profile')
+      expect(loadMapProgress('test-profile')).toEqual(data)
     })
 
     it('clearMapProgress removes saved data', () => {
-      saveMapProgress({ A1: { stars: 2, completed: true } })
-      clearMapProgress()
-      const progress = loadMapProgress()
+      saveMapProgress({ A1: { stars: 2, completed: true } }, 'test-profile')
+      clearMapProgress('test-profile')
+      const progress = loadMapProgress('test-profile')
       expect(Object.keys(progress).sort()).toEqual(['A1', 'D1', 'M1', 'N1', 'R1', 'S1'])
     })
   })
@@ -300,6 +301,21 @@ describe('mapProgress', () => {
 
     it('returns default for absent node', () => {
       expect(getNodeProgress('A1', {})).toEqual({ stars: 0, completed: false })
+    })
+  })
+
+  describe('migrateLegacyProgress', () => {
+    it('migrates legacy key to profile-scoped key', () => {
+      const saved = { A1: { stars: 3, completed: true } }
+      localStorage.setItem('math-practice:map-progress', JSON.stringify(saved))
+      const result = migrateLegacyProgress('migrated-profile')
+      expect(result).toEqual(saved)
+      expect(loadMapProgress('migrated-profile')).toEqual(saved)
+      expect(localStorage.getItem('math-practice:map-progress')).toBeNull()
+    })
+
+    it('returns null when no legacy data exists', () => {
+      expect(migrateLegacyProgress('no-legacy')).toBeNull()
     })
   })
 })

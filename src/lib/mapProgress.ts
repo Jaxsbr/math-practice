@@ -1,25 +1,44 @@
 import type { ChallengeNode, GeneratorConfig, MapProgress, NodeProgress, Operation } from '../types'
 import { CHALLENGE_NODES, getStarterNodes } from './challenges'
 
-const MAP_PROGRESS_KEY = 'math-practice:map-progress'
+const MAP_PROGRESS_KEY_PREFIX = 'math-practice:map-progress'
+const LEGACY_MAP_PROGRESS_KEY = 'math-practice:map-progress'
 
-/** Load map progress from localStorage, or return default (starter nodes unlocked) */
-export function loadMapProgress(): MapProgress {
+function getProgressKey(profileId: string): string {
+  return `${MAP_PROGRESS_KEY_PREFIX}:${profileId}`
+}
+
+/** Load map progress from localStorage, scoped to a profile */
+export function loadMapProgress(profileId: string): MapProgress {
   try {
-    const raw = localStorage.getItem(MAP_PROGRESS_KEY)
+    const raw = localStorage.getItem(getProgressKey(profileId))
     if (raw) return JSON.parse(raw) as MapProgress
   } catch { /* corrupted data — return default */ }
   return buildDefaultProgress()
 }
 
-/** Save map progress to localStorage */
-export function saveMapProgress(progress: MapProgress): void {
-  localStorage.setItem(MAP_PROGRESS_KEY, JSON.stringify(progress))
+/** Save map progress to localStorage, scoped to a profile */
+export function saveMapProgress(progress: MapProgress, profileId: string): void {
+  localStorage.setItem(getProgressKey(profileId), JSON.stringify(progress))
 }
 
-/** Clear map progress */
-export function clearMapProgress(): void {
-  localStorage.removeItem(MAP_PROGRESS_KEY)
+/** Clear map progress for a profile */
+export function clearMapProgress(profileId: string): void {
+  localStorage.removeItem(getProgressKey(profileId))
+}
+
+/** Migrate legacy unscoped map progress to a profile's scoped key. Returns the migrated progress or null if no legacy data. */
+export function migrateLegacyProgress(profileId: string): MapProgress | null {
+  try {
+    const raw = localStorage.getItem(LEGACY_MAP_PROGRESS_KEY)
+    if (!raw) return null
+    const progress = JSON.parse(raw) as MapProgress
+    saveMapProgress(progress, profileId)
+    localStorage.removeItem(LEGACY_MAP_PROGRESS_KEY)
+    return progress
+  } catch {
+    return null
+  }
 }
 
 /** Build default progress: starter nodes unlocked (0 stars, not completed) */
