@@ -7,7 +7,7 @@ import {
   validateProfileName,
   createProfileId,
 } from '../lib/profiles'
-import { migrateLegacyProgress } from '../lib/mapProgress'
+import { migrateLegacyProgress, clearMapProgress } from '../lib/mapProgress'
 import './ProfileScreen.css'
 
 const AVATARS = ['🦉', '🦊', '🐰', '🐻']
@@ -101,11 +101,8 @@ export function ProfileScreen({ onSelectProfile }: ProfileScreenProps) {
 
   const handleResetConfirm = useCallback(() => {
     if (!resetTarget) return
-    // Clear map progress for this profile — handled by App via localStorage
-    const key = `math-practice:map-progress:${resetTarget.id}`
-    localStorage.removeItem(key)
+    clearMapProgress(resetTarget.id)
     setResetTarget(null)
-    // Force re-render of profiles
     setProfiles(loadProfiles())
   }, [resetTarget])
 
