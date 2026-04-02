@@ -154,6 +154,193 @@
   font-weight: 600;
 }
 
+/* ── Rounding: number line + boundary choice ── */
+
+.rounding-view {
+  margin: 1rem 0;
+}
+
+.rounding-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rounding-number {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 1.5rem;
+}
+
+.deciding-digit {
+  color: #ef4444;
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+
+.number-line {
+  position: relative;
+  width: 80%;
+  max-width: 320px;
+  margin: 0 auto 1.5rem;
+  height: 50px;
+}
+
+.number-line-bar {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.number-line-bar::before,
+.number-line-bar::after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  width: 4px;
+  height: 18px;
+  background: #374151;
+  border-radius: 2px;
+}
+
+.number-line-bar::before { left: 0; }
+.number-line-bar::after { right: 0; }
+
+.number-line-marker {
+  position: absolute;
+  top: -2px;
+  transform: translateX(-50%);
+  color: #ef4444;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.boundary-label {
+  position: absolute;
+  top: 28px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.boundary-label.left { left: 0; transform: translateX(-30%); }
+.boundary-label.right { right: 0; transform: translateX(30%); }
+
+.boundary-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.boundary-btn {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  padding: 0.8rem 2rem;
+  border: 4px solid #d1d5db;
+  border-radius: 16px;
+  background: #fff;
+  color: #1f2937;
+  cursor: pointer;
+  min-width: 110px;
+  transition: transform 0.15s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+.boundary-btn:not(:disabled):hover {
+  transform: translateY(-2px);
+  border-color: #3b82f6;
+  box-shadow: 0 5px 16px rgba(59, 130, 246, 0.2);
+}
+
+.boundary-btn:disabled {
+  cursor: default;
+}
+
+.boundary-btn.correct {
+  border-color: #16a34a;
+  background: #f0fdf4;
+  color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+
+.boundary-btn.incorrect {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2);
+}
+
+.rounding-hint {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+/* ── Number challenge: digit stars + question ── */
+
+.number-challenge-view {
+  margin: 1rem 0 1.5rem;
+}
+
+.digit-stars {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.digit-star {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #5b3a1a;
+  background:
+    linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 3px solid #d4a017;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%,
+    79% 91%, 50% 70%, 21% 91%, 32% 57%,
+    2% 35%, 39% 35%
+  );
+}
+
+.challenge-number {
+  margin-bottom: 1rem;
+}
+
+.challenge-number span {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1f2937;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  padding: 0.3rem 1.2rem;
+  border-radius: 12px;
+  border: 3px solid #d4a017;
+}
+
+.challenge-question {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #374151;
+  margin: 0 0 0.5rem;
+  line-height: 1.5;
+}
+
 /* ── Results screen ── */
 
 .results-screen {
