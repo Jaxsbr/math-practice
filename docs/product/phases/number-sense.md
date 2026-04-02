@@ -1,6 +1,6 @@
 # Phase: number-sense
 
-Status: draft
+Status: shipped
 
 ## Design direction
 
@@ -8,7 +8,7 @@ Keep current parchment/adventure style. New lanes use the same visual language �
 
 ## Stories
 
-### US-05 — Rounding problem lane
+### US-05 — Rounding problem lane [Shipped]
 
 As a child, I want a rounding lane on the adventure map, so that I can practise rounding numbers to the nearest 10, 100, 1000, and 10,000 with progressive difficulty.
 
@@ -26,7 +26,7 @@ As a child, I want a rounding lane on the adventure map, so that I can practise 
 
 **Design rationale:** Each node increases both the number magnitude and rounding target together (2-digit/nearest-10 → 5-digit/nearest-10,000), mirroring the Twinkl worksheet progression and keeping cognitive load in step with number size.
 
-### US-06 — Number challenge problem lane
+### US-06 — Number challenge problem lane [Shipped]
 
 As a child, I want a number challenge lane on the adventure map, so that I can build place value intuition and number sense through varied question types.
 
@@ -44,7 +44,7 @@ As a child, I want a number challenge lane on the adventure map, so that I can b
 
 **Design rationale:** Question type variety within a single lane keeps the child engaged and tests multiple facets of number sense rather than drilling one mechanic. Progressive node difficulty scales digit count, not question complexity, so children build familiarity with small numbers before handling larger ones.
 
-### US-07 — Milestone convergence system
+### US-07 — Milestone convergence system [Shipped]
 
 As a child, I want milestone challenges that mix problem types from across all lanes, so that I'm rewarded for breadth and tested on combined skills.
 
@@ -64,7 +64,7 @@ As a child, I want milestone challenges that mix problem types from across all l
 
 **Design rationale:** N-of-M gating (rather than requiring all lanes) lets children skip lanes they find hard while still requiring breadth. Drawing problems only from completed lanes means the milestone is always fair — it never tests skills the child hasn't practised. The configurable threshold future-proofs for additional lanes.
 
-### US-08 — Scalable map layout
+### US-08 — Scalable map layout [Shipped]
 
 As a child, I want the adventure map to clearly show all 6 lanes and milestones, so that I can see my progress across all paths at a glance.
 
