@@ -32,7 +32,7 @@ export interface DifficultyState {
 
 // Adventure map types
 
-export type NodeType = 'single' | 'convergence'
+export type NodeType = 'single' | 'milestone'
 
 export interface ChallengeNode {
   id: string
@@ -48,6 +48,8 @@ export interface ChallengeNode {
   roundingTarget?: number
   /** Question types for number-challenge nodes (e.g. 'place-id', 'construct') */
   questionTypes?: string[]
+  /** For N-of-M gating: minimum number of prerequisites that must be completed (default: all) */
+  requiredCount?: number
   /** IDs of nodes that must be completed (≥1 star) to unlock this node */
   prerequisites: string[]
   /** IDs of nodes this unlocks when completed */

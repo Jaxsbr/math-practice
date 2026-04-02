@@ -68,10 +68,13 @@ export function recordChallengeResult(
       if (unlockId in next) continue // already unlocked
       const unlockNode = CHALLENGE_NODES.find(n => n.id === unlockId)
       if (!unlockNode) continue
-      const allPrereqsMet = unlockNode.prerequisites.every(
+      const completedCount = unlockNode.prerequisites.filter(
         preId => isNodeCompleted(preId, next),
-      )
-      if (allPrereqsMet) {
+      ).length
+      const prereqsMet = unlockNode.requiredCount
+        ? completedCount >= unlockNode.requiredCount
+        : completedCount === unlockNode.prerequisites.length
+      if (prereqsMet) {
         next[unlockId] = { stars: 0, completed: false }
       }
     }

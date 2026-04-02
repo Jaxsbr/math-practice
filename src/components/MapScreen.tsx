@@ -56,7 +56,7 @@ const PathLines = memo(function PathLines({ progress }: { progress: MapProgress 
       const target = CHALLENGE_NODES.find(n => n.id === unlockId)
       if (!target) continue
       const to = nodePosition(target)
-      const color = node.type === 'convergence'
+      const color = node.type === 'milestone'
         ? '#d4a017'
         : PATH_COLORS[node.operations[0]] ?? '#888'
       const active = isNodeCompleted(node.id, progress)
@@ -114,7 +114,7 @@ export function MapScreen({ progress, onSelectChallenge }: MapScreenProps) {
           const isFrontier = frontiers.has(node.id)
           const pos = nodePosition(node)
           const nodeProgress = progress[node.id]
-          const primaryColor = node.type === 'convergence'
+          const primaryColor = node.type === 'milestone'
             ? '#d4a017'
             : PATH_COLORS[node.operations[0]] ?? '#888'
 
@@ -138,7 +138,7 @@ export function MapScreen({ progress, onSelectChallenge }: MapScreenProps) {
               <span className="node-icon">
                 {!unlocked && '\ud83d\udd12'}
                 {unlocked && !completed && (
-                  node.type === 'convergence'
+                  node.type === 'milestone'
                     ? node.operations.map(op => PATH_LABELS[op]).join('')
                     : PATH_LABELS[node.operations[0]]
                 )}
