@@ -9,6 +9,7 @@ import {
   getFrontierNodeId,
   getNodeProgress,
   getMilestoneOperations,
+  getMilestoneGeneratorConfig,
 } from './mapProgress'
 import { getNode } from './challenges'
 
@@ -264,6 +265,30 @@ describe('mapProgress', () => {
       const a1 = getNode('A1')
       const ops = getMilestoneOperations(a1, {})
       expect(ops).toEqual(['addition'])
+    })
+  })
+
+  describe('getMilestoneGeneratorConfig', () => {
+    it('uses prerequisite node ranges for milestones (not milestone min/max)', () => {
+      const ms1 = getNode('MS1')
+      const progress = {
+        R1: { stars: 2, completed: true },
+        R2: { stars: 2, completed: true },
+      }
+      // Only rounding is completed — config should use R2 ranges
+      const config = getMilestoneGeneratorConfig(ms1, progress)
+      expect(config.operations).toEqual(['rounding'])
+      expect(config.min).toBe(100)  // R2's min
+      expect(config.max).toBe(999)  // R2's max
+      expect(config.roundingTarget).toBe(100)  // R2's roundingTarget
+    })
+
+    it('returns node config directly for non-milestone nodes', () => {
+      const a1 = getNode('A1')
+      const config = getMilestoneGeneratorConfig(a1, {})
+      expect(config.operations).toEqual(['addition'])
+      expect(config.min).toBe(1)
+      expect(config.max).toBe(10)
     })
   })
 

@@ -1,4 +1,4 @@
-import type { ChallengeNode, MapProgress, NodeProgress, Operation } from '../types'
+import type { ChallengeNode, GeneratorConfig, MapProgress, NodeProgress, Operation } from '../types'
 import { CHALLENGE_NODES, getStarterNodes } from './challenges'
 
 const MAP_PROGRESS_KEY = 'math-practice:map-progress'
@@ -122,4 +122,45 @@ export function getMilestoneOperations(node: ChallengeNode, progress: MapProgres
     }
   }
   return completedOps.length > 0 ? completedOps : node.operations
+}
+
+/**
+ * Build a GeneratorConfig for a milestone node.
+ * Picks a random completed operation and uses the prerequisite lane's ranges
+ * (not the milestone's own arithmetic-calibrated min/max).
+ * For non-milestone nodes, returns config from the node directly.
+ */
+export function getMilestoneGeneratorConfig(
+  node: ChallengeNode,
+  progress: MapProgress,
+): GeneratorConfig {
+  if (node.type !== 'milestone') {
+    return {
+      operations: node.operations,
+      min: node.min,
+      max: node.max,
+      roundingTarget: node.roundingTarget,
+      questionTypes: node.questionTypes,
+    }
+  }
+
+  const ops = getMilestoneOperations(node, progress)
+  const op = ops[Math.floor(Math.random() * ops.length)]
+
+  // Find the prerequisite node for this operation to get its ranges
+  const preNode = node.prerequisites
+    .map(id => CHALLENGE_NODES.find(n => n.id === id))
+    .find(n => n && n.operations[0] === op)
+
+  if (preNode) {
+    return {
+      operations: [op],
+      min: preNode.min,
+      max: preNode.max,
+      roundingTarget: preNode.roundingTarget,
+      questionTypes: preNode.questionTypes,
+    }
+  }
+
+  return { operations: ops, min: node.min, max: node.max }
 }

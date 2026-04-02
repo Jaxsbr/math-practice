@@ -2,7 +2,7 @@ import type { GeneratorConfig, Operation, Problem } from '../types'
 import { generateRoundingProblem } from './roundingGenerator'
 import { generateNumberChallengeProblem } from './numberChallengeGenerator'
 
-const operationSymbols: Record<Operation, string> = {
+const operationSymbols: { [key: string]: string } = {
   addition: '+',
   subtraction: '-',
   multiplication: 'x',

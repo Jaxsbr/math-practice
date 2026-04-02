@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import type { ChallengeNode, MapProgress, Problem } from '../types'
 import { generateProblem } from '../lib/generator'
-import { getMilestoneOperations } from '../lib/mapProgress'
+import { getMilestoneGeneratorConfig } from '../lib/mapProgress'
 
 interface QuizScreenProps {
   node: ChallengeNode
@@ -12,13 +12,7 @@ interface QuizScreenProps {
 }
 
 function createProblem(node: ChallengeNode, progress: MapProgress): Problem {
-  return generateProblem({
-    operations: getMilestoneOperations(node, progress),
-    min: node.min,
-    max: node.max,
-    roundingTarget: node.roundingTarget,
-    questionTypes: node.questionTypes,
-  })
+  return generateProblem(getMilestoneGeneratorConfig(node, progress))
 }
 
 export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon }: QuizScreenProps) {

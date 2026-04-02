@@ -19,8 +19,8 @@ Client-only single-page application. No backend. Static files served from GitHub
 src/
   lib/
     generator.ts       — Pure function: generateProblem(config) → Problem — dispatches to operation-specific generators
-    roundingGenerator.ts — (planned for number-sense phase) Rounding problem generator: number + target → rounded value
-    numberChallengeGenerator.ts — (planned for number-sense phase) Number-sense problem generator: place ID, construction, composition, decomposition
+    roundingGenerator.ts — Rounding problem generator: number + target → rounded value, non-trivial guard
+    numberChallengeGenerator.ts — Number-sense problem generator: 5 formats (place ID, construction, constrained, composition, decomposition)
     adaptive.ts        — Streak tracker + range adjuster (foundation phase, unused in map mode)
     storage.ts         — localStorage abstraction (session state, difficulty state, map progress)
     challenges.ts      — Challenge definitions: 6 lane paths, milestone nodes, difficulty configs
@@ -42,8 +42,8 @@ MapScreen → child taps unlocked node → Challenge config
 Challenge config → generator.ts → Problem (×5 per challenge)
   generator.ts dispatches to operation-specific logic:
     addition/subtraction/multiplication/division → arithmetic generator
-    rounding → roundingGenerator.ts (planned for number-sense phase)
-    number-challenge → numberChallengeGenerator.ts (planned for number-sense phase)
+    rounding → roundingGenerator.ts
+    number-challenge → numberChallengeGenerator.ts
 Problem + user answer → QuizScreen → feedback + answer tracking
 All answers + elapsed time → scoring.ts → star rating (1-3)
 Star rating → ResultsScreen → "Back to Map"
@@ -51,7 +51,7 @@ Star rating → mapProgress.ts → unlock next node → localStorage
 MapScreen ← mapProgress.ts ← localStorage (on load)
 ```
 
-### Milestone convergence flow (planned for number-sense phase)
+### Milestone convergence flow
 ```
 Any 4 of 6 tier-2 nodes completed (N-of-M check via requiredCount)
   → Milestone 1 unlocked
