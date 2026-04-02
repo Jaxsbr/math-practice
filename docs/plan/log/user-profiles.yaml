@@ -8,3 +8,10 @@ entries:
     result: pass
     notes: "Branch B investigation. Starting with profiles.ts as foundation for all 3 stories."
     tokens: ~5000
+  - task: 2
+    time: "2026-04-02T10:25:00Z"
+    story: US-09
+    description: "Implement profiles.ts — Profile type, CRUD operations, localStorage persistence, name validation. 17 tests."
+    result: pass
+    notes: "113 tests (96→113). US-09 criteria 7,8 met. Remaining: ProfileScreen, App.tsx integration."
+    tokens: ~4000
