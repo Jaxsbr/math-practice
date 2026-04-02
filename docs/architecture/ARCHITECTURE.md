@@ -26,8 +26,10 @@ src/
     challenges.ts      — Challenge definitions: 6 lane paths, milestone nodes, difficulty configs
     scoring.ts         — Star scoring logic: accuracy + time → 1-3 stars
     mapProgress.ts     — Map progress read/write: per-node completion, star counts, unlock state, N-of-M milestone gating
+    profiles.ts        — Profile CRUD: create/load/delete profiles, per-profile progress scoping, legacy migration (planned for user-profiles phase)
   components/
-    App.tsx            — Root component, routes between map and quiz screens
+    App.tsx            — Root component, routes between profile, map, quiz, and results screens
+    ProfileScreen.tsx  — Profile selection and creation: 4 animal avatars, name input, profile cards (planned for user-profiles phase)
     MapScreen.tsx      — Adventure map with 6 operation paths, milestone convergence bands, data-driven layout
     QuizScreen.tsx     — Problem display, answer input, feedback — handles variable-length question text
     ResultsScreen.tsx  — Post-challenge results: score, time, star rating
@@ -38,6 +40,12 @@ src/
 ## Data flow
 
 ```
+ProfileScreen → child selects profile → active profileId set
+  → first visit: "New Adventurer" → pick avatar → enter name → profile saved
+  → returning: tap profile card → profile loaded
+  → last-used profile highlighted
+
+ProfileScreen → profile selected → MapScreen (with per-profile progress)
 MapScreen → child taps unlocked node → Challenge config
 Challenge config → generator.ts → Problem (×5 per challenge)
   generator.ts dispatches to operation-specific logic:
@@ -62,10 +70,12 @@ Same pattern at tier 5 → Milestone 2 (final boss)
 
 ## Persistence model
 
-Three localStorage keys:
+localStorage keys:
 - `math-practice:session` — `{ correct: number, total: number }` (legacy, used during active quiz)
 - `math-practice:difficulty` — `{ min: number, max: number, streak: number, level: number }` (legacy, unused in map mode)
-- `math-practice:map-progress` — `{ nodes: Record<nodeId, { stars: number, completed: boolean }> }` — covers all 6 lanes (A/S/M/D/R/N nodes) and milestone nodes (MS1, MS2)
+- `math-practice:profiles` — `Profile[]` where Profile = `{ id, name, avatarId, createdAt, lastPlayedAt }` — max 4 profiles (planned for user-profiles phase)
+- `math-practice:map-progress:<profileId>` — `{ nodes: Record<nodeId, { stars: number, completed: boolean }> }` — per-profile scoped, covers all 6 lanes and milestones (planned for user-profiles phase)
+- `math-practice:map-progress` — legacy unscoped key, auto-migrated to first profile on initial load (planned for user-profiles phase)
 
 ## Deployment
 

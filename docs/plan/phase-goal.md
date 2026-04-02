@@ -1,55 +1,56 @@
 ## Phase goal
 
-Extend the adventure map with two new problem lanes (rounding and number challenge), replace the pair-convergence nodes (C1, C2) with a milestone convergence system (N-of-M gating), and scale the map layout to 6 lanes with responsive horizontal scrolling.
+Add a profile system so multiple children can share one device with independent adventure map progress. Includes profile selection/creation screen, per-profile progress isolation with legacy migration, and profile reset with confirmation.
 
 ### Design direction
 
-Keep current parchment/adventure style. New lanes use the same visual language — adventure-themed node names, consistent star/lock iconography. Each lane gets a distinct colour to aid recognition across the wider 6-lane map.
+Adventure character selection — consistent with the existing parchment/adventure aesthetic. The 4 avatars are cartoon animals with large, expressive cartoony eyes (e.g., owl, fox, bunny, bear). The selection screen feels like "choosing your adventurer" before entering the map. Playful scale/bounce animations on hover and select. Profile cards show the animal avatar prominently with the child's name underneath. The overall vibe is warm, inviting, and immediately fun for a 6–12 year old.
 
 ### Stories in scope
-- US-05 — Rounding problem lane
-- US-06 — Number challenge problem lane
-- US-07 — Milestone convergence system
-- US-08 — Scalable map layout
+- US-09 — Profile selection and creation screen
+- US-10 — Per-profile progress isolation
+- US-11 — Profile reset with confirmation
 
 ### Done-when (observable)
 
-#### US-05 — Rounding lane
-- [x] `'rounding'` is a member of the Operation type union in `src/types.ts` [US-05]
-- [x] `generateProblem` with rounding config returns a Problem where `display` matches "Round N to the nearest Y" and `answer` is the correct rounded value (digit ≥5 rounds up) [US-05]
-- [x] Test: rounding generator never produces trivial problems (numbers already divisible by the rounding target) over 100 generated samples [US-05]
-- [x] `CHALLENGE_NODES` contains R1–R5 with progressive rounding configs: R1 (2-digit, nearest 10), R2 (3-digit, nearest 100), R3 (4-digit, nearest 1000), R4 (5-digit, nearest 10,000), R5 (mixed targets); R1 has no prerequisites [US-05]
-- [x] Test suite for rounding generator passes with ≥5 test cases covering nearest 10, 100, 1000, 10000, and the ≥5-rounds-up rule [US-05]
+#### US-09 — Profile selection and creation screen
+- [ ] `src/components/ProfileScreen.tsx` exists and renders as the app entry point when no profile is active [US-09]
+- [ ] `src/components/ProfileScreen.css` exists with adventure-themed styling: parchment background consistent with MapScreen, animal avatar cards with large cartoony eyes [US-09]
+- [ ] Profile creation flow: child taps "New Adventurer" → picks from exactly 4 animal avatars (rendered as emoji or CSS/SVG illustrations) → enters a name (1–12 characters, non-empty after trim) → profile is saved [US-09]
+- [ ] Profile selection: existing profiles display as cards showing the animal avatar and name; tapping a card selects that profile and navigates to the map [US-09]
+- [ ] Maximum 4 profiles enforced — "New Adventurer" button is hidden or disabled when 4 profiles exist [US-09]
+- [ ] Last-used profile is visually highlighted (e.g., subtle glow or "Last played" badge) on the selection screen [US-09]
+- [ ] `src/lib/profiles.ts` exists and exports: `Profile` type (id, name, avatarId, createdAt, lastPlayedAt), `loadProfiles`, `saveProfile`, `deleteProfile`, `getLastActiveProfileId` [US-09]
+- [ ] Profile data persists in localStorage under `math-practice:profiles` key [US-09]
+- [ ] `App.tsx` renders `ProfileScreen` as the initial view; selecting a profile transitions to the map screen [US-09]
+- [ ] Selecting a profile or creating a new one updates `lastPlayedAt` on that profile [US-09]
+- [ ] Test: creating a profile with an empty or whitespace-only name is rejected (profile not saved, inline validation message shown) [US-09]
 
-#### US-06 — Number challenge lane
-- [x] `'number-challenge'` is a member of the Operation type union in `src/types.ts` [US-06]
-- [x] Generator produces at least 5 distinct question formats: place identification ("What digit is in the Xs place of N?"), number construction ("Arrange digits to make the largest number"), construction with constraints ("Smallest 3-digit even number from ..."), place value composition ("X hundreds + Y tens + Z ones = ?"), decomposition ("How many tens in N?") — each format covered by test [US-06]
-- [x] Every generated number-challenge problem has exactly one correct numeric answer (test verifies across 100 samples per question type) [US-06]
-- [x] `CHALLENGE_NODES` contains N1–N5 with progressive configs: N1 (2-digit), N2 (3-digit construction), N3 (3-digit with odd/even constraints), N4 (4-digit mixed), N5 (3–5 digit all types); N1 has no prerequisites [US-06]
-- [x] Test suite for number-challenge generator passes with ≥8 test cases covering all 5 question types and edge cases [US-06]
+#### US-10 — Per-profile progress isolation
+- [ ] Map progress localStorage key is scoped per profile: `math-practice:map-progress:<profileId>` [US-10]
+- [ ] `loadMapProgress` and `saveMapProgress` accept a `profileId` parameter and read/write the scoped key [US-10]
+- [ ] Selecting a different profile on the profile screen loads that profile's map progress (not the previous profile's) [US-10]
+- [ ] A new profile starts with default map progress (all starter nodes unlocked, zero stars) [US-10]
+- [ ] Migration: on first load, if `math-practice:map-progress` (legacy unscoped key) exists and no profiles exist, auto-create a "Player 1" profile with the first avatar and migrate the legacy progress to `math-practice:map-progress:<player1Id>` [US-10]
+- [ ] After migration, the legacy `math-practice:map-progress` key is removed from localStorage [US-10]
+- [ ] Test: two profiles have independent progress — completing a node on profile A does not affect profile B's progress [US-10]
 
-#### US-07 — Milestone convergence system
-- [x] `CHALLENGE_NODES` contains milestone nodes MS1 and MS2; C1 and C2 no longer exist in the node list [US-07]
-- [x] `ChallengeNode` type includes an optional `requiredCount` field; unlock logic requires only `requiredCount` of the listed prerequisites to be met (N-of-M gating) [US-07]
-- [x] MS1 prerequisites list all 6 tier-2 node IDs (A2, S2, M2, D2, R2, N2) with `requiredCount` set to a shared exported constant `MILESTONE_REQUIRED`; MS2 lists all 6 tier-5 node IDs with same constant [US-07]
-- [x] Tier-3 nodes (A3, S3, M3, D3, R3, N3) each require both their own tier-2 node AND MS1 in their prerequisites array [US-07]
-- [x] Milestone problem generation draws only from operation types the player has completed at that tier (test: complete only addition + rounding tier-2 → milestone generates only addition and rounding problems) [US-07]
-- [x] Test suite for milestone unlock logic passes with ≥4 test cases (below threshold, at threshold, above threshold, zero completed) [US-07]
+#### US-11 — Profile reset with confirmation
+- [ ] A reset button (e.g., small icon or text link) is accessible on the profile selection screen for each existing profile [US-11]
+- [ ] Tapping reset shows a confirmation dialog with the profile name and a clear warning (e.g., "Reset Luna's adventure? All stars and progress will be lost!") [US-11]
+- [ ] Confirming reset clears all map progress for that profile (resets to default starter-node state) but preserves the profile itself (name, avatar) [US-11]
+- [ ] Cancelling the confirmation dialog returns to the profile screen with no changes [US-11]
+- [ ] After reset, the profile card on the selection screen reflects zero progress (no star count or completion indicators if shown) [US-11]
+- [ ] Test: after reset, `loadMapProgress(profileId)` returns default progress (starter nodes unlocked, zero stars, no completions) [US-11]
 
-#### US-08 — Scalable map layout
-- [x] MapScreen renders 6 lane columns with a visible label or icon for each lane [US-08]
-- [x] Milestone bands render as full-width horizontal elements spanning all lane columns at their designated grid rows [US-08]
-- [x] Each lane has a distinct visual identifier (unique CSS class or colour) — no two lanes share the same identifier [US-08]
-- [x] MapScreen derives column count from `CHALLENGE_NODES` data — grep for hardcoded column count `6` in MapScreen.tsx returns 0 matches [US-08]
-- [x] All nodes are reachable at 375px viewport width via horizontal scroll or responsive scaling (CSS sets `min-width` or `overflow-x: auto` on the map container) [US-08]
+#### Auto-added safety criteria
+- [ ] Profile name input renders via JSX textContent (not innerHTML) — no XSS vector from child-entered names [US-09]
+- [ ] Profile name is trimmed and length-validated (1–12 chars) before save — empty or oversized input rejected [US-09]
 
 #### Phase-level
-- [x] `AGENTS.md` reflects rounding and number-challenge operations, milestone convergence rules, and updated node inventory [phase]
-- [x] README.md documents the 6 lanes (addition, subtraction, multiplication, division, rounding, number challenge) and the milestone convergence system [phase]
+- [ ] `AGENTS.md` reflects the profile system: new components (ProfileScreen), new lib module (profiles.ts), updated persistence model (per-profile scoped keys), updated app flow (profile → map → quiz → results) [phase]
 
 ### Golden principles (phase-relevant)
-- All generated problems have clean, unambiguous numeric answers
-- Answer input validates numeric before comparison (non-numeric silently ignored)
 - No `dangerouslySetInnerHTML` — all user text rendered via JSX
-- Star scoring and time targets apply uniformly to all challenge types
-- Map progress persists in localStorage under `math-practice:map-progress`
+- Map progress persists in localStorage under scoped key per profile
+- Answer input validates before comparison (non-numeric silently ignored)
