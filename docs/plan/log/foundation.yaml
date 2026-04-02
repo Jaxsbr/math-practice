@@ -8,4 +8,10 @@ entries:
     result: pass
     notes: "Branch B investigation. Phase type: CSS/JS-only."
     tokens: ~1000
-# Each entry: {task, time, story, description, result, notes, tokens}
+  - task: 2
+    time: "2026-04-02T01:29:00Z"
+    story: US-MP1
+    description: "Scaffold React+Vite+TS project, add Vitest, smoke test, deploy workflow, configure base path"
+    result: pass
+    notes: "✓ US-MP1 complete. Verify passes. All 5 criteria met."
+    tokens: ~5000
