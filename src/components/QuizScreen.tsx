@@ -1,17 +1,19 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import type { ChallengeNode, Problem } from '../types'
+import type { ChallengeNode, MapProgress, Problem } from '../types'
 import { generateProblem } from '../lib/generator'
+import { getMilestoneOperations } from '../lib/mapProgress'
 
 interface QuizScreenProps {
   node: ChallengeNode
   problemCount: number
+  progress: MapProgress
   onComplete: (correct: number, total: number, elapsedSeconds: number) => void
   onAbandon: () => void
 }
 
-function createProblem(node: ChallengeNode): Problem {
+function createProblem(node: ChallengeNode, progress: MapProgress): Problem {
   return generateProblem({
-    operations: node.operations,
+    operations: getMilestoneOperations(node, progress),
     min: node.min,
     max: node.max,
     roundingTarget: node.roundingTarget,
@@ -19,9 +21,9 @@ function createProblem(node: ChallengeNode): Problem {
   })
 }
 
-export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizScreenProps) {
+export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon }: QuizScreenProps) {
   const [problemIndex, setProblemIndex] = useState(0)
-  const [problem, setProblem] = useState<Problem>(() => createProblem(node))
+  const [problem, setProblem] = useState<Problem>(() => createProblem(node, progress))
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<{ correct: boolean; correctAnswer: number } | null>(null)
   const [correctCount, setCorrectCount] = useState(0)
@@ -73,10 +75,10 @@ export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizSc
       return
     }
     setProblemIndex(nextIndex)
-    setProblem(createProblem(node))
+    setProblem(createProblem(node, progress))
     setAnswer('')
     setFeedback(null)
-  }, [problemIndex, problemCount, correctCount, onComplete, node])
+  }, [problemIndex, problemCount, correctCount, onComplete, node, progress])
 
   const progressPct = ((problemIndex + (feedback ? 1 : 0)) / problemCount) * 100
 

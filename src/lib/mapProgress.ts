@@ -1,4 +1,4 @@
-import type { MapProgress, NodeProgress } from '../types'
+import type { ChallengeNode, MapProgress, NodeProgress, Operation } from '../types'
 import { CHALLENGE_NODES, getStarterNodes } from './challenges'
 
 const MAP_PROGRESS_KEY = 'math-practice:map-progress'
@@ -104,4 +104,22 @@ export function getFrontierNodeId(
 /** Get the node's progress or a default */
 export function getNodeProgress(nodeId: string, progress: MapProgress): NodeProgress {
   return progress[nodeId] ?? { stars: 0, completed: false }
+}
+
+/**
+ * Get the operations a milestone should generate problems for.
+ * Returns only operations from prerequisite lanes the player has completed.
+ * For non-milestone nodes, returns the node's operations as-is.
+ */
+export function getMilestoneOperations(node: ChallengeNode, progress: MapProgress): Operation[] {
+  if (node.type !== 'milestone') return node.operations
+
+  const completedOps: Operation[] = []
+  for (const preId of node.prerequisites) {
+    if (isNodeCompleted(preId, progress)) {
+      const preNode = CHALLENGE_NODES.find(n => n.id === preId)
+      if (preNode) completedOps.push(...preNode.operations)
+    }
+  }
+  return completedOps.length > 0 ? completedOps : node.operations
 }

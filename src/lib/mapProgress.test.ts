@@ -8,7 +8,9 @@ import {
   recordChallengeResult,
   getFrontierNodeId,
   getNodeProgress,
+  getMilestoneOperations,
 } from './mapProgress'
+import { getNode } from './challenges'
 
 describe('mapProgress', () => {
   beforeEach(() => {
@@ -223,6 +225,45 @@ describe('mapProgress', () => {
 
     it('returns null for path with no unlocked nodes', () => {
       expect(getFrontierNodeId('A', {})).toBeNull()
+    })
+  })
+
+  describe('getMilestoneOperations', () => {
+    it('returns only operations from completed prerequisite lanes', () => {
+      const ms1 = getNode('MS1')
+      const progress = {
+        A1: { stars: 2, completed: true },
+        A2: { stars: 2, completed: true },
+        R1: { stars: 2, completed: true },
+        R2: { stars: 2, completed: true },
+        // Other tier-2 nodes not completed
+      }
+      const ops = getMilestoneOperations(ms1, progress)
+      expect(ops.sort()).toEqual(['addition', 'rounding'])
+    })
+
+    it('returns all operations when all prerequisites completed', () => {
+      const ms1 = getNode('MS1')
+      const progress: Record<string, { stars: number; completed: boolean }> = {}
+      for (const prefix of ['A', 'S', 'M', 'D', 'R', 'N']) {
+        progress[`${prefix}2`] = { stars: 2, completed: true }
+      }
+      const ops = getMilestoneOperations(ms1, progress)
+      expect(ops.sort()).toEqual([
+        'addition', 'division', 'multiplication', 'number-challenge', 'rounding', 'subtraction',
+      ])
+    })
+
+    it('falls back to all operations when no prerequisites completed', () => {
+      const ms1 = getNode('MS1')
+      const ops = getMilestoneOperations(ms1, {})
+      expect(ops).toEqual(ms1.operations)
+    })
+
+    it('returns node operations as-is for non-milestone nodes', () => {
+      const a1 = getNode('A1')
+      const ops = getMilestoneOperations(a1, {})
+      expect(ops).toEqual(['addition'])
     })
   })
 
