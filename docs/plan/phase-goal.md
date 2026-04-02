@@ -1,54 +1,48 @@
 ## Phase goal
 
-Deliver the foundation of the math-practice app: a React + Vite + TypeScript project deployed to GitHub Pages, with a configurable math problem generator, quiz UI with localStorage persistence, and an adaptive difficulty engine that auto-adjusts number ranges based on answer streaks.
+Replace the current config→quiz flow with an adventure map experience. Four winding operation paths (addition, subtraction, multiplication, division) each with 5 progressively harder challenge nodes. Convergence points where paths cross present mixed-operation challenges. Children earn 1–3 stars per challenge based on accuracy and speed; stars gate progression. All progress persists in localStorage.
+
+### Design direction
+
+Playful adventure — bright colors, cartoon-style treasure map aesthetic, fun animations at challenge completion and node unlocks.
 
 ### Stories in scope
-- US-MP1 — Project scaffolding, test infrastructure, and GitHub Pages deployment
-- US-MP2 — Math problem generator
-- US-MP3 — Quiz UI
-- US-MP4 — Adaptive difficulty engine
+- US-01 — Adventure map with operation paths
+- US-02 — Challenge quiz with star scoring
+- US-03 — Progressive difficulty and unlock gating
+- US-04 — Convergence challenges with mixed operations
 
 ### Done-when (observable)
 
-#### US-MP1 — Scaffolding
-- [x] `npm run dev` starts the Vite dev server and exits without errors (verified by `npm run dev -- --strictPort &` + curl localhost) [US-MP1]
-- [x] `npm run build` produces `dist/index.html` with zero TypeScript errors [US-MP1]
-- [x] `vite.config.ts` contains `base: '/math-practice/'` [US-MP1]
-- [x] `npm test` exits 0 with at least 1 passing test [US-MP1]
-- [x] `.github/workflows/deploy.yml` exists with steps: checkout, install, build, deploy to GitHub Pages [US-MP1]
-
-#### US-MP2 — Problem generator
-- [x] A pure function `generateProblem` is exported from `src/lib/generator.ts` (or equivalent module) [US-MP2]
-- [x] Unit tests verify all 4 operations produce valid problems (test file exists, `npm test` passes) [US-MP2]
-- [x] Division problems always produce integer results — test asserts `answer % 1 === 0` for 20+ generated division problems [US-MP2]
-- [x] Generator accepts `{ min, max }` range config — test verifies operands fall within the specified range [US-MP2]
-- [x] Generator accepts an operations subset — test verifies only selected operations appear in generated problems [US-MP2]
-
-#### US-MP3 — Quiz UI
-- [x] Quiz screen renders: a problem display, a numeric input field, and a submit button [US-MP3]
-- [x] Submitting a correct answer shows "Correct" feedback [US-MP3]
-- [x] Submitting an incorrect answer shows "Incorrect" feedback and displays the correct answer [US-MP3]
-- [x] After feedback, the next problem loads (via auto-advance or "Next" button) [US-MP3]
-- [x] Running score is displayed in the format "N / M correct" (or equivalent) [US-MP3]
-- [x] Session score is written to `localStorage` — test or manual verification that refreshing mid-session restores score and problem count [US-MP3]
-
-#### US-MP4 — Adaptive difficulty
-- [x] After 3 consecutive correct answers, the number range increases by a defined step — unit test verifies [US-MP4]
-- [x] After 3 consecutive incorrect answers, the number range decreases by a defined step — unit test verifies [US-MP4]
-- [x] Range never goes below the configured floor (e.g., 1-10) — unit test verifies [US-MP4]
-- [x] Range never goes above the configured ceiling (e.g., 1-100) — unit test verifies [US-MP4]
-- [x] Current difficulty level is visible on the quiz screen (e.g., "Level 2" or "Numbers up to 50") [US-MP4]
-- [x] Difficulty state (range, streak counters) is written to `localStorage` — refreshing mid-session resumes at the same difficulty [US-MP4]
-
-#### Structural
-- [x] AGENTS.md reflects project structure, modules, directory layout, run/test commands, and behavior rules introduced in this phase [phase]
-
-#### User documentation
-- [x] README.md contains a "How to play" section documenting: operation selection, quiz interaction, and adaptive difficulty [phase]
-
-#### Auto-added safety criteria
-- [x] Answer input validates that the entered value is numeric before comparison (non-numeric input does not crash or produce NaN comparisons) [US-MP3]
-- [x] User-provided answer text is rendered via React JSX, not `dangerouslySetInnerHTML` — grep confirms zero occurrences of `dangerouslySetInnerHTML` in the codebase [US-MP3]
+- [ ] `src/components/MapScreen.tsx` exists and renders 4 visually distinct operation paths with challenge nodes [US-01]
+- [ ] Each path has exactly 5 challenge nodes with unique themed names defined in a data structure [US-01]
+- [ ] Challenge nodes render in one of three visual states: locked (greyed), unlocked (glowing), completed (with star count) [US-01]
+- [ ] The first challenge on each path is unlocked by default when no saved progress exists [US-01]
+- [ ] `App.tsx` renders `MapScreen` as the entry point — `ConfigScreen` is no longer used or imported [US-01]
+- [ ] Map progress (per-node completion state and star count) is saved to localStorage under a `math-practice:map-progress` key [US-01]
+- [ ] On app load, `MapScreen` restores saved progress from localStorage and renders correct node states [US-01]
+- [ ] Tapping an unlocked challenge node navigates to a quiz round with exactly 5 problems of the challenge's operation type [US-02]
+- [ ] A visible timer displays elapsed seconds during the challenge quiz [US-02]
+- [ ] After answering all 5 problems, a results screen displays: correct count, time taken, and stars earned (1–3) [US-02]
+- [ ] Star scoring: 3 stars requires ≥90% accuracy AND completion within time target; 2 stars requires ≥70% accuracy; 1 star for any completion [US-02]
+- [ ] Results screen has a "Back to Map" button that persists the star result and returns to the map [US-02]
+- [ ] An abandon/quit button is available during the challenge that returns to the map without saving progress [US-02]
+- [ ] Challenge difficulty parameters are defined in a data structure (e.g., array or map of node configs with min/max ranges) — not hardcoded per component [US-03]
+- [ ] Each successive node on a path uses a wider number range (node 1: max 10, node 2: max 20, node 3: max 30, node 4: max 40, node 5: max 50) [US-03]
+- [ ] Completing a challenge with ≥1 star unlocks the next challenge on that path [US-03]
+- [ ] Previously completed challenges can be tapped to replay; the higher star rating is kept [US-03]
+- [ ] The map visually highlights the frontier node (furthest unlocked-but-incomplete) on each path [US-03]
+- [ ] At least 2 convergence points exist on the map where 2 paths visually cross [US-04]
+- [ ] Convergence challenge nodes are visually distinct from single-operation nodes (different size or shape) [US-04]
+- [ ] Convergence challenges generate problems from both crossing operation types (verified: problem set contains both operation types) [US-04]
+- [ ] Convergence nodes are locked until the preceding challenge on BOTH adjacent paths has ≥1 star [US-04]
+- [ ] Convergence challenges use the higher max value of the two adjacent path challenges as their difficulty [US-04]
+- [ ] Completing a convergence challenge unlocks the next node on both adjacent paths [US-04]
+- [ ] `AGENTS.md` reflects new modules/components introduced in this phase (MapScreen, challenge data model, star scoring) [phase]
+- [ ] Vitest test suite passes — tests cover star scoring thresholds, challenge unlock logic, convergence unlock logic, and difficulty progression [phase]
 
 ### Golden principles (phase-relevant)
-- (No golden principles defined in AGENTS.md yet — the foundation phase will establish them)
+- Division problems always produce integer results (operand1 = operand2 * answer)
+- Subtraction results are always >= 0 (operand2 <= operand1)
+- No `dangerouslySetInnerHTML` — all user text rendered via JSX
+- Answer input validates numeric before comparison
