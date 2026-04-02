@@ -1,6 +1,6 @@
 # Phase: adventure-map
 
-Status: draft
+Status: shipped
 
 ## Design direction
 
@@ -8,7 +8,7 @@ Playful adventure — bright colors, cartoon-style treasure map aesthetic, fun a
 
 ## Stories
 
-### US-01 — Adventure map with operation paths
+### US-01 — Adventure map with operation paths [Shipped]
 
 As a child, I want to see an adventure map with four paths I can explore, so that I know where I am in my math journey and what challenges lie ahead.
 
@@ -29,7 +29,7 @@ As a child, I want to see an adventure map with four paths I can explore, so tha
 
 **Design rationale:** A spatial map (vs. a list or menu) creates spatial memory and a sense of journey — children remember "I'm at the volcano on the addition path" rather than "I'm on level 3."
 
-### US-02 — Challenge quiz with star scoring
+### US-02 — Challenge quiz with star scoring [Shipped]
 
 As a child, I want to play a challenge by solving problems and earn stars based on how well I do, so that I feel rewarded for accuracy and speed.
 
@@ -49,7 +49,7 @@ As a child, I want to play a challenge by solving problems and earn stars based 
 
 **Design rationale:** Fixed problem count (vs. endless) gives children a clear finish line per sitting. Star scoring on accuracy + speed rewards mastery while still granting 1 star for completion, preventing discouragement.
 
-### US-03 — Progressive difficulty and unlock gating
+### US-03 — Progressive difficulty and unlock gating [Shipped]
 
 As a child, I want each challenge to be harder than the last and unlock when I complete the previous one, so that I'm always progressing.
 
@@ -67,7 +67,7 @@ As a child, I want each challenge to be harder than the last and unlock when I c
 
 **Design rationale:** Linear unlock with ≥1 star keeps progression simple and avoids frustrating gates. Revisit-to-improve gives optional mastery depth without blocking forward progress.
 
-### US-04 — Convergence challenges with mixed operations
+### US-04 — Convergence challenges with mixed operations [Shipped]
 
 As a child, I want to encounter special challenges where paths cross that test me on multiple operation types, so that the map feels connected and I practice combining my skills.
 

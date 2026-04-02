@@ -1,39 +1,38 @@
 # Math Practice
 
-An interactive math tutoring app for children with adaptive difficulty. Built with React + TypeScript, deployed on GitHub Pages.
+An interactive math adventure for children (ages 6-12). Explore six winding paths on an adventure map, each with progressively harder challenges. Earn stars for accuracy and speed, unlock milestones that test combined skills.
 
-## How to play
+## Adventure map
 
-### Choosing operations
+The app opens to an adventure map with six operation paths:
 
-1. On the start screen, you'll see checkboxes for four math operations: Addition (+), Subtraction (-), Multiplication (x), and Division (/).
-2. Check or uncheck the operations you want to practice. All four are selected by default.
-3. Press **Start** to begin your session.
+| Path | Operation | Challenges |
+|---|---|---|
+| Addition | + | Pebble Path → Summit Plus |
+| Subtraction | − | Leaf Fall → Minus Mountain |
+| Multiplication | × | Mushroom Ring → Times Tower |
+| Division | ÷ | Berry Split → Divide Peak |
+| Rounding | ≈ | Rounding Rock → Summit Round |
+| Number Challenge | # | Digit Den → Master Mountain |
 
-### Answering problems
+Each path has 5 challenge nodes with increasing difficulty. The first node on every path is unlocked from the start.
 
-1. A math problem is displayed (e.g., "7 + 3 = ?").
-2. Type your answer in the number input field.
-3. Press **Enter** or click **Submit**.
-4. You'll see immediate feedback:
-   - **Correct!** (in green) if your answer is right.
-   - **Incorrect. The answer is X.** (in red) if your answer is wrong.
-5. Click **Next** to move to the next problem.
-6. Your running score is shown at the top (e.g., "5 / 8 correct").
+### Star scoring
 
-### Adaptive difficulty
+- **3 stars** — 90%+ accuracy within the time target
+- **2 stars** — 70%+ accuracy
+- **1 star** — completed the challenge
 
-The app automatically adjusts difficulty based on your performance:
+Earning at least 1 star unlocks the next node on the path. Replay any challenge to improve your rating.
 
-- **3 correct answers in a row** increases the number range (harder problems).
-- **3 incorrect answers in a row** decreases the number range (easier problems).
-- The difficulty level is shown at the top of the quiz screen (e.g., "Level 2 (up to 20)").
-- The range starts at 1-10 and can go up to 1-100.
-- Your difficulty level and score are saved in the browser, so refreshing the page mid-session keeps your progress.
+### Milestone convergence
 
-### Ending a session
+Two milestone challenges span all paths:
 
-Click **End Session** at the top right to return to the start screen. This resets your score and difficulty for the next session.
+- **Milestone 1** (between tier 2 and 3) — unlocks when you complete any 4 of 6 tier-2 nodes. Passing unlocks all tier-3 nodes (for paths you've completed).
+- **Milestone 2** (after tier 5) — unlocks when you complete any 4 of 6 tier-5 nodes. Marks the map as fully complete.
+
+Milestone challenges draw problems only from operations you've already practised.
 
 ## Development
 
@@ -44,3 +43,5 @@ npm run build     # Production build
 npm test          # Run tests
 npm run lint      # Lint check
 ```
+
+Deployed to GitHub Pages on push to `main`.

@@ -45,6 +45,7 @@ function App() {
         <QuizScreen
           node={view.node}
           problemCount={PROBLEMS_PER_CHALLENGE}
+          progress={progress}
           onComplete={(correct, total, elapsed) => handleQuizComplete(view.node, correct, total, elapsed)}
           onAbandon={handleAbandon}
         />

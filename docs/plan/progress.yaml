@@ -7,15 +7,15 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 7
-  phase: adventure-map
+  task_number: 16
+  phase: number-sense
   phase_complete: true
   review_stage: review_posted
   review_complete: true
   retro_complete: true
-  pr_number: 2
+  pr_number: 3
   status: running
   last_result: pass
   next_task: null
   consecutive_fails: 0
-  completed_stories: [US-01, US-02, US-03, US-04]
+  completed_stories: [US-05, US-06, US-07, US-08]

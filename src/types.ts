@@ -1,4 +1,4 @@
-export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division'
+export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division' | 'rounding' | 'number-challenge'
 
 export interface Problem {
   operand1: number
@@ -12,6 +12,10 @@ export interface GeneratorConfig {
   operations: Operation[]
   min: number
   max: number
+  /** Rounding target (10, 100, 1000, etc.) — used by rounding operations. Inferred from number if omitted. */
+  roundingTarget?: number
+  /** Question types for number-challenge operations (defaults to all 5 types). */
+  questionTypes?: string[]
 }
 
 export interface SessionState {
@@ -28,7 +32,7 @@ export interface DifficultyState {
 
 // Adventure map types
 
-export type NodeType = 'single' | 'convergence'
+export type NodeType = 'single' | 'milestone'
 
 export interface ChallengeNode {
   id: string
@@ -40,6 +44,12 @@ export interface ChallengeNode {
   /** Grid position for map layout (col 0-based, row 0-based) */
   col: number
   row: number
+  /** Rounding target for rounding challenge nodes (10, 100, 1000, etc.) */
+  roundingTarget?: number
+  /** Question types for number-challenge nodes (e.g. 'place-id', 'construct') */
+  questionTypes?: string[]
+  /** For N-of-M gating: minimum number of prerequisites that must be completed (default: all) */
+  requiredCount?: number
   /** IDs of nodes that must be completed (≥1 star) to unlock this node */
   prerequisites: string[]
   /** IDs of nodes this unlocks when completed */
