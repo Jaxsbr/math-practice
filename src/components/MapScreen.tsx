@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, memo } from 'react'
 import type { ChallengeNode, MapProgress } from '../types'
 import { CHALLENGE_NODES } from '../lib/challenges'
 import { isNodeUnlocked, isNodeCompleted, getFrontierNodeId } from '../lib/mapProgress'
@@ -47,7 +47,7 @@ function nodePosition(node: ChallengeNode) {
   return { x, y }
 }
 
-function PathLines({ progress }: { progress: MapProgress }) {
+const PathLines = memo(function PathLines({ progress }: { progress: MapProgress }) {
   const lines: { x1: number; y1: number; x2: number; y2: number; color: string; active: boolean }[] = []
 
   for (const node of CHALLENGE_NODES) {
@@ -80,7 +80,7 @@ function PathLines({ progress }: { progress: MapProgress }) {
       ))}
     </svg>
   )
-}
+})
 
 export function MapScreen({ progress, onSelectChallenge }: MapScreenProps) {
   const frontiers = useMemo(() => {

@@ -54,9 +54,8 @@ export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizSc
     const nextIndex = problemIndex + 1
     if (nextIndex >= problemCount) {
       // Challenge complete — report final results
-      const finalCorrect = correctCount + (feedback?.correct ? 0 : 0)
       const finalElapsed = Math.floor((Date.now() - startTime) / 1000)
-      onComplete(finalCorrect, problemCount, finalElapsed)
+      onComplete(correctCount, problemCount, finalElapsed)
       return
     }
     setProblemIndex(nextIndex)

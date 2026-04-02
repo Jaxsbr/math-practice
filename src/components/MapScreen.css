@@ -1,6 +1,5 @@
 /* ── Adventure Map ── */
-
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap');
+/* Fredoka font imported in App.css */
 
 .map-screen {
   font-family: 'Fredoka', 'Baloo 2', sans-serif;
