@@ -2,7 +2,7 @@
 # Schema: config + state read every iteration. Validate with yamllint.
 
 config:
-  verify: "echo \"no verify command configured\""
+  verify: "npx tsc --noEmit && npm run lint && npm test"
   max_tasks_per_phase: 200
   quality_check_suppressions: []
 

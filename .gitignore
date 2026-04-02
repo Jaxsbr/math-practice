@@ -1,15 +1,29 @@
 # Dependencies
 node_modules/
 
+# Build output
+dist/
+dist-ssr/
+
 # Environment & secrets
 .env
 .env.*
 *.key
 *.pem
+*.local
 credentials.json
 
 # Build loop
 .build-loop.lock
 
-# OS
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# OS & editor
 .DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.sw?
