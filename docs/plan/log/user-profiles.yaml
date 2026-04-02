@@ -36,6 +36,13 @@ entries:
     result: pass
     notes: "115 tests (113→115). ✓ US-09 complete. US-10 criteria 1-6 met by mapProgress changes. Remaining: US-10 criterion 7 (independence test), US-10 migration wiring."
     tokens: ~8000
+  - task: 7
+    time: "2026-04-02T10:33:00Z"
+    story: null
+    description: "Queue legacy migration wiring + independence test."
+    result: pass
+    notes: "Branch B. Completes US-10."
+    tokens: ~500
   - task: 5
     time: "2026-04-02T10:30:00Z"
     story: null

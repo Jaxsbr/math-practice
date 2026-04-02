@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-10] Wire legacy migration into ProfileScreen (auto-create Player 1 on first load if legacy key exists), add independence test (two profiles have separate progress)"
   consecutive_fails: 0
   completed_stories: [US-09]
