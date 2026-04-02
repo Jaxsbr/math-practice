@@ -11,11 +11,11 @@ state:
   phase: adventure-map
   phase_complete: true
   review_stage: review_posted
-  review_complete: false
+  review_complete: true
   retro_complete: false
   pr_number: 2
   status: running
   last_result: pass
-  next_task: "[review] handle-pr-review pr=2 auto=true"
+  next_task: null
   consecutive_fails: 0
   completed_stories: [US-01, US-02, US-03, US-04]
