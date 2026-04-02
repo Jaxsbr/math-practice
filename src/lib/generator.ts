@@ -1,5 +1,6 @@
 import type { GeneratorConfig, Operation, Problem } from '../types'
 import { generateRoundingProblem } from './roundingGenerator'
+import { generateNumberChallengeProblem } from './numberChallengeGenerator'
 
 const operationSymbols: Record<Operation, string> = {
   addition: '+',
@@ -63,6 +64,10 @@ export function generateProblem(config: GeneratorConfig): Problem {
 
   if (operation === 'rounding') {
     return generateRoundingProblem(min, max, config.roundingTarget)
+  }
+
+  if (operation === 'number-challenge') {
+    return generateNumberChallengeProblem(min, max, config.questionTypes)
   }
 
   return generateForOperation(operation, min, max)

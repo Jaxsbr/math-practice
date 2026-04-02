@@ -10,7 +10,13 @@ interface QuizScreenProps {
 }
 
 function createProblem(node: ChallengeNode): Problem {
-  return generateProblem({ operations: node.operations, min: node.min, max: node.max, roundingTarget: node.roundingTarget })
+  return generateProblem({
+    operations: node.operations,
+    min: node.min,
+    max: node.max,
+    roundingTarget: node.roundingTarget,
+    questionTypes: node.questionTypes,
+  })
 }
 
 export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizScreenProps) {
@@ -88,7 +94,7 @@ export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizSc
       </div>
 
       <div className="problem-display">
-        <span className="problem-text">{problem.display} = ?</span>
+        <span className="problem-text">{problem.display.endsWith('?') ? problem.display : `${problem.display} = ?`}</span>
       </div>
 
       {!feedback ? (
