@@ -18,4 +18,4 @@ state:
   last_result: pass
   next_task: "[US-07] Implement milestone problem generation — filter operations to only completed lanes at the milestone's tier, with test"
   consecutive_fails: 0
-  completed_stories: [US-05, US-06]
+  completed_stories: [US-05, US-06, US-07]

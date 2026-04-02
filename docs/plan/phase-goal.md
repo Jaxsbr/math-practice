@@ -33,7 +33,7 @@ Keep current parchment/adventure style. New lanes use the same visual language �
 - [x] `ChallengeNode` type includes an optional `requiredCount` field; unlock logic requires only `requiredCount` of the listed prerequisites to be met (N-of-M gating) [US-07]
 - [x] MS1 prerequisites list all 6 tier-2 node IDs (A2, S2, M2, D2, R2, N2) with `requiredCount` set to a shared exported constant `MILESTONE_REQUIRED`; MS2 lists all 6 tier-5 node IDs with same constant [US-07]
 - [x] Tier-3 nodes (A3, S3, M3, D3, R3, N3) each require both their own tier-2 node AND MS1 in their prerequisites array [US-07]
-- [ ] Milestone problem generation draws only from operation types the player has completed at that tier (test: complete only addition + rounding tier-2 → milestone generates only addition and rounding problems) [US-07]
+- [x] Milestone problem generation draws only from operation types the player has completed at that tier (test: complete only addition + rounding tier-2 → milestone generates only addition and rounding problems) [US-07]
 - [x] Test suite for milestone unlock logic passes with ≥4 test cases (below threshold, at threshold, above threshold, zero completed) [US-07]
 
 #### US-08 — Scalable map layout
