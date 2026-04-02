@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 4
+  task_number: 5
   phase: foundation
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-MP4] Implement adaptive difficulty engine in src/lib/adaptive.ts with streak tracking, range adjustment, floor/ceiling bounds, and localStorage persistence, plus unit tests"
+  next_task: "[US-MP3] Implement quiz UI — ConfigScreen, QuizScreen with problem display, answer input, feedback, score, difficulty indicator, and localStorage persistence for session and difficulty state"
   consecutive_fails: 0
   completed_stories: [US-MP1, US-MP2]

@@ -29,3 +29,10 @@ entries:
     result: pass
     notes: "✓ US-MP2 complete. 9 tests passing. Queued US-MP4 (adaptive engine before quiz UI)."
     tokens: ~3000
+  - task: 5
+    time: "2026-04-02T01:32:00Z"
+    story: US-MP4
+    description: "Implement adaptive engine (adaptive.ts) + storage abstraction (storage.ts) + unit tests for streak-based range adjustment"
+    result: pass
+    notes: "4/6 US-MP4 criteria met (unit tests). UI display and localStorage persist criteria need quiz UI."
+    tokens: ~3000
