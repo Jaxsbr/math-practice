@@ -13,7 +13,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: auto;
 }
 
 .map-title {
@@ -50,11 +49,20 @@
   display: inline-block;
 }
 
+/* ── Scroll wrapper — responsive at narrow viewports ── */
+
+.map-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* ── Map container (positioned) ── */
 
 .map-container {
   position: relative;
   margin: 0 auto;
+  min-width: max-content;
 }
 
 .map-paths {
@@ -69,8 +77,8 @@
 .map-node {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 72px;
-  height: 72px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   border: 3px solid var(--node-color, #888);
   background: #fff;
@@ -91,25 +99,31 @@
 }
 
 .map-node .node-name {
-  font-size: 0.55rem;
+  font-size: 0.5rem;
   font-weight: 500;
   color: #5b3a1a;
-  max-width: 64px;
+  max-width: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-top: 1px;
 }
 
-/* ── Convergence nodes — larger, diamond-ish ── */
+/* ── Milestone nodes — wide horizontal band ── */
 
-.map-node.convergence {
-  width: 84px;
-  height: 84px;
-  border-radius: 16px;
-  border-width: 4px;
+.map-node.milestone {
+  width: 180px;
+  height: 52px;
+  border-radius: 26px;
+  border-width: 3px;
   border-color: #d4a017;
   background: linear-gradient(135deg, #fff9e6 0%, #fff3c4 100%);
+}
+
+.map-node.milestone .node-name {
+  max-width: 160px;
+  font-size: 0.6rem;
+  font-weight: 600;
 }
 
 /* ── Locked state ── */
