@@ -1,0 +1,13 @@
+
+> math-practice@0.0.0 test
+> vitest run
+
+
+ RUN  v4.1.2 /Users/jacobusbrink/dev/math-practice
+
+
+ Test Files  6 passed (6)
+      Tests  62 passed (62)
+   Start at  15:51:08
+   Duration  686ms (transform 179ms, setup 341ms, import 190ms, tests 37ms, environment 2.64s)
+
