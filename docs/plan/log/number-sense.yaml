@@ -43,3 +43,10 @@ entries:
     result: pass
     notes: "90 tests (81→90). ✓ US-05 complete. ✓ US-06 complete. US-07 criteria 1-4,6 met. Remaining: milestone problem generation (criterion 5)."
     tokens: ~8000
+  - task: 7
+    time: "2026-04-02T05:25:00Z"
+    story: null
+    description: "Queue milestone generation filter. US-07 criterion 5 needs generator to filter operations by completed lanes."
+    result: pass
+    notes: "Branch B. Affected files: generator.ts or challenges.ts (helper), QuizScreen (pass progress), App.tsx (thread progress)."
+    tokens: ~500
