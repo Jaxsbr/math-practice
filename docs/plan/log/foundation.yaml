@@ -15,3 +15,10 @@ entries:
     result: pass
     notes: "✓ US-MP1 complete. Verify passes. All 5 criteria met."
     tokens: ~5000
+  - task: 3
+    time: "2026-04-02T01:30:00Z"
+    story: US-MP2
+    description: "Investigation — US-MP1 complete, all US-MP2 criteria unmet. Queued generator implementation."
+    result: pass
+    notes: "Branch B investigation."
+    tokens: ~500
