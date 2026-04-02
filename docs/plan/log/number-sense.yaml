@@ -8,3 +8,10 @@ entries:
     result: pass
     notes: "Branch B investigation. Unlock logic needs N-of-M for milestones. Generator dispatch needs extension for new operations."
     tokens: ~5000
+  - task: 2
+    time: "2026-04-02T05:10:00Z"
+    story: US-05
+    description: "Implement rounding operation type, generator with non-trivial guard, and 7 tests. Extended Operation union, GeneratorConfig, ChallengeNode."
+    result: pass
+    notes: "70 tests (63→70). Criteria 1,2,3,5 for US-05 met. Remaining: R1-R5 challenge nodes."
+    tokens: ~4000

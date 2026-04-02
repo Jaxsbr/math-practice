@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 2
+  task_number: 3
   phase: number-sense
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-05] Implement rounding operation type, generator with non-trivial guard, and test suite (≥5 tests)"
+  next_task: null
   consecutive_fails: 0
   completed_stories: []
