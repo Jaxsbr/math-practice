@@ -8,3 +8,10 @@ entries:
     result: pass
     notes: "Branch B investigation. Phase type: CSS/JS-only. Story order: US-01 → US-02 → US-03 → US-04."
     tokens: ~2000
+  - task: 2
+    time: "2026-04-02T02:51:00Z"
+    story: US-01
+    description: "Implement challenge data model (challenges.ts), scoring (scoring.ts), map progress (mapProgress.ts), new types. 46 new tests."
+    result: pass
+    notes: "Data layer complete. 62 total tests. Next: MapScreen UI."
+    tokens: ~5000

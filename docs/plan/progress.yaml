@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 2
+  task_number: 3
   phase: adventure-map
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-01] Implement challenge data model (challenges.ts), map progress persistence (mapProgress.ts), and new types — 4 paths x 5 nodes, convergence points, difficulty configs, localStorage read/write"
+  next_task: "[US-01] Implement MapScreen component — SVG/CSS adventure map with 4 winding paths, challenge nodes in 3 states (locked/unlocked/completed), convergence nodes visually distinct, wire as App entry point replacing ConfigScreen"
   consecutive_fails: 0
   completed_stories: []
