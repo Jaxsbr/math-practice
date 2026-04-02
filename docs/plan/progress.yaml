@@ -18,4 +18,4 @@ state:
   last_result: pass
   next_task: "[US-MP2] Implement generateProblem pure function in src/lib/generator.ts with configurable operations and range, plus comprehensive unit tests"
   consecutive_fails: 0
-  completed_stories: [US-MP1]
+  completed_stories: [US-MP1, US-MP2]

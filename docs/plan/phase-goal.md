@@ -18,11 +18,11 @@ Deliver the foundation of the math-practice app: a React + Vite + TypeScript pro
 - [x] `.github/workflows/deploy.yml` exists with steps: checkout, install, build, deploy to GitHub Pages [US-MP1]
 
 #### US-MP2 — Problem generator
-- [ ] A pure function `generateProblem` is exported from `src/lib/generator.ts` (or equivalent module) [US-MP2]
-- [ ] Unit tests verify all 4 operations produce valid problems (test file exists, `npm test` passes) [US-MP2]
-- [ ] Division problems always produce integer results — test asserts `answer % 1 === 0` for 20+ generated division problems [US-MP2]
-- [ ] Generator accepts `{ min, max }` range config — test verifies operands fall within the specified range [US-MP2]
-- [ ] Generator accepts an operations subset — test verifies only selected operations appear in generated problems [US-MP2]
+- [x] A pure function `generateProblem` is exported from `src/lib/generator.ts` (or equivalent module) [US-MP2]
+- [x] Unit tests verify all 4 operations produce valid problems (test file exists, `npm test` passes) [US-MP2]
+- [x] Division problems always produce integer results — test asserts `answer % 1 === 0` for 20+ generated division problems [US-MP2]
+- [x] Generator accepts `{ min, max }` range config — test verifies operands fall within the specified range [US-MP2]
+- [x] Generator accepts an operations subset — test verifies only selected operations appear in generated problems [US-MP2]
 
 #### US-MP3 — Quiz UI
 - [ ] Quiz screen renders: a problem display, a numeric input field, and a submit button [US-MP3]
