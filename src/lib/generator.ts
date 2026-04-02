@@ -34,7 +34,8 @@ function generateForOperation(operation: Operation, min: number, max: number): P
       break
     case 'division': {
       operand2 = randomInt(Math.max(min, 1), max)
-      answer = randomInt(min, max)
+      const maxAnswer = Math.max(min, Math.floor(max / operand2))
+      answer = randomInt(min, maxAnswer)
       operand1 = operand2 * answer
       break
     }

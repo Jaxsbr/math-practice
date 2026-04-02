@@ -14,10 +14,9 @@ function createProblem(operations: Operation[], difficulty: DifficultyState): Pr
 }
 
 export function QuizScreen({ operations, onEnd }: QuizScreenProps) {
-  const initialDifficulty = loadDifficulty()
   const [session, setSession] = useState<SessionState>(loadSession)
-  const [difficulty, setDifficulty] = useState<DifficultyState>(initialDifficulty)
-  const [problem, setProblem] = useState<Problem>(() => createProblem(operations, initialDifficulty))
+  const [difficulty, setDifficulty] = useState<DifficultyState>(loadDifficulty)
+  const [problem, setProblem] = useState<Problem>(() => createProblem(operations, loadDifficulty()))
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<{ correct: boolean; correctAnswer: number } | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
