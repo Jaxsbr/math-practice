@@ -1,12 +1,17 @@
 import { useMemo, memo } from 'react'
 import type { ChallengeNode, MapProgress } from '../types'
+import type { Profile } from '../lib/profiles'
 import { CHALLENGE_NODES } from '../lib/challenges'
 import { isNodeUnlocked, isNodeCompleted, getFrontierNodeId } from '../lib/mapProgress'
 import './MapScreen.css'
 
+const AVATARS = ['🦉', '🦊', '🐰', '🐻']
+
 interface MapScreenProps {
   progress: MapProgress
+  activeProfile: Profile | null
   onSelectChallenge: (node: ChallengeNode) => void
+  onSwitchProfile: () => void
 }
 
 const PATH_COLORS: Record<string, string> = {
@@ -110,7 +115,7 @@ const PathLines = memo(function PathLines({ progress }: { progress: MapProgress 
   )
 })
 
-export function MapScreen({ progress, onSelectChallenge }: MapScreenProps) {
+export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitchProfile }: MapScreenProps) {
   const frontiers = useMemo(() => {
     const set = new Set<string>()
     for (const prefix of LANE_PREFIXES) {
@@ -125,7 +130,19 @@ export function MapScreen({ progress, onSelectChallenge }: MapScreenProps) {
 
   return (
     <div className="map-screen">
-      <h1 className="map-title">Math Adventure</h1>
+      <div className="map-header-row">
+        <h1 className="map-title">Math Adventure</h1>
+        {activeProfile && (
+          <button
+            className="profile-badge"
+            onClick={onSwitchProfile}
+            title="Switch adventurer"
+          >
+            <span className="badge-avatar">{AVATARS[activeProfile.avatarId]}</span>
+            <span className="badge-name">{activeProfile.name}</span>
+          </button>
+        )}
+      </div>
       <div className="map-legend">
         {LANE_PREFIXES.map(prefix => {
           const node = singleNodes.find(n => n.id.startsWith(prefix))!

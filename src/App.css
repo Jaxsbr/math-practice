@@ -22,6 +22,11 @@
   flex-wrap: wrap;
 }
 
+.quiz-profile-indicator {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
 .challenge-name {
   font-weight: 600;
   font-size: 1.2rem;

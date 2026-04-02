@@ -1,12 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import type { ChallengeNode, MapProgress, Problem } from '../types'
+import type { Profile } from '../lib/profiles'
 import { generateProblem } from '../lib/generator'
 import { getMilestoneGeneratorConfig } from '../lib/mapProgress'
+
+const AVATARS = ['🦉', '🦊', '🐰', '🐻']
 
 interface QuizScreenProps {
   node: ChallengeNode
   problemCount: number
   progress: MapProgress
+  activeProfile: Profile | null
   onComplete: (correct: number, total: number, elapsedSeconds: number) => void
   onAbandon: () => void
 }
@@ -175,7 +179,7 @@ function NumberChallengeInputView({ problem }: { problem: Problem }) {
 
 /* ── Main quiz screen ── */
 
-export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon }: QuizScreenProps) {
+export function QuizScreen({ node, problemCount, progress, activeProfile, onComplete, onAbandon }: QuizScreenProps) {
   const [seenDisplays] = useState(() => new Set<string>())
   const [problemIndex, setProblemIndex] = useState(0)
   const [problem, setProblem] = useState<Problem>(() => createUniqueProblem(node, progress, seenDisplays))
@@ -249,6 +253,11 @@ export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon
   return (
     <div className="quiz-screen challenge-mode">
       <div className="quiz-header">
+        {activeProfile && (
+          <span className="quiz-profile-indicator" title={activeProfile.name}>
+            {AVATARS[activeProfile.avatarId]}
+          </span>
+        )}
         <span className="challenge-name">{node.name}</span>
         <span className={`timer ${feedback ? 'paused' : ''}`}>{'\u23f1'} {displayTime}s</span>
         <span className="progress-count">{problemIndex + 1} / {problemCount}</span>

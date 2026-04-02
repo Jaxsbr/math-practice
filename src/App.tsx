@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react'
 import type { ChallengeNode, MapProgress, ChallengeResult } from './types'
+import type { Profile } from './lib/profiles'
+import { ProfileScreen } from './components/ProfileScreen'
 import { MapScreen } from './components/MapScreen'
 import { QuizScreen } from './components/QuizScreen'
 import { ResultsScreen } from './components/ResultsScreen'
@@ -9,13 +11,27 @@ import { calculateStars } from './lib/scoring'
 import './App.css'
 
 type AppView =
+  | { screen: 'profile' }
   | { screen: 'map' }
   | { screen: 'quiz'; node: ChallengeNode }
   | { screen: 'results'; node: ChallengeNode; result: ChallengeResult }
 
 function App() {
-  const [view, setView] = useState<AppView>({ screen: 'map' })
-  const [progress, setProgress] = useState<MapProgress>(loadMapProgress)
+  const [view, setView] = useState<AppView>({ screen: 'profile' })
+  const [activeProfile, setActiveProfile] = useState<Profile | null>(null)
+  const [progress, setProgress] = useState<MapProgress>({})
+
+  const handleSelectProfile = useCallback((profile: Profile) => {
+    setActiveProfile(profile)
+    setProgress(loadMapProgress(profile.id))
+    setView({ screen: 'map' })
+  }, [])
+
+  const handleSwitchProfile = useCallback(() => {
+    setActiveProfile(null)
+    setProgress({})
+    setView({ screen: 'profile' })
+  }, [])
 
   const handleSelectChallenge = useCallback((node: ChallengeNode) => {
     setView({ screen: 'quiz', node })
@@ -27,25 +43,28 @@ function App() {
   }, [])
 
   const handleBackToMap = useCallback((node?: ChallengeNode, result?: ChallengeResult) => {
-    if (node && result) {
+    if (node && result && activeProfile) {
       const updated = recordChallengeResult(node.id, result.stars, progress)
       setProgress(updated)
-      saveMapProgress(updated)
+      saveMapProgress(updated, activeProfile.id)
     }
     setView({ screen: 'map' })
-  }, [progress])
+  }, [progress, activeProfile])
 
   const handleAbandon = useCallback(() => {
     setView({ screen: 'map' })
   }, [])
 
   switch (view.screen) {
+    case 'profile':
+      return <ProfileScreen onSelectProfile={handleSelectProfile} />
     case 'quiz':
       return (
         <QuizScreen
           node={view.node}
           problemCount={PROBLEMS_PER_CHALLENGE}
           progress={progress}
+          activeProfile={activeProfile}
           onComplete={(correct, total, elapsed) => handleQuizComplete(view.node, correct, total, elapsed)}
           onAbandon={handleAbandon}
         />
@@ -63,7 +82,9 @@ function App() {
       return (
         <MapScreen
           progress={progress}
+          activeProfile={activeProfile}
           onSelectChallenge={handleSelectChallenge}
+          onSwitchProfile={handleSwitchProfile}
         />
       )
   }
