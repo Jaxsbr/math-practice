@@ -319,6 +319,27 @@ describe('mapProgress', () => {
     })
   })
 
+  describe('clearMapProgress (profile reset)', () => {
+    it('after reset, loadMapProgress returns default progress', () => {
+      // Set up a profile with some progress
+      const progress = loadMapProgress('reset-test')
+      const updated = recordChallengeResult('A1', 3, progress)
+      saveMapProgress(updated, 'reset-test')
+      expect(loadMapProgress('reset-test').A1).toEqual({ stars: 3, completed: true })
+
+      // Reset — clear progress for this profile
+      clearMapProgress('reset-test')
+
+      // Should return default progress (starter nodes unlocked, zero stars)
+      const afterReset = loadMapProgress('reset-test')
+      const keys = Object.keys(afterReset).sort()
+      expect(keys).toEqual(['A1', 'D1', 'M1', 'N1', 'R1', 'S1'])
+      for (const key of keys) {
+        expect(afterReset[key]).toEqual({ stars: 0, completed: false })
+      }
+    })
+  })
+
   describe('per-profile progress isolation', () => {
     it('two profiles have independent progress', () => {
       // Profile A completes A1 with 3 stars
