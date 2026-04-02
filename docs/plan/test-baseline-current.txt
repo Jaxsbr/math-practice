@@ -7,7 +7,7 @@
 
 
  Test Files  8 passed (8)
-      Tests  81 passed (81)
-   Start at  18:18:36
-   Duration  762ms (transform 198ms, setup 407ms, import 290ms, tests 91ms, environment 3.63s)
+      Tests  90 passed (90)
+   Start at  18:24:25
+   Duration  742ms (transform 171ms, setup 420ms, import 280ms, tests 94ms, environment 3.65s)
 
