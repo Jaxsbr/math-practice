@@ -11,8 +11,23 @@ interface QuizScreenProps {
   onAbandon: () => void
 }
 
-function createProblem(node: ChallengeNode, progress: MapProgress): Problem {
-  return generateProblem(getMilestoneGeneratorConfig(node, progress))
+/** Generate a problem that hasn't been seen in this challenge session */
+function createUniqueProblem(
+  node: ChallengeNode,
+  progress: MapProgress,
+  seenDisplays: Set<string>,
+): Problem {
+  for (let attempt = 0; attempt < 20; attempt++) {
+    const p = generateProblem(getMilestoneGeneratorConfig(node, progress))
+    if (!seenDisplays.has(p.display)) {
+      seenDisplays.add(p.display)
+      return p
+    }
+  }
+  // Fallback: accept duplicate after 20 attempts
+  const p = generateProblem(getMilestoneGeneratorConfig(node, progress))
+  seenDisplays.add(p.display)
+  return p
 }
 
 /* ── Rounding: number line + boundary choice ── */
@@ -33,7 +48,6 @@ function RoundingView({ problem, onSelect, selectedAnswer }: {
   const position = (number - lower) / (upper - lower)
   const correctAnswer = problem.answer
 
-  // Highlight the deciding digit (the digit one place below the rounding target)
   const decidingPos = Math.round(Math.log10(target)) - 1
   const numStr = String(number)
   const splitIdx = numStr.length - 1 - decidingPos
@@ -83,32 +97,77 @@ function RoundingView({ problem, onSelect, selectedAnswer }: {
   )
 }
 
-/* ── Number challenge: digit stars + question ── */
+/* ── Number challenge: digit stars (tappable for construct) + question ── */
 
-function NumberChallengeView({ problem }: { problem: Problem }) {
-  // Extract digits from "from X, Y, Z" patterns (construct/constrained questions)
-  const fromMatch = problem.display.match(/from ([\d, ]+)\?/)
-  const digits = fromMatch ? fromMatch[1].split(', ').map(Number) : null
+function DigitBuilderView({ problem, onAnswer, feedback }: {
+  problem: Problem
+  onAnswer: (answer: number) => void
+  feedback: { correct: boolean; correctAnswer: number } | null
+}) {
+  const fromMatch = problem.display.match(/from ([\d, ]+)\?/)!
+  const digits = fromMatch[1].split(', ').map(Number)
+  const displayQuestion = problem.display.replace(/from [\d, ]+/, '').replace(/\?\s*$/, '?').replace('  ', ' ')
 
-  // For non-construct questions, show the key number prominently
-  const displayQuestion = digits
-    ? problem.display.replace(/from [\d, ]+/, '').replace(/\?\s*$/, '?').replace('  ', ' ')
-    : problem.display
+  const [selected, setSelected] = useState<number[]>([])
+  const [usedIndices, setUsedIndices] = useState<Set<number>>(new Set())
+
+  const handleTapDigit = (digit: number, index: number) => {
+    if (feedback || usedIndices.has(index)) return
+    const next = [...selected, digit]
+    const nextUsed = new Set(usedIndices)
+    nextUsed.add(index)
+    setSelected(next)
+    setUsedIndices(nextUsed)
+
+    // Auto-submit when all digits placed
+    if (next.length === digits.length) {
+      const builtNumber = parseInt(next.join(''))
+      onAnswer(builtNumber)
+    }
+  }
+
+  const handleClear = () => {
+    if (feedback) return
+    setSelected([])
+    setUsedIndices(new Set())
+  }
+
+  const builtDisplay = selected.length > 0 ? selected.join('') : '\u00a0'
 
   return (
     <div className="number-challenge-view">
-      {digits ? (
-        <div className="digit-stars">
-          {digits.map((d, i) => (
-            <span key={i} className="digit-star">{d}</span>
-          ))}
-        </div>
-      ) : (
-        <div className="challenge-number">
-          <span>{formatNumber(problem.operand1)}</span>
-        </div>
-      )}
       <p className="challenge-question">{displayQuestion}</p>
+
+      <div className="digit-stars">
+        {digits.map((d, i) => (
+          <button
+            key={i}
+            className={`digit-star tappable${usedIndices.has(i) ? ' used' : ''}`}
+            onClick={() => handleTapDigit(d, i)}
+            disabled={!!feedback || usedIndices.has(i)}
+          >
+            {d}
+          </button>
+        ))}
+      </div>
+
+      <div className="built-answer">
+        <span className="built-digits">{builtDisplay}</span>
+        {!feedback && selected.length > 0 && (
+          <button className="clear-btn" onClick={handleClear}>Clear</button>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function NumberChallengeInputView({ problem }: { problem: Problem }) {
+  return (
+    <div className="number-challenge-view">
+      <div className="challenge-number">
+        <span>{formatNumber(problem.operand1)}</span>
+      </div>
+      <p className="challenge-question">{problem.display}</p>
     </div>
   )
 }
@@ -116,8 +175,9 @@ function NumberChallengeView({ problem }: { problem: Problem }) {
 /* ── Main quiz screen ── */
 
 export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon }: QuizScreenProps) {
+  const [seenDisplays] = useState(() => new Set<string>())
   const [problemIndex, setProblemIndex] = useState(0)
-  const [problem, setProblem] = useState<Problem>(() => createProblem(node, progress))
+  const [problem, setProblem] = useState<Problem>(() => createUniqueProblem(node, progress, seenDisplays))
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<{ correct: boolean; correctAnswer: number } | null>(null)
   const [roundingSelection, setRoundingSelection] = useState<number | null>(null)
@@ -138,33 +198,35 @@ export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon
     return () => clearInterval(interval)
   }, [feedback])
 
+  // Focus input for text-input modes
+  const needsTextInput = problem.operation !== 'rounding' && !isDigitBuilder(problem)
   useEffect(() => {
-    if (!feedback && problem.operation !== 'rounding') {
+    if (!feedback && needsTextInput) {
       inputRef.current?.focus()
     }
-  }, [feedback, problem])
+  }, [feedback, problem, needsTextInput])
 
-  // Submit for text-input modes (arithmetic, number-challenge)
+  const submitAnswer = useCallback((numAnswer: number) => {
+    if (feedback) return
+    const correct = numAnswer === problem.answer
+    if (correct) setCorrectCount(prev => prev + 1)
+    thinkingTimeRef.current += (Date.now() - problemStartRef.current) / 1000
+    setFeedback({ correct, correctAnswer: problem.answer })
+  }, [feedback, problem.answer])
+
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault()
     if (feedback) return
     const numAnswer = Number(answer)
     if (answer.trim() === '' || isNaN(numAnswer)) return
-    const correct = numAnswer === problem.answer
-    if (correct) setCorrectCount(prev => prev + 1)
-    thinkingTimeRef.current += (Date.now() - problemStartRef.current) / 1000
-    setFeedback({ correct, correctAnswer: problem.answer })
-  }, [answer, feedback, problem.answer])
+    submitAnswer(numAnswer)
+  }, [answer, feedback, submitAnswer])
 
-  // Direct answer for rounding boundary tap
   const handleBoundarySelect = useCallback((selected: number) => {
     if (feedback) return
     setRoundingSelection(selected)
-    const correct = selected === problem.answer
-    if (correct) setCorrectCount(prev => prev + 1)
-    thinkingTimeRef.current += (Date.now() - problemStartRef.current) / 1000
-    setFeedback({ correct, correctAnswer: problem.answer })
-  }, [feedback, problem.answer])
+    submitAnswer(selected)
+  }, [feedback, submitAnswer])
 
   const handleNext = useCallback(() => {
     const nextIndex = problemIndex + 1
@@ -173,15 +235,15 @@ export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon
       return
     }
     setProblemIndex(nextIndex)
-    setProblem(createProblem(node, progress))
+    setProblem(createUniqueProblem(node, progress, seenDisplays))
     setAnswer('')
     setFeedback(null)
     setRoundingSelection(null)
-  }, [problemIndex, problemCount, correctCount, onComplete, node, progress])
+  }, [problemIndex, problemCount, correctCount, onComplete, node, progress, seenDisplays])
 
   const progressPct = ((problemIndex + (feedback ? 1 : 0)) / problemCount) * 100
   const isRounding = problem.operation === 'rounding'
-  const isNumberChallenge = problem.operation === 'number-challenge'
+  const digitBuilder = isDigitBuilder(problem)
 
   return (
     <div className="quiz-screen challenge-mode">
@@ -213,13 +275,32 @@ export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon
             </div>
           )}
         </>
+
+      /* ── Digit builder mode: tap stars to build answer ── */
+      ) : digitBuilder ? (
+        <>
+          <DigitBuilderView
+            key={problem.display}
+            problem={problem}
+            onAnswer={submitAnswer}
+            feedback={feedback}
+          />
+          {feedback && (
+            <div className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}`}>
+              <p>{feedback.correct ? 'Correct!' : `The answer is ${formatNumber(feedback.correctAnswer)}`}</p>
+              <button className="next-button" onClick={handleNext} autoFocus>
+                {problemIndex + 1 >= problemCount ? 'See Results' : 'Next'}
+              </button>
+            </div>
+          )}
+        </>
+
+      /* ── Text input mode: arithmetic + other number-challenge ── */
       ) : (
         <>
-          {/* ── Number challenge mode: digit stars + question + input ── */}
-          {isNumberChallenge ? (
-            <NumberChallengeView problem={problem} />
+          {problem.operation === 'number-challenge' ? (
+            <NumberChallengeInputView problem={problem} />
           ) : (
-            /* ── Arithmetic mode: operand symbol operand = ? ── */
             <div className="problem-display">
               <span className="problem-text">{problem.display} = ?</span>
             </div>
@@ -250,4 +331,9 @@ export function QuizScreen({ node, problemCount, progress, onComplete, onAbandon
       )}
     </div>
   )
+}
+
+/** Construct/constrained questions use tappable digit builder */
+function isDigitBuilder(problem: Problem): boolean {
+  return problem.operation === 'number-challenge' && /from [\d, ]+\?/.test(problem.display)
 }

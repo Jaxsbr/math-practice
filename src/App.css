@@ -8,6 +8,9 @@
   padding: 2rem;
   text-align: center;
   font-family: 'Fredoka', sans-serif;
+  background: #fefefe;
+  border-radius: 16px;
+  color: #1f2937;
 }
 
 .quiz-header {
@@ -109,6 +112,8 @@
   border-radius: 12px;
   outline: none;
   transition: border-color 0.2s;
+  background: #fff;
+  color: #1f2937;
 }
 
 .answer-input:focus {
@@ -317,6 +322,60 @@
     79% 91%, 50% 70%, 21% 91%, 32% 57%,
     2% 35%, 39% 35%
   );
+}
+
+/* Tappable digit stars for construct/constrained */
+.digit-star.tappable {
+  cursor: pointer;
+  border: none;
+  font-family: 'Fredoka', sans-serif;
+  transition: transform 0.15s, opacity 0.2s;
+}
+
+.digit-star.tappable:not(:disabled):hover {
+  transform: scale(1.15);
+}
+
+.digit-star.tappable.used {
+  opacity: 0.25;
+  transform: scale(0.85);
+  cursor: default;
+}
+
+.built-answer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.built-digits {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  min-width: 80px;
+  padding: 0.3rem 1rem;
+  border-bottom: 4px solid #d4a017;
+  letter-spacing: 4px;
+}
+
+.clear-btn {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.3rem 0.8rem;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  color: #6b7280;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.clear-btn:hover {
+  border-color: #ef4444;
+  color: #ef4444;
 }
 
 .challenge-number {
