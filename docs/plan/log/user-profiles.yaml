@@ -78,6 +78,13 @@ entries:
     result: pass
     notes: "117 tests. All 28 done-when criteria + 2 safety criteria verified. Phase complete."
     tokens: ~3000
+  - task: 13
+    time: "2026-04-02T10:38:00Z"
+    story: review
+    description: "Created PR #4 — user-profiles phase with profile selection, per-profile progress, reset. Queued review-pr."
+    result: pass
+    notes: "PR: https://github.com/Jaxsbr/math-practice/pull/4"
+    tokens: ~500
   - task: 5
     time: "2026-04-02T10:30:00Z"
     story: null
