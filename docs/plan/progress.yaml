@@ -18,4 +18,4 @@ state:
   last_result: pass
   next_task: "[US-09] Integrate ProfileScreen into App.tsx as initial view, update mapProgress to accept profileId for per-profile scoping, add legacy migration"
   consecutive_fails: 0
-  completed_stories: []
+  completed_stories: [US-09]
