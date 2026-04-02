@@ -6,7 +6,7 @@ describe('numberChallengeGenerator', () => {
     for (let i = 0; i < 100; i++) {
       const problem = generateNumberChallengeProblem(100, 999, ['place-id'])
       expect(problem.operation).toBe('number-challenge')
-      expect(problem.display).toMatch(/What digit is in the \w+ place of \d+\?/)
+      expect(problem.display).toMatch(/What digit is in the \w+ place\?/)
 
       // Verify answer matches the digit at the specified place
       const digits = String(problem.operand1).split('').reverse()

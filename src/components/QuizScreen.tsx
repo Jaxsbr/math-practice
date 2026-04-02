@@ -162,11 +162,17 @@ function DigitBuilderView({ problem, onAnswer, feedback }: {
 }
 
 function NumberChallengeInputView({ problem }: { problem: Problem }) {
+  // Composition questions ("What is X tens + Y ones?") must NOT show the number
+  // because operand1 IS the answer. Place-id and decomposition show the source number.
+  const isComposition = problem.display.includes(' + ')
+
   return (
     <div className="number-challenge-view">
-      <div className="challenge-number">
-        <span>{formatNumber(problem.operand1)}</span>
-      </div>
+      {!isComposition && (
+        <div className="challenge-number">
+          <span>{formatNumber(problem.operand1)}</span>
+        </div>
+      )}
       <p className="challenge-question">{problem.display}</p>
     </div>
   )

@@ -25,7 +25,7 @@ function generatePlaceId(min: number, max: number): Problem {
     operand2: placeIdx,
     operation: 'number-challenge',
     answer,
-    display: `What digit is in the ${PLACE_NAMES[placeIdx]} place of ${num}?`,
+    display: `What digit is in the ${PLACE_NAMES[placeIdx]} place?`,
   }
 }
 
