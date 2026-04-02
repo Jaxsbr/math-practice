@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 5
+  task_number: 7
   phase: user-profiles
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-09] Integrate ProfileScreen into App.tsx as initial view, update mapProgress to accept profileId for per-profile scoping, add legacy migration"
+  next_task: null
   consecutive_fails: 0
   completed_stories: [US-09]
