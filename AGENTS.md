@@ -14,22 +14,25 @@ An interactive math tutoring tool for children with gamified adventure map progr
 ```
 src/
   components/
+    ProfileScreen.tsx   — Profile selection and creation: 4 animal avatars, name input, profile cards, reset with confirmation
+    ProfileScreen.css   — Profile styling: parchment background, avatar picker, creation panel, confirmation dialog
     MapScreen.tsx       — Adventure map with 6 operation paths, milestone bands, data-driven layout
     MapScreen.css       — Map styling: parchment background, node states, path lines, milestone bands, animations
     QuizScreen.tsx      — Challenge-mode quiz: fixed problem count, timer, abandon button, variable-length question display
     ResultsScreen.tsx   — Post-challenge results: star display, accuracy, time stats
     ConfigScreen.tsx    — (legacy, unused) Operation selection + start button
   lib/
+    profiles.ts         — Profile CRUD: create/load/save/delete profiles, name validation, localStorage persistence
     challenges.ts       — Challenge definitions: 32 nodes (6 paths × 5 + 2 milestones), difficulty configs, MILESTONE_REQUIRED
     scoring.ts          — Star scoring: accuracy + time → 1-3 stars
-    mapProgress.ts      — Map progress: localStorage persistence, unlock gating, N-of-M milestone gating, milestone operations filter
+    mapProgress.ts      — Map progress: per-profile localStorage persistence, unlock gating, N-of-M milestone gating, milestone operations filter, legacy migration
     generator.ts        — Problem dispatch: routes to arithmetic, rounding, or number-challenge generators
     roundingGenerator.ts — Rounding problem generator: number + target → rounded value, non-trivial guard
     numberChallengeGenerator.ts — Number-sense generator: 5 question formats (place-id, construct, constrained, composition, decomposition)
     adaptive.ts         — Streak-based difficulty adjuster (legacy, unused in map mode)
     storage.ts          — localStorage abstraction (session + difficulty state)
   types.ts              — Shared types: Problem, Operation (6 types), GeneratorConfig, ChallengeNode (with requiredCount), MapProgress
-  App.tsx               — Root component — map → quiz → results flow
+  App.tsx               — Root component — profile → map → quiz → results flow
   main.tsx              — Entry point
 docs/
   product/              — PRD and per-phase specs
@@ -50,6 +53,16 @@ docs/
 - Number-challenge problems always have exactly one correct numeric answer
 - Answer input validates numeric before comparison (non-numeric silently ignored)
 - No `dangerouslySetInnerHTML` — all user text rendered via JSX
+
+### Profile system rules
+- Maximum 4 profiles (matches 4 animal avatars — owl, fox, bunny, bear)
+- Profile names: 1–12 characters after trim, whitespace-only rejected
+- Last-used profile highlighted with "Last played" badge
+- Map progress scoped per profile: `math-practice:map-progress:<profileId>`
+- Profile data persists in `math-practice:profiles` localStorage key
+- Legacy migration: if `math-practice:map-progress` (unscoped) exists and no profiles exist, auto-create "Player 1" with first avatar and migrate progress
+- Reset preserves profile identity (name, avatar) but clears all map progress to default
+- App flow: ProfileScreen → MapScreen → QuizScreen → ResultsScreen
 
 ### Adventure map rules
 - 6 operation paths: addition, subtraction, multiplication, division, rounding, number challenge — each with 5 challenge nodes
