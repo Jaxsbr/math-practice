@@ -18,4 +18,4 @@ state:
   last_result: pass
   next_task: "[US-08] Redesign MapScreen for 6-lane layout: data-driven columns, distinct lane colours/labels, milestone bands, responsive scrolling at 375px"
   consecutive_fails: 0
-  completed_stories: [US-05, US-06, US-07]
+  completed_stories: [US-05, US-06, US-07, US-08]

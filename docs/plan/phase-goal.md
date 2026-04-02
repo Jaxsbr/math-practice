@@ -37,11 +37,11 @@ Keep current parchment/adventure style. New lanes use the same visual language �
 - [x] Test suite for milestone unlock logic passes with ≥4 test cases (below threshold, at threshold, above threshold, zero completed) [US-07]
 
 #### US-08 — Scalable map layout
-- [ ] MapScreen renders 6 lane columns with a visible label or icon for each lane [US-08]
-- [ ] Milestone bands render as full-width horizontal elements spanning all lane columns at their designated grid rows [US-08]
-- [ ] Each lane has a distinct visual identifier (unique CSS class or colour) — no two lanes share the same identifier [US-08]
-- [ ] MapScreen derives column count from `CHALLENGE_NODES` data — grep for hardcoded column count `6` in MapScreen.tsx returns 0 matches [US-08]
-- [ ] All nodes are reachable at 375px viewport width via horizontal scroll or responsive scaling (CSS sets `min-width` or `overflow-x: auto` on the map container) [US-08]
+- [x] MapScreen renders 6 lane columns with a visible label or icon for each lane [US-08]
+- [x] Milestone bands render as full-width horizontal elements spanning all lane columns at their designated grid rows [US-08]
+- [x] Each lane has a distinct visual identifier (unique CSS class or colour) — no two lanes share the same identifier [US-08]
+- [x] MapScreen derives column count from `CHALLENGE_NODES` data — grep for hardcoded column count `6` in MapScreen.tsx returns 0 matches [US-08]
+- [x] All nodes are reachable at 375px viewport width via horizontal scroll or responsive scaling (CSS sets `min-width` or `overflow-x: auto` on the map container) [US-08]
 
 #### Phase-level
 - [ ] `AGENTS.md` reflects rounding and number-challenge operations, milestone convergence rules, and updated node inventory [phase]
