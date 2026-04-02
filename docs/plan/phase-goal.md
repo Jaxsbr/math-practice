@@ -48,7 +48,7 @@ Adventure character selection — consistent with the existing parchment/adventu
 - [x] Profile name is trimmed and length-validated (1–12 chars) before save — empty or oversized input rejected [US-09]
 
 #### Phase-level
-- [ ] `AGENTS.md` reflects the profile system: new components (ProfileScreen), new lib module (profiles.ts), updated persistence model (per-profile scoped keys), updated app flow (profile → map → quiz → results) [phase]
+- [x] `AGENTS.md` reflects the profile system: new components (ProfileScreen), new lib module (profiles.ts), updated persistence model (per-profile scoped keys), updated app flow (profile → map → quiz → results) [phase]
 
 ### Golden principles (phase-relevant)
 - No `dangerouslySetInnerHTML` — all user text rendered via JSX

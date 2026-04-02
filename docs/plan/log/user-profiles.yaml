@@ -71,6 +71,13 @@ entries:
     result: pass
     notes: "Branch B. All stories done. Final phase-level criterion."
     tokens: ~200
+  - task: 12
+    time: "2026-04-02T10:36:00Z"
+    story: phase
+    description: "Update AGENTS.md with profile system (ProfileScreen, profiles.ts, per-profile persistence, app flow). Phase completion gate passed."
+    result: pass
+    notes: "117 tests. All 28 done-when criteria + 2 safety criteria verified. Phase complete."
+    tokens: ~3000
   - task: 5
     time: "2026-04-02T10:30:00Z"
     story: null
