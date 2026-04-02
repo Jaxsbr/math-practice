@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import type { ChallengeNode, Problem } from '../types'
 import { generateProblem } from '../lib/generator'
 
@@ -19,17 +19,23 @@ export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizSc
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState<{ correct: boolean; correctAnswer: number } | null>(null)
   const [correctCount, setCorrectCount] = useState(0)
-  const [startTime] = useState(() => Date.now())
-  const [elapsed, setElapsed] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Timer — update every second
+  // Thinking-time tracking: only count time while the child is solving (no feedback shown)
+  const thinkingTimeRef = useRef(0)        // accumulated thinking seconds
+  const problemStartRef = useRef(0)        // when current problem's thinking started
+  const [displayTime, setDisplayTime] = useState(0)
+
+  // Timer — ticks every second, but only accumulates when not in feedback state
   useEffect(() => {
+    if (feedback) return // paused during feedback
+    problemStartRef.current = Date.now()
     const interval = setInterval(() => {
-      setElapsed(Math.floor((Date.now() - startTime) / 1000))
+      const current = thinkingTimeRef.current + (Date.now() - problemStartRef.current) / 1000
+      setDisplayTime(Math.floor(current))
     }, 1000)
     return () => clearInterval(interval)
-  }, [startTime])
+  }, [feedback])
 
   // Focus input after feedback clears
   useEffect(() => {
@@ -38,7 +44,7 @@ export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizSc
     }
   }, [feedback, problem])
 
-  function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault()
     if (feedback) return
 
@@ -47,22 +53,24 @@ export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizSc
 
     const correct = numAnswer === problem.answer
     if (correct) setCorrectCount(prev => prev + 1)
-    setFeedback({ correct, correctAnswer: problem.answer })
-  }
 
-  function handleNext() {
+    // Freeze thinking time for this problem
+    thinkingTimeRef.current += (Date.now() - problemStartRef.current) / 1000
+
+    setFeedback({ correct, correctAnswer: problem.answer })
+  }, [answer, feedback, problem.answer])
+
+  const handleNext = useCallback(() => {
     const nextIndex = problemIndex + 1
     if (nextIndex >= problemCount) {
-      // Challenge complete — report final results
-      const finalElapsed = Math.floor((Date.now() - startTime) / 1000)
-      onComplete(correctCount, problemCount, finalElapsed)
+      onComplete(correctCount, problemCount, Math.floor(thinkingTimeRef.current))
       return
     }
     setProblemIndex(nextIndex)
     setProblem(createProblem(node))
     setAnswer('')
     setFeedback(null)
-  }
+  }, [problemIndex, problemCount, correctCount, onComplete, node])
 
   const progressPct = ((problemIndex + (feedback ? 1 : 0)) / problemCount) * 100
 
@@ -70,7 +78,7 @@ export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizSc
     <div className="quiz-screen challenge-mode">
       <div className="quiz-header">
         <span className="challenge-name">{node.name}</span>
-        <span className="timer">{'\u23f1'} {elapsed}s</span>
+        <span className={`timer ${feedback ? 'paused' : ''}`}>{'\u23f1'} {displayTime}s</span>
         <span className="progress-count">{problemIndex + 1} / {problemCount}</span>
         <button className="abandon-button" onClick={onAbandon}>Quit</button>
       </div>

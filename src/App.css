@@ -29,6 +29,11 @@
   font-size: 1.1rem;
   font-weight: 500;
   color: #6b7280;
+  transition: opacity 0.2s;
+}
+
+.timer.paused {
+  opacity: 0.4;
 }
 
 .progress-count {
