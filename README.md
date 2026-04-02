@@ -1,5 +1,7 @@
 # Math Practice
 
+[Play it here](https://jaxsbr.github.io/math-practice/)
+
 An interactive math adventure for children (ages 6-12). Explore six winding paths on an adventure map, each with progressively harder challenges. Earn stars for accuracy and speed, unlock milestones that test combined skills.
 
 ## Adventure map
