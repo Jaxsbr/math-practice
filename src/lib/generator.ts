@@ -1,4 +1,5 @@
 import type { GeneratorConfig, Operation, Problem } from '../types'
+import { generateRoundingProblem } from './roundingGenerator'
 
 const operationSymbols: Record<Operation, string> = {
   addition: '+',
@@ -39,6 +40,8 @@ function generateForOperation(operation: Operation, min: number, max: number): P
       operand1 = operand2 * answer
       break
     }
+    default:
+      throw new Error(`Unsupported arithmetic operation: ${operation as string}`)
   }
 
   const symbol = operationSymbols[operation]
@@ -57,5 +60,10 @@ export function generateProblem(config: GeneratorConfig): Problem {
     throw new Error('At least one operation must be selected')
   }
   const operation = operations[randomInt(0, operations.length - 1)]
+
+  if (operation === 'rounding') {
+    return generateRoundingProblem(min, max, config.roundingTarget)
+  }
+
   return generateForOperation(operation, min, max)
 }

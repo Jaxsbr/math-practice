@@ -1,4 +1,4 @@
-export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division'
+export type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division' | 'rounding'
 
 export interface Problem {
   operand1: number
@@ -12,6 +12,8 @@ export interface GeneratorConfig {
   operations: Operation[]
   min: number
   max: number
+  /** Rounding target (10, 100, 1000, etc.) — used by rounding operations. Inferred from number if omitted. */
+  roundingTarget?: number
 }
 
 export interface SessionState {
@@ -40,6 +42,8 @@ export interface ChallengeNode {
   /** Grid position for map layout (col 0-based, row 0-based) */
   col: number
   row: number
+  /** Rounding target for rounding challenge nodes (10, 100, 1000, etc.) */
+  roundingTarget?: number
   /** IDs of nodes that must be completed (≥1 star) to unlock this node */
   prerequisites: string[]
   /** IDs of nodes this unlocks when completed */

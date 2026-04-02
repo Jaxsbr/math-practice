@@ -10,7 +10,7 @@ interface QuizScreenProps {
 }
 
 function createProblem(node: ChallengeNode): Problem {
-  return generateProblem({ operations: node.operations, min: node.min, max: node.max })
+  return generateProblem({ operations: node.operations, min: node.min, max: node.max, roundingTarget: node.roundingTarget })
 }
 
 export function QuizScreen({ node, problemCount, onComplete, onAbandon }: QuizScreenProps) {
