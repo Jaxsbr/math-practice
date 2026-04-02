@@ -24,4 +24,4 @@ Children (ages 6–12) learning basic arithmetic.
 | foundation | Shipped | US-MP1, US-MP2, US-MP3, US-MP4 | [phases/foundation.md](phases/foundation.md) |
 | adventure-map | Shipped | US-01, US-02, US-03, US-04 | [phases/adventure-map.md](phases/adventure-map.md) |
 | number-sense | Shipped | US-05, US-06, US-07, US-08 | [phases/number-sense.md](phases/number-sense.md) |
-| user-profiles | Draft | US-09, US-10, US-11 | [phases/user-profiles.md](phases/user-profiles.md) |
+| user-profiles | Shipped | US-09, US-10, US-11 | [phases/user-profiles.md](phases/user-profiles.md) |
