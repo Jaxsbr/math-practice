@@ -20,5 +20,12 @@ entries:
     story: US-01
     description: "Implement MapScreen, ResultsScreen, challenge-mode QuizScreen. Wire App.tsx to map→quiz→results flow."
     result: pass
-    notes: "✓ US-01 complete. 63 tests. Playful adventure aesthetic with Fredoka font, parchment bg, color-coded paths."
+    notes: "✓ US-01 complete. ✓ US-02 complete. ✓ US-03 complete. ✓ US-04 complete. 63 tests. Playful adventure aesthetic with Fredoka font, parchment bg, color-coded paths."
     tokens: ~8000
+  - task: 4
+    time: "2026-04-02T02:57:00Z"
+    story: phase
+    description: "Update AGENTS.md with adventure map modules and behavior rules. Phase completion gate — all 26 done-when criteria verified."
+    result: pass
+    notes: "All 4/4 stories shipped. 63 tests passing. Phase complete."
+    tokens: ~3000

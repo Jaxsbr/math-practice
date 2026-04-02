@@ -38,8 +38,8 @@ Playful adventure — bright colors, cartoon-style treasure map aesthetic, fun a
 - [x] Convergence nodes are locked until the preceding challenge on BOTH adjacent paths has ≥1 star [US-04]
 - [x] Convergence challenges use the higher max value of the two adjacent path challenges as their difficulty [US-04]
 - [x] Completing a convergence challenge unlocks the next node on both adjacent paths [US-04]
-- [ ] `AGENTS.md` reflects new modules/components introduced in this phase (MapScreen, challenge data model, star scoring) [phase]
-- [ ] Vitest test suite passes — tests cover star scoring thresholds, challenge unlock logic, convergence unlock logic, and difficulty progression [phase]
+- [x] `AGENTS.md` reflects new modules/components introduced in this phase (MapScreen, challenge data model, star scoring) [phase]
+- [x] Vitest test suite passes — tests cover star scoring thresholds, challenge unlock logic, convergence unlock logic, and difficulty progression [phase]
 
 ### Golden principles (phase-relevant)
 - Division problems always produce integer results (operand1 = operand2 * answer)
