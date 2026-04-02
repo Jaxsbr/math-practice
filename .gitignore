@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Environment & secrets
+.env
+.env.*
+*.key
+*.pem
+credentials.json
+
+# Build loop
+.build-loop.lock
+
+# OS
+.DS_Store
