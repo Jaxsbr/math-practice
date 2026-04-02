@@ -11,11 +11,11 @@ Deliver the foundation of the math-practice app: a React + Vite + TypeScript pro
 ### Done-when (observable)
 
 #### US-MP1 — Scaffolding
-- [ ] `npm run dev` starts the Vite dev server and exits without errors (verified by `npm run dev -- --strictPort &` + curl localhost) [US-MP1]
-- [ ] `npm run build` produces `dist/index.html` with zero TypeScript errors [US-MP1]
-- [ ] `vite.config.ts` contains `base: '/math-practice/'` [US-MP1]
-- [ ] `npm test` exits 0 with at least 1 passing test [US-MP1]
-- [ ] `.github/workflows/deploy.yml` exists with steps: checkout, install, build, deploy to GitHub Pages [US-MP1]
+- [x] `npm run dev` starts the Vite dev server and exits without errors (verified by `npm run dev -- --strictPort &` + curl localhost) [US-MP1]
+- [x] `npm run build` produces `dist/index.html` with zero TypeScript errors [US-MP1]
+- [x] `vite.config.ts` contains `base: '/math-practice/'` [US-MP1]
+- [x] `npm test` exits 0 with at least 1 passing test [US-MP1]
+- [x] `.github/workflows/deploy.yml` exists with steps: checkout, install, build, deploy to GitHub Pages [US-MP1]
 
 #### US-MP2 — Problem generator
 - [ ] A pure function `generateProblem` is exported from `src/lib/generator.ts` (or equivalent module) [US-MP2]

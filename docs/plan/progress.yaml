@@ -18,4 +18,4 @@ state:
   last_result: null
   next_task: "[US-MP1] Scaffold React + Vite + TypeScript project with Vitest, configure base path, add smoke test, and create GitHub Pages deploy workflow"
   consecutive_fails: 0
-  completed_stories: []
+  completed_stories: [US-MP1]
