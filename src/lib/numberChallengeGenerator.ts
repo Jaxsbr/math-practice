@@ -29,7 +29,7 @@ function generatePlaceId(min: number, max: number): Problem {
   }
 }
 
-function generateConstruct(min: number, max: number): Problem {
+function generateConstruct(_min: number, max: number): Problem {
   const count = getDigitCount(max)
   const digits: number[] = Array.from({ length: count }, () => randomInt(1, 9))
 
@@ -50,7 +50,7 @@ function generateConstruct(min: number, max: number): Problem {
   }
 }
 
-function generateConstructConstrained(min: number, max: number): Problem {
+function generateConstructConstrained(_min: number, max: number): Problem {
   const count = getDigitCount(max)
 
   // Generate digits 1-9 with at least one even and one odd, ≥2 distinct
@@ -88,7 +88,7 @@ function generateConstructConstrained(min: number, max: number): Problem {
   }
 }
 
-function generateComposition(min: number, max: number): Problem {
+function generateComposition(_min: number, max: number): Problem {
   const count = getDigitCount(max)
   const digits: number[] = []
 
