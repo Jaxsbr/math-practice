@@ -22,3 +22,10 @@ entries:
     result: pass
     notes: "Branch B investigation."
     tokens: ~500
+  - task: 4
+    time: "2026-04-02T01:31:00Z"
+    story: US-MP2
+    description: "Implement generateProblem in src/lib/generator.ts with types, full test coverage for all 4 ops, integer division, range config, operation subset"
+    result: pass
+    notes: "✓ US-MP2 complete. 9 tests passing. Queued US-MP4 (adaptive engine before quiz UI)."
+    tokens: ~3000
