@@ -57,3 +57,10 @@ entries:
     result: pass
     notes: "94 tests (90→94). ✓ US-07 complete. US-05, US-06, US-07 all shipped. Remaining: US-08 (scalable map layout)."
     tokens: ~3000
+  - task: 9
+    time: "2026-04-02T05:29:00Z"
+    story: null
+    description: "Queue US-08: MapScreen redesign for 6 lanes, data-driven columns, milestone bands, responsive scrolling."
+    result: pass
+    notes: "Branch B. Final story. Criteria: 6 lane columns, milestone bands, distinct colours, data-driven column count, 375px responsive."
+    tokens: ~500
