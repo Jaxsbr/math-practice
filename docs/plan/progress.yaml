@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-09] Implement profiles.ts — Profile type, CRUD operations (loadProfiles, saveProfile, deleteProfile, getLastActiveProfileId), localStorage persistence under math-practice:profiles key"
   consecutive_fails: 0
   completed_stories: []
