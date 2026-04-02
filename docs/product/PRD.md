@@ -20,4 +20,4 @@ Children (ages 6-12) practicing arithmetic. Parents configure or supervise initi
 
 | Phase | Status | Stories | Spec |
 |---|---|---|---|
-| foundation | Draft | US-MP1, US-MP2, US-MP3, US-MP4 | [phases/foundation.md](phases/foundation.md) |
+| foundation | Shipped | US-MP1, US-MP2, US-MP3, US-MP4 | [phases/foundation.md](phases/foundation.md) |
