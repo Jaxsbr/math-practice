@@ -7,6 +7,7 @@ import {
   validateProfileName,
   createProfileId,
 } from '../lib/profiles'
+import { migrateLegacyProgress } from '../lib/mapProgress'
 import './ProfileScreen.css'
 
 const AVATARS = ['🦉', '🦊', '🐰', '🐻']
@@ -16,8 +17,31 @@ interface ProfileScreenProps {
   onSelectProfile: (profile: Profile) => void
 }
 
+function initProfiles(): Profile[] {
+  const existing = loadProfiles()
+  if (existing.length > 0) return existing
+
+  // Legacy migration: if no profiles but legacy progress exists, create "Player 1"
+  const legacyKey = 'math-practice:map-progress'
+  if (localStorage.getItem(legacyKey)) {
+    const now = new Date().toISOString()
+    const player1: Profile = {
+      id: createProfileId(),
+      name: 'Player 1',
+      avatarId: 0,
+      createdAt: now,
+      lastPlayedAt: now,
+    }
+    saveProfile(player1)
+    migrateLegacyProgress(player1.id)
+    return [player1]
+  }
+
+  return []
+}
+
 export function ProfileScreen({ onSelectProfile }: ProfileScreenProps) {
-  const [profiles, setProfiles] = useState<Profile[]>(loadProfiles)
+  const [profiles, setProfiles] = useState<Profile[]>(initProfiles)
   const [lastActiveId] = useState<string | null>(getLastActiveProfileId)
   const [creating, setCreating] = useState(false)
   const [selectedAvatar, setSelectedAvatar] = useState<number | null>(null)

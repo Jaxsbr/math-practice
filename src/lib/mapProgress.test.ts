@@ -318,4 +318,21 @@ describe('mapProgress', () => {
       expect(migrateLegacyProgress('no-legacy')).toBeNull()
     })
   })
+
+  describe('per-profile progress isolation', () => {
+    it('two profiles have independent progress', () => {
+      // Profile A completes A1 with 3 stars
+      const defaultA = loadMapProgress('profile-a')
+      const updatedA = recordChallengeResult('A1', 3, defaultA)
+      saveMapProgress(updatedA, 'profile-a')
+
+      // Profile B has untouched default progress
+      const progressB = loadMapProgress('profile-b')
+      expect(progressB.A1).toEqual({ stars: 0, completed: false })
+
+      // Profile A retains its progress
+      const reloadedA = loadMapProgress('profile-a')
+      expect(reloadedA.A1).toEqual({ stars: 3, completed: true })
+    })
+  })
 })
