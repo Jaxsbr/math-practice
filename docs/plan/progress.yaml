@@ -18,4 +18,4 @@ state:
   last_result: pass
   next_task: "[US-10] Wire legacy migration into ProfileScreen (auto-create Player 1 on first load if legacy key exists), add independence test (two profiles have separate progress)"
   consecutive_fails: 0
-  completed_stories: [US-09]
+  completed_stories: [US-09, US-10]

@@ -27,13 +27,13 @@ Adventure character selection — consistent with the existing parchment/adventu
 - [x] Test: creating a profile with an empty or whitespace-only name is rejected (profile not saved, inline validation message shown) [US-09]
 
 #### US-10 — Per-profile progress isolation
-- [ ] Map progress localStorage key is scoped per profile: `math-practice:map-progress:<profileId>` [US-10]
-- [ ] `loadMapProgress` and `saveMapProgress` accept a `profileId` parameter and read/write the scoped key [US-10]
-- [ ] Selecting a different profile on the profile screen loads that profile's map progress (not the previous profile's) [US-10]
-- [ ] A new profile starts with default map progress (all starter nodes unlocked, zero stars) [US-10]
-- [ ] Migration: on first load, if `math-practice:map-progress` (legacy unscoped key) exists and no profiles exist, auto-create a "Player 1" profile with the first avatar and migrate the legacy progress to `math-practice:map-progress:<player1Id>` [US-10]
-- [ ] After migration, the legacy `math-practice:map-progress` key is removed from localStorage [US-10]
-- [ ] Test: two profiles have independent progress — completing a node on profile A does not affect profile B's progress [US-10]
+- [x] Map progress localStorage key is scoped per profile: `math-practice:map-progress:<profileId>` [US-10]
+- [x] `loadMapProgress` and `saveMapProgress` accept a `profileId` parameter and read/write the scoped key [US-10]
+- [x] Selecting a different profile on the profile screen loads that profile's map progress (not the previous profile's) [US-10]
+- [x] A new profile starts with default map progress (all starter nodes unlocked, zero stars) [US-10]
+- [x] Migration: on first load, if `math-practice:map-progress` (legacy unscoped key) exists and no profiles exist, auto-create a "Player 1" profile with the first avatar and migrate the legacy progress to `math-practice:map-progress:<player1Id>` [US-10]
+- [x] After migration, the legacy `math-practice:map-progress` key is removed from localStorage [US-10]
+- [x] Test: two profiles have independent progress — completing a node on profile A does not affect profile B's progress [US-10]
 
 #### US-11 — Profile reset with confirmation
 - [ ] A reset button (e.g., small icon or text link) is accessible on the profile selection screen for each existing profile [US-11]
