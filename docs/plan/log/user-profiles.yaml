@@ -57,6 +57,13 @@ entries:
     result: pass
     notes: "Branch B. US-11 criteria 1-5 already implemented in ProfileScreen. Only missing: criterion 6 (reset test)."
     tokens: ~500
+  - task: 10
+    time: "2026-04-02T10:35:00Z"
+    story: US-11
+    description: "Add reset test — clearMapProgress restores default progress after profile reset."
+    result: pass
+    notes: "117 tests (116→117). ✓ US-11 complete. All 3 stories shipped. Phase-level criterion remaining."
+    tokens: ~2000
   - task: 5
     time: "2026-04-02T10:30:00Z"
     story: null
