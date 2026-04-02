@@ -41,10 +41,10 @@ Deliver the foundation of the math-practice app: a React + Vite + TypeScript pro
 - [x] Difficulty state (range, streak counters) is written to `localStorage` — refreshing mid-session resumes at the same difficulty [US-MP4]
 
 #### Structural
-- [ ] AGENTS.md reflects project structure, modules, directory layout, run/test commands, and behavior rules introduced in this phase [phase]
+- [x] AGENTS.md reflects project structure, modules, directory layout, run/test commands, and behavior rules introduced in this phase [phase]
 
 #### User documentation
-- [ ] README.md contains a "How to play" section documenting: operation selection, quiz interaction, and adaptive difficulty [phase]
+- [x] README.md contains a "How to play" section documenting: operation selection, quiz interaction, and adaptive difficulty [phase]
 
 #### Auto-added safety criteria
 - [x] Answer input validates that the entered value is numeric before comparison (non-numeric input does not crash or produce NaN comparisons) [US-MP3]
