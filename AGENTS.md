@@ -58,11 +58,12 @@ docs/
 - Maximum 4 profiles (matches 4 animal avatars — owl, fox, bunny, bear)
 - Profile names: 1–12 characters after trim, whitespace-only rejected
 - Last-used profile highlighted with "Last played" badge
+- Active profile avatar+name shown on map screen (clickable → returns to profile selection) and quiz screen (display only)
+- Profiles can be edited (name, avatar), reset (clears progress, keeps profile), or deleted (removes profile + progress)
 - Map progress scoped per profile: `math-practice:map-progress:<profileId>`
 - Profile data persists in `math-practice:profiles` localStorage key
 - Legacy migration: if `math-practice:map-progress` (unscoped) exists and no profiles exist, auto-create "Player 1" with first avatar and migrate progress
-- Reset preserves profile identity (name, avatar) but clears all map progress to default
-- App flow: ProfileScreen → MapScreen → QuizScreen → ResultsScreen
+- App flow: ProfileScreen → MapScreen → QuizScreen → ResultsScreen (avatar badge on map allows returning to ProfileScreen)
 
 ### Adventure map rules
 - 6 operation paths: addition, subtraction, multiplication, division, rounding, number challenge — each with 5 challenge nodes
