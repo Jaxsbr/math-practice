@@ -64,3 +64,10 @@ entries:
     result: pass
     notes: "Branch B. Final story. Criteria: 6 lane columns, milestone bands, distinct colours, data-driven column count, 375px responsive."
     tokens: ~500
+  - task: 10
+    time: "2026-04-02T05:31:00Z"
+    story: US-08
+    description: "Redesign MapScreen: data-driven 6-lane layout, milestone bands, distinct colours, responsive scroll wrapper. Replaced convergence CSS."
+    result: pass
+    notes: "94 tests. ✓ US-08 complete. All 4 stories shipped. Phase-level criteria remaining."
+    tokens: ~5000
