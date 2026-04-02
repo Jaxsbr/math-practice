@@ -6,8 +6,8 @@
  RUN  v4.1.2 /Users/jacobusbrink/dev/math-practice
 
 
- Test Files  7 passed (7)
-      Tests  70 passed (70)
-   Start at  18:10:32
-   Duration  704ms (transform 273ms, setup 380ms, import 280ms, tests 78ms, environment 2.95s)
+ Test Files  8 passed (8)
+      Tests  81 passed (81)
+   Start at  18:18:36
+   Duration  762ms (transform 198ms, setup 407ms, import 290ms, tests 91ms, environment 3.63s)
 

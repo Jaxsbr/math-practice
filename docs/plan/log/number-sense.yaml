@@ -22,3 +22,10 @@ entries:
     result: pass
     notes: "Branch B. Both generators before node data enables cleaner challenges.ts refactor."
     tokens: ~500
+  - task: 4
+    time: "2026-04-02T05:18:00Z"
+    story: US-06
+    description: "Implement number-challenge type, generator with 5 question formats, and 11 tests. Extended Operation union, updated QuizScreen for variable-length questions."
+    result: pass
+    notes: "81 tests (70→81). Criteria 1,2,3,5 for US-06 met. Remaining: N1-N5 challenge nodes."
+    tokens: ~6000

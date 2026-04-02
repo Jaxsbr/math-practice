@@ -7,7 +7,7 @@ config:
   quality_check_suppressions: []
 
 state:
-  task_number: 4
+  task_number: 5
   phase: number-sense
   phase_complete: false
   review_stage: null
@@ -16,6 +16,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-06] Implement number-challenge operation type, generator with 5 question formats, and test suite (≥8 tests)"
+  next_task: null
   consecutive_fails: 0
   completed_stories: []
