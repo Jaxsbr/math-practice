@@ -34,11 +34,11 @@ Nature/adventure — enchanted forest clearing. Warm chimes for correct answers,
 - [x] Async cleanup: feedback animation CSS classes are removed after animation completes via `animationend` event listener; listener is cleaned up on component unmount [US-13]
 
 #### US-14 — Star award celebration
-- [ ] ResultsScreen reveals earned stars with cascading animation — stars appear one by one with ~300ms staggered delay between each [US-14]
-- [ ] Each star reveal is accompanied by a chime sound with ascending pitch (each star's chime is higher than the previous) [US-14]
-- [ ] A 3-star result triggers a bonus celebration effect (golden sparkle burst via CSS pseudo-elements or additional keyframe) after all three stars have revealed [US-14]
-- [ ] Star reveal animations use CSS keyframes with distinct `animation-delay` values per star — no external animation library [US-14]
-- [ ] Test: ResultsScreen rendered with 3 stars produces 3 elements with `.star-reveal` class, each with a different `animation-delay` CSS property value [US-14]
+- [x] ResultsScreen reveals earned stars with cascading animation — stars appear one by one with ~300ms staggered delay between each [US-14]
+- [x] Each star reveal is accompanied by a chime sound with ascending pitch (each star's chime is higher than the previous) [US-14]
+- [x] A 3-star result triggers a bonus celebration effect (golden sparkle burst via CSS pseudo-elements or additional keyframe) after all three stars have revealed [US-14]
+- [x] Star reveal animations use CSS keyframes with distinct `animation-delay` values per star — no external animation library [US-14]
+- [x] Test: ResultsScreen rendered with 3 stars produces 3 elements with `.star-reveal` class, each with a different `animation-delay` CSS property value [US-14]
 
 #### US-15 — Map node completion and unlock animations
 - [ ] Completed nodes on MapScreen have a `.node-completed` CSS class with a subtle idle glow animation (pulsing box-shadow or border-color keyframe) [US-15]

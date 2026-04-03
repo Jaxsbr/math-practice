@@ -50,3 +50,10 @@ entries:
     result: pass
     notes: "Branch B. US-14: staggered star reveal, ascending chimes, 3-star bonus burst."
     tokens: ~500
+  - task: 8
+    time: "2026-04-03T23:25:00Z"
+    story: US-14
+    description: "Implement cascading star reveal with ascending chimes, 3-star celebration burst, Back to Map disabled during sequence. 2 new tests in ResultsScreen.test.tsx."
+    result: pass
+    notes: "134 tests (132→134). ✓ US-14 complete. All 5 criteria met."
+    tokens: ~6000
