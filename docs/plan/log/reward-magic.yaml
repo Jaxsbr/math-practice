@@ -8,3 +8,10 @@ entries:
     result: pass
     notes: "Branch B investigation. Starting with audio.ts as foundation for all 5 stories."
     tokens: ~5000
+  - task: 2
+    time: "2026-04-03T23:14:00Z"
+    story: US-12
+    description: "Implement src/lib/audio.ts — SoundType enum, playSound, setMuted, isMuted, initAudioContext, cleanup, scheduleTimeout. 13 tests in audio.test.ts."
+    result: pass
+    notes: "130 tests (117→130). US-12 criteria 1-4,6,7 met. Remaining: criterion 5 (mute toggle button on MapScreen/QuizScreen)."
+    tokens: ~6000
