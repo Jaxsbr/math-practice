@@ -1,0 +1,116 @@
+phase: "user-profiles"
+started: "2026-04-02T10:19:52Z"
+status: completed
+reconciliation_status:
+  r0: done
+  r1: done
+  r2: done
+  r3: done
+  r4: done
+  r5: pending
+entries:
+  - task: 1
+    time: "2026-04-02T10:23:00Z"
+    story: null
+    description: "Investigation — 96 tests, 8 test files. Phase type: CSS/JS-only. No profiles.ts or ProfileScreen yet. Story order: US-09 → US-10 → US-11. Queued profiles.ts lib module."
+    result: pass
+    notes: "Branch B investigation. Starting with profiles.ts as foundation for all 3 stories."
+    tokens: ~5000
+  - task: 2
+    time: "2026-04-02T10:25:00Z"
+    story: US-09
+    description: "Implement profiles.ts — Profile type, CRUD operations, localStorage persistence, name validation. 17 tests."
+    result: pass
+    notes: "113 tests (96→113). US-09 criteria 7,8 met. Remaining: ProfileScreen, App.tsx integration."
+    tokens: ~4000
+  - task: 3
+    time: "2026-04-02T10:27:00Z"
+    story: null
+    description: "Queue ProfileScreen.tsx + ProfileScreen.css — avatar selection, profile cards, creation flow, name validation, adventure-themed styling."
+    result: pass
+    notes: "Branch B. ProfileScreen is the main UI component for US-09."
+    tokens: ~500
+  - task: 4
+    time: "2026-04-02T10:28:00Z"
+    story: US-09
+    description: "Implement ProfileScreen.tsx + ProfileScreen.css — avatar selection (4 animals), profile cards with last-played badge, creation flow with name validation, reset confirmation dialog. Adventure parchment styling."
+    result: pass
+    notes: "113 tests (unchanged — component not yet wired). US-09 criteria 1-8 met. Remaining: App.tsx integration (9), lastPlayedAt (10), validation test (11)."
+    tokens: ~6000
+  - task: 6
+    time: "2026-04-02T10:31:00Z"
+    story: US-09
+    description: "Integrate ProfileScreen into App.tsx as initial view, scope mapProgress per profile, add legacy migration, update all tests."
+    result: pass
+    notes: "115 tests (113→115). ✓ US-09 complete. US-10 criteria 1-6 met by mapProgress changes. Remaining: US-10 criterion 7 (independence test), US-10 migration wiring."
+    tokens: ~8000
+  - task: 7
+    time: "2026-04-02T10:33:00Z"
+    story: null
+    description: "Queue legacy migration wiring + independence test."
+    result: pass
+    notes: "Branch B. Completes US-10."
+    tokens: ~500
+  - task: 8
+    time: "2026-04-02T10:33:00Z"
+    story: US-10
+    description: "Wire legacy migration into ProfileScreen (auto-create Player 1), add per-profile independence test."
+    result: pass
+    notes: "116 tests (115→116). ✓ US-10 complete. All 7 criteria met."
+    tokens: ~3000
+  - task: 9
+    time: "2026-04-02T10:35:00Z"
+    story: null
+    description: "Queue reset test for US-11."
+    result: pass
+    notes: "Branch B. US-11 criteria 1-5 already implemented in ProfileScreen. Only missing: criterion 6 (reset test)."
+    tokens: ~500
+  - task: 10
+    time: "2026-04-02T10:35:00Z"
+    story: US-11
+    description: "Add reset test — clearMapProgress restores default progress after profile reset."
+    result: pass
+    notes: "117 tests (116→117). ✓ US-11 complete. All 3 stories shipped. Phase-level criterion remaining."
+    tokens: ~2000
+  - task: 11
+    time: "2026-04-02T10:36:00Z"
+    story: phase
+    description: "Queue AGENTS.md update for profile system."
+    result: pass
+    notes: "Branch B. All stories done. Final phase-level criterion."
+    tokens: ~200
+  - task: 12
+    time: "2026-04-02T10:36:00Z"
+    story: phase
+    description: "Update AGENTS.md with profile system (ProfileScreen, profiles.ts, per-profile persistence, app flow). Phase completion gate passed."
+    result: pass
+    notes: "117 tests. All 28 done-when criteria + 2 safety criteria verified. Phase complete."
+    tokens: ~3000
+  - task: 13
+    time: "2026-04-02T10:38:00Z"
+    story: review
+    description: "Created PR #4 — user-profiles phase with profile selection, per-profile progress, reset. Queued review-pr."
+    result: pass
+    notes: "PR: https://github.com/Jaxsbr/math-practice/pull/4"
+    tokens: ~500
+  - task: 14
+    time: "2026-04-02T10:38:00Z"
+    story: review
+    description: "review-pr posted findings: 0 critical, 2 concerns (inline key duplication, stale architecture annotations), 1 nit (log ordering)"
+    result: pass
+    notes: "0 critical, 2 concern, 1 nit (skipped). No security issues."
+    tokens: ~30000
+  - task: 15
+    time: "2026-04-02T10:39:00Z"
+    story: review
+    description: "handle-pr-review — fixed 2 concerns (inline key → clearMapProgress, stale architecture annotations), skipped 1 nit. Posted summary. 117 tests."
+    result: pass
+    notes: "2 fixed, 1 skipped. Quality checks pass. Review complete."
+    tokens: ~8000
+  - task: 5
+    time: "2026-04-02T10:30:00Z"
+    story: null
+    description: "Queue App.tsx integration + mapProgress profileId scoping + legacy migration."
+    result: pass
+    notes: "Branch B. Covers US-09 criterion 9 + US-10 criteria 1-6."
+    tokens: ~500
