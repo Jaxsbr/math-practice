@@ -1,8 +1,9 @@
-import { useMemo, memo } from 'react'
+import { useMemo, useState, memo } from 'react'
 import type { ChallengeNode, MapProgress } from '../types'
 import type { Profile } from '../lib/profiles'
 import { CHALLENGE_NODES } from '../lib/challenges'
 import { isNodeUnlocked, isNodeCompleted, getFrontierNodeId } from '../lib/mapProgress'
+import { isMuted, setMuted } from '../lib/audio'
 import './MapScreen.css'
 
 const AVATARS = ['🦉', '🦊', '🐰', '🐻']
@@ -116,6 +117,14 @@ const PathLines = memo(function PathLines({ progress }: { progress: MapProgress 
 })
 
 export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitchProfile }: MapScreenProps) {
+  const [muted, setMutedState] = useState(isMuted())
+
+  const toggleMute = () => {
+    const next = !muted
+    setMuted(next)
+    setMutedState(next)
+  }
+
   const frontiers = useMemo(() => {
     const set = new Set<string>()
     for (const prefix of LANE_PREFIXES) {
@@ -132,16 +141,26 @@ export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitch
     <div className="map-screen">
       <div className="map-header-row">
         <h1 className="map-title">Math Adventure</h1>
-        {activeProfile && (
+        <div className="header-controls">
           <button
-            className="profile-badge"
-            onClick={onSwitchProfile}
-            title="Switch adventurer"
+            className="mute-toggle"
+            onClick={toggleMute}
+            title={muted ? 'Unmute sounds' : 'Mute sounds'}
+            aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
           >
-            <span className="badge-avatar">{AVATARS[activeProfile.avatarId]}</span>
-            <span className="badge-name">{activeProfile.name}</span>
+            {muted ? '\ud83d\udd07' : '\ud83d\udd0a'}
           </button>
-        )}
+          {activeProfile && (
+            <button
+              className="profile-badge"
+              onClick={onSwitchProfile}
+              title="Switch adventurer"
+            >
+              <span className="badge-avatar">{AVATARS[activeProfile.avatarId]}</span>
+              <span className="badge-name">{activeProfile.name}</span>
+            </button>
+          )}
+        </div>
       </div>
       <div className="map-legend">
         {LANE_PREFIXES.map(prefix => {

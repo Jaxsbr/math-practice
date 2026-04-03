@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import type { ChallengeNode, MapProgress, ChallengeResult } from './types'
 import type { Profile } from './lib/profiles'
 import { ProfileScreen } from './components/ProfileScreen'
@@ -8,6 +8,7 @@ import { ResultsScreen } from './components/ResultsScreen'
 import { loadMapProgress, saveMapProgress, recordChallengeResult } from './lib/mapProgress'
 import { PROBLEMS_PER_CHALLENGE } from './lib/challenges'
 import { calculateStars } from './lib/scoring'
+import { initAudioContext } from './lib/audio'
 import './App.css'
 
 type AppView =
@@ -17,6 +18,20 @@ type AppView =
   | { screen: 'results'; node: ChallengeNode; result: ChallengeResult }
 
 function App() {
+  useEffect(() => {
+    const handler = () => {
+      initAudioContext()
+      document.removeEventListener('click', handler)
+      document.removeEventListener('touchstart', handler)
+    }
+    document.addEventListener('click', handler)
+    document.addEventListener('touchstart', handler)
+    return () => {
+      document.removeEventListener('click', handler)
+      document.removeEventListener('touchstart', handler)
+    }
+  }, [])
+
   const [view, setView] = useState<AppView>({ screen: 'profile' })
   const [activeProfile, setActiveProfile] = useState<Profile | null>(null)
   const [progress, setProgress] = useState<MapProgress>({})

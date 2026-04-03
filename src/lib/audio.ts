@@ -31,7 +31,7 @@ const activeTimeouts: ReturnType<typeof setTimeout>[] = []
 const activeOscillators: OscillatorNode[] = []
 
 export function initAudioContext(): void {
-  if (!audioCtx) {
+  if (!audioCtx && typeof AudioContext !== 'undefined') {
     audioCtx = new AudioContext()
   }
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { isMuted, setMuted } from '../lib/audio'
 import type { ChallengeNode, MapProgress, Problem } from '../types'
 import type { Profile } from '../lib/profiles'
 import { generateProblem } from '../lib/generator'
@@ -180,6 +181,14 @@ function NumberChallengeInputView({ problem }: { problem: Problem }) {
 /* ── Main quiz screen ── */
 
 export function QuizScreen({ node, problemCount, progress, activeProfile, onComplete, onAbandon }: QuizScreenProps) {
+  const [muted, setMutedState] = useState(isMuted())
+
+  const toggleMute = () => {
+    const next = !muted
+    setMuted(next)
+    setMutedState(next)
+  }
+
   const [seenDisplays] = useState(() => new Set<string>())
   const [problemIndex, setProblemIndex] = useState(0)
   const [problem, setProblem] = useState<Problem>(() => createUniqueProblem(node, progress, seenDisplays))
@@ -261,6 +270,14 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
         <span className="challenge-name">{node.name}</span>
         <span className={`timer ${feedback ? 'paused' : ''}`}>{'\u23f1'} {displayTime}s</span>
         <span className="progress-count">{problemIndex + 1} / {problemCount}</span>
+        <button
+          className="mute-toggle"
+          onClick={toggleMute}
+          title={muted ? 'Unmute sounds' : 'Mute sounds'}
+          aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+        >
+          {muted ? '\ud83d\udd07' : '\ud83d\udd0a'}
+        </button>
         <button className="abandon-button" onClick={onAbandon}>Quit</button>
       </div>
 
