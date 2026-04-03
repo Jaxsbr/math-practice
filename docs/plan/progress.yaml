@@ -7,18 +7,18 @@ config:
   quality_check_suppressions: []
   build_loop_version:
     init_version: 9
-    builds: [9, 11]
+    builds: [9, 11, 12]
 
 state:
-  task_number: 17
-  phase: user-profiles
-  phase_complete: true
-  review_stage: review_posted
-  review_complete: true
-  retro_complete: true
-  pr_number: 4
+  task_number: 1
+  phase: reward-magic
+  phase_complete: false
+  review_stage: null
+  review_complete: false
+  retro_complete: false
+  pr_number: null
   status: running
-  last_result: pass
+  last_result: null
   next_task: null
   consecutive_fails: 0
-  completed_stories: [US-09, US-10, US-11]
+  completed_stories: []
