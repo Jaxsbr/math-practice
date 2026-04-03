@@ -10,7 +10,7 @@ config:
     builds: [9, 11, 12]
 
 state:
-  task_number: 4
+  task_number: 5
   phase: reward-magic
   phase_complete: false
   review_stage: null
@@ -19,6 +19,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-12] Add mute/unmute toggle button to MapScreen and QuizScreen header, wire initAudioContext on first user gesture"
+  next_task: null
   consecutive_fails: 0
-  completed_stories: []
+  completed_stories: [US-12]

@@ -22,3 +22,10 @@ entries:
     result: pass
     notes: "Branch B. Completes US-12 criterion 5 and ensures AudioContext init on gesture."
     tokens: ~500
+  - task: 4
+    time: "2026-04-03T23:18:00Z"
+    story: US-12
+    description: "Add mute toggle to MapScreen/QuizScreen header, wire initAudioContext on first user gesture in App.tsx. Fix AudioContext guard for jsdom."
+    result: pass
+    notes: "130 tests. ✓ US-12 complete. All 7 criteria met."
+    tokens: ~5000

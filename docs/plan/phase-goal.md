@@ -16,13 +16,13 @@ Nature/adventure — enchanted forest clearing. Warm chimes for correct answers,
 ### Done-when (observable)
 
 #### US-12 — Sound engine and mute control
-- [ ] `src/lib/audio.ts` exists and exports: `SoundType` type/enum, `playSound(type: SoundType)`, `setMuted(muted: boolean)`, `isMuted(): boolean`, `initAudioContext()` [US-12]
-- [ ] All sounds are generated via Web Audio API oscillators and gain nodes — no `.mp3`, `.ogg`, or `.wav` files in the repository [US-12]
-- [ ] `initAudioContext()` is called from a user-gesture event handler (click/tap) — `AudioContext` is not created at module load or component mount [US-12]
-- [ ] Mute state persists in localStorage under `math-practice:audio-muted` key (global, not per-profile) [US-12]
-- [ ] A mute/unmute toggle button (speaker icon) is visible in the header area of MapScreen and QuizScreen [US-12]
-- [ ] Test: calling `playSound` when muted does not create or start any `OscillatorNode` — verified via spy/mock on `AudioContext.createOscillator` [US-12]
-- [ ] Async cleanup: any `setTimeout` callbacks used for sound envelope sequencing are cancelled on component unmount; `OscillatorNode.stop()` is called for any playing nodes on cleanup [US-12]
+- [x] `src/lib/audio.ts` exists and exports: `SoundType` type/enum, `playSound(type: SoundType)`, `setMuted(muted: boolean)`, `isMuted(): boolean`, `initAudioContext()` [US-12]
+- [x] All sounds are generated via Web Audio API oscillators and gain nodes — no `.mp3`, `.ogg`, or `.wav` files in the repository [US-12]
+- [x] `initAudioContext()` is called from a user-gesture event handler (click/tap) — `AudioContext` is not created at module load or component mount [US-12]
+- [x] Mute state persists in localStorage under `math-practice:audio-muted` key (global, not per-profile) [US-12]
+- [x] A mute/unmute toggle button (speaker icon) is visible in the header area of MapScreen and QuizScreen [US-12]
+- [x] Test: calling `playSound` when muted does not create or start any `OscillatorNode` — verified via spy/mock on `AudioContext.createOscillator` [US-12]
+- [x] Async cleanup: any `setTimeout` callbacks used for sound envelope sequencing are cancelled on component unmount; `OscillatorNode.stop()` is called for any playing nodes on cleanup [US-12]
 
 #### US-13 — Quiz answer feedback sounds and animations
 - [ ] Submitting a correct answer plays a short bright chime sound via Web Audio API immediately on submission [US-13]
