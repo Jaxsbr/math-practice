@@ -64,3 +64,10 @@ entries:
     result: pass
     notes: "Branch B. US-15: three distinct visual states + sound."
     tokens: ~500
+  - task: 10
+    time: "2026-04-03T23:30:00Z"
+    story: US-15
+    description: "Add map node animations — .node-completed idle glow, .node-just-completed burst with nodeComplete sound, .node-unlocked pulse. justCompletedNodeId prop from App.tsx. 2 new tests in MapScreen.test.tsx."
+    result: pass
+    notes: "136 tests (134→136). ✓ US-15 complete. All 6 criteria met."
+    tokens: ~7000

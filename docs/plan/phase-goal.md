@@ -41,12 +41,12 @@ Nature/adventure — enchanted forest clearing. Warm chimes for correct answers,
 - [x] Test: ResultsScreen rendered with 3 stars produces 3 elements with `.star-reveal` class, each with a different `animation-delay` CSS property value [US-14]
 
 #### US-15 — Map node completion and unlock animations
-- [ ] Completed nodes on MapScreen have a `.node-completed` CSS class with a subtle idle glow animation (pulsing box-shadow or border-color keyframe) [US-15]
-- [ ] When returning from a just-completed challenge, the completed node plays a one-time burst animation (`.node-just-completed` class) visually distinct from the idle glow [US-15]
-- [ ] Unlocked-but-not-yet-attempted nodes have a `.node-unlocked` CSS class with a gentle attention-drawing pulse animation [US-15]
-- [ ] Node completion triggers a short bright sound effect via Web Audio API [US-15]
-- [ ] Test: a node with `completed: true` in map progress renders with `.node-completed` class that has an active CSS animation; an unlocked but incomplete node renders with `.node-unlocked` class [US-15]
-- [ ] Async cleanup: the `.node-just-completed` one-time burst class is removed after animation completes via `animationend` listener; listener is cleaned up if the node unmounts [US-15]
+- [x] Completed nodes on MapScreen have a `.node-completed` CSS class with a subtle idle glow animation (pulsing box-shadow or border-color keyframe) [US-15]
+- [x] When returning from a just-completed challenge, the completed node plays a one-time burst animation (`.node-just-completed` class) visually distinct from the idle glow [US-15]
+- [x] Unlocked-but-not-yet-attempted nodes have a `.node-unlocked` CSS class with a gentle attention-drawing pulse animation [US-15]
+- [x] Node completion triggers a short bright sound effect via Web Audio API [US-15]
+- [x] Test: a node with `completed: true` in map progress renders with `.node-completed` class that has an active CSS animation; an unlocked but incomplete node renders with `.node-unlocked` class [US-15]
+- [x] Async cleanup: the `.node-just-completed` one-time burst class is removed after animation completes via `animationend` listener; listener is cleaned up if the node unmounts [US-15]
 
 #### US-16 — Ambient soundscape
 - [ ] MapScreen plays a continuous ambient nature loop via Web Audio API (filtered noise or low-frequency oscillator blend) when audio is initialized and not muted [US-16]

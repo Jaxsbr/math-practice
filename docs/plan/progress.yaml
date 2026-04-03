@@ -10,7 +10,7 @@ config:
     builds: [9, 11, 12]
 
 state:
-  task_number: 10
+  task_number: 11
   phase: reward-magic
   phase_complete: false
   review_stage: null
@@ -19,6 +19,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: "[US-15] Add map node animations — idle glow for completed, one-time burst for just-completed, pulse for unlocked-not-attempted — with nodeComplete sound and animationend cleanup"
+  next_task: null
   consecutive_fails: 0
-  completed_stories: [US-12, US-13, US-14]
+  completed_stories: [US-12, US-13, US-14, US-15]
