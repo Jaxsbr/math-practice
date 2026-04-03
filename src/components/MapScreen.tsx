@@ -1,9 +1,9 @@
-import { useMemo, useState, memo } from 'react'
+import { useMemo, useState, useEffect, useRef, memo } from 'react'
 import type { ChallengeNode, MapProgress } from '../types'
 import type { Profile } from '../lib/profiles'
 import { CHALLENGE_NODES } from '../lib/challenges'
 import { isNodeUnlocked, isNodeCompleted, getFrontierNodeId } from '../lib/mapProgress'
-import { isMuted, setMuted } from '../lib/audio'
+import { isMuted, setMuted, playSound } from '../lib/audio'
 import './MapScreen.css'
 
 const AVATARS = ['🦉', '🦊', '🐰', '🐻']
@@ -11,6 +11,7 @@ const AVATARS = ['🦉', '🦊', '🐰', '🐻']
 interface MapScreenProps {
   progress: MapProgress
   activeProfile: Profile | null
+  justCompletedNodeId: string | null
   onSelectChallenge: (node: ChallengeNode) => void
   onSwitchProfile: () => void
 }
@@ -116,14 +117,24 @@ const PathLines = memo(function PathLines({ progress }: { progress: MapProgress 
   )
 })
 
-export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitchProfile }: MapScreenProps) {
+export function MapScreen({ progress, activeProfile, justCompletedNodeId, onSelectChallenge, onSwitchProfile }: MapScreenProps) {
   const [muted, setMutedState] = useState(isMuted())
+  const burstRef = useRef<HTMLButtonElement>(null)
+  const playedSoundForRef = useRef<string | null>(null)
 
   const toggleMute = () => {
     const next = !muted
     setMuted(next)
     setMutedState(next)
   }
+
+  // Play nodeComplete sound once when justCompletedNodeId changes
+  useEffect(() => {
+    if (justCompletedNodeId && justCompletedNodeId !== playedSoundForRef.current) {
+      playedSoundForRef.current = justCompletedNodeId
+      playSound('nodeComplete')
+    }
+  }, [justCompletedNodeId])
 
   const frontiers = useMemo(() => {
     const set = new Set<string>()
@@ -188,13 +199,16 @@ export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitch
               : PATH_COLORS[node.operations[0]] ?? '#888'
 
             let stateClass = 'locked'
-            if (completed) stateClass = 'completed'
-            else if (unlocked) stateClass = 'unlocked'
+            if (completed) stateClass = 'completed node-completed'
+            else if (unlocked) stateClass = 'unlocked node-unlocked'
+
+            const isJustCompleted = justCompletedNodeId === node.id
 
             return (
               <button
                 key={node.id}
-                className={`map-node ${stateClass} ${node.type} ${isFrontier ? 'frontier' : ''}`}
+                ref={isJustCompleted ? burstRef : undefined}
+                className={`map-node ${stateClass} ${node.type} ${isFrontier ? 'frontier' : ''}${isJustCompleted ? ' node-just-completed' : ''}`}
                 style={{
                   left: pos.x,
                   top: pos.y,

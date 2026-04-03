@@ -257,6 +257,18 @@
   cursor: pointer;
 }
 
+.map-node.node-completed {
+  animation: node-idle-glow 3s ease-in-out infinite;
+}
+
+.map-node.node-just-completed {
+  animation: node-burst 0.8s ease-out;
+}
+
+.map-node.node-unlocked {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
 .map-node.completed .node-icon {
   color: #16a34a;
   font-size: 1.2rem;
@@ -302,5 +314,35 @@
   50% {
     box-shadow: 0 0 0 8px rgba(249, 115, 22, 0.3), 0 4px 18px rgba(0,0,0,0.2);
     transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes node-idle-glow {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(212, 160, 23, 0.25);
+    border-color: #d4a017;
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(212, 160, 23, 0.45), 0 2px 8px rgba(212, 160, 23, 0.25);
+    border-color: #e6b422;
+  }
+}
+
+@keyframes node-burst {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.6);
+  }
+  30% {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 20px 8px rgba(212, 160, 23, 0.4);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(0.95);
+    box-shadow: 0 0 30px 12px rgba(212, 160, 23, 0.1);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 2px 8px rgba(212, 160, 23, 0.25);
   }
 }

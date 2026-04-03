@@ -35,6 +35,7 @@ function App() {
   const [view, setView] = useState<AppView>({ screen: 'profile' })
   const [activeProfile, setActiveProfile] = useState<Profile | null>(null)
   const [progress, setProgress] = useState<MapProgress>({})
+  const [justCompletedNodeId, setJustCompletedNodeId] = useState<string | null>(null)
 
   const handleSelectProfile = useCallback((profile: Profile) => {
     setActiveProfile(profile)
@@ -49,6 +50,7 @@ function App() {
   }, [])
 
   const handleSelectChallenge = useCallback((node: ChallengeNode) => {
+    setJustCompletedNodeId(null)
     setView({ screen: 'quiz', node })
   }, [])
 
@@ -62,6 +64,7 @@ function App() {
       const updated = recordChallengeResult(node.id, result.stars, progress)
       setProgress(updated)
       saveMapProgress(updated, activeProfile.id)
+      setJustCompletedNodeId(node.id)
     }
     setView({ screen: 'map' })
   }, [progress, activeProfile])
@@ -98,6 +101,7 @@ function App() {
         <MapScreen
           progress={progress}
           activeProfile={activeProfile}
+          justCompletedNodeId={justCompletedNodeId}
           onSelectChallenge={handleSelectChallenge}
           onSwitchProfile={handleSwitchProfile}
         />
