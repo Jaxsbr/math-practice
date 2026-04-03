@@ -29,3 +29,10 @@ entries:
     result: pass
     notes: "130 tests. ✓ US-12 complete. All 7 criteria met."
     tokens: ~5000
+  - task: 5
+    time: "2026-04-03T23:19:00Z"
+    story: US-13
+    description: "Queue quiz answer feedback sounds and animations."
+    result: pass
+    notes: "Branch B. US-13: correct chime + green pulse, incorrect tone + shake."
+    tokens: ~500

@@ -10,7 +10,7 @@ config:
     builds: [9, 11, 12]
 
 state:
-  task_number: 5
+  task_number: 6
   phase: reward-magic
   phase_complete: false
   review_stage: null
@@ -19,6 +19,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-13] Add quiz answer feedback sounds (correct chime, incorrect tone) and CSS keyframe animations (green pulse, horizontal shake) to QuizScreen"
   consecutive_fails: 0
   completed_stories: [US-12]
