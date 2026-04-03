@@ -15,3 +15,10 @@ entries:
     result: pass
     notes: "130 tests (117→130). US-12 criteria 1-4,6,7 met. Remaining: criterion 5 (mute toggle button on MapScreen/QuizScreen)."
     tokens: ~6000
+  - task: 3
+    time: "2026-04-03T23:15:00Z"
+    story: US-12
+    description: "Queue mute toggle button on MapScreen/QuizScreen + initAudioContext on first user gesture."
+    result: pass
+    notes: "Branch B. Completes US-12 criterion 5 and ensures AudioContext init on gesture."
+    tokens: ~500
