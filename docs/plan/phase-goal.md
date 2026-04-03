@@ -25,13 +25,13 @@ Nature/adventure — enchanted forest clearing. Warm chimes for correct answers,
 - [x] Async cleanup: any `setTimeout` callbacks used for sound envelope sequencing are cancelled on component unmount; `OscillatorNode.stop()` is called for any playing nodes on cleanup [US-12]
 
 #### US-13 — Quiz answer feedback sounds and animations
-- [ ] Submitting a correct answer plays a short bright chime sound via Web Audio API immediately on submission [US-13]
-- [ ] Submitting a correct answer triggers a green pulse/flash CSS keyframe animation on the answer feedback area [US-13]
-- [ ] Submitting an incorrect answer plays a short gentle low tone via Web Audio API immediately on submission [US-13]
-- [ ] Submitting an incorrect answer triggers a subtle horizontal shake CSS keyframe animation on the answer feedback area [US-13]
-- [ ] No external animation library is added to `package.json` — all animations are CSS keyframes [US-13]
-- [ ] Test: Playwright — submitting a correct answer produces an element with `[data-feedback="correct"]` attribute; incorrect produces `[data-feedback="incorrect"]` [US-13]
-- [ ] Async cleanup: feedback animation CSS classes are removed after animation completes via `animationend` event listener; listener is cleaned up on component unmount [US-13]
+- [x] Submitting a correct answer plays a short bright chime sound via Web Audio API immediately on submission [US-13]
+- [x] Submitting a correct answer triggers a green pulse/flash CSS keyframe animation on the answer feedback area [US-13]
+- [x] Submitting an incorrect answer plays a short gentle low tone via Web Audio API immediately on submission [US-13]
+- [x] Submitting an incorrect answer triggers a subtle horizontal shake CSS keyframe animation on the answer feedback area [US-13]
+- [x] No external animation library is added to `package.json` — all animations are CSS keyframes [US-13]
+- [x] Test: Playwright — submitting a correct answer produces an element with `[data-feedback="correct"]` attribute; incorrect produces `[data-feedback="incorrect"]` [US-13]
+- [x] Async cleanup: feedback animation CSS classes are removed after animation completes via `animationend` event listener; listener is cleaned up on component unmount [US-13]
 
 #### US-14 — Star award celebration
 - [ ] ResultsScreen reveals earned stars with cascading animation — stars appear one by one with ~300ms staggered delay between each [US-14]

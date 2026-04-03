@@ -36,3 +36,10 @@ entries:
     result: pass
     notes: "Branch B. US-13: correct chime + green pulse, incorrect tone + shake."
     tokens: ~500
+  - task: 6
+    time: "2026-04-03T23:22:00Z"
+    story: US-13
+    description: "Add quiz answer feedback sounds and CSS animations. playSound on submit, data-feedback attribute, pulse-correct/shake-incorrect keyframes, animationend cleanup. 2 new tests in QuizScreen.test.tsx."
+    result: pass
+    notes: "132 tests (130→132). ✓ US-13 complete. All 7 criteria met."
+    tokens: ~6000
