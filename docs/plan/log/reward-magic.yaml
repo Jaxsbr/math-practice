@@ -57,3 +57,10 @@ entries:
     result: pass
     notes: "134 tests (132→134). ✓ US-14 complete. All 5 criteria met."
     tokens: ~6000
+  - task: 9
+    time: "2026-04-03T23:26:00Z"
+    story: US-15
+    description: "Queue map node animations — idle glow, just-completed burst, unlocked pulse, nodeComplete sound."
+    result: pass
+    notes: "Branch B. US-15: three distinct visual states + sound."
+    tokens: ~500
