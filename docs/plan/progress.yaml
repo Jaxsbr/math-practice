@@ -10,7 +10,7 @@ config:
     builds: [9, 11, 12]
 
 state:
-  task_number: 7
+  task_number: 8
   phase: reward-magic
   phase_complete: false
   review_stage: null
@@ -19,6 +19,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-14] Add cascading star reveal animation with ascending chimes and 3-star bonus celebration to ResultsScreen"
   consecutive_fails: 0
   completed_stories: [US-12, US-13]
