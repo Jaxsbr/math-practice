@@ -164,6 +164,32 @@
   font-weight: 600;
 }
 
+/* ── Answer feedback animations ── */
+
+.feedback-correct {
+  animation: pulse-correct 0.4s ease-out;
+}
+
+.feedback-incorrect {
+  animation: shake-incorrect 0.4s ease-out;
+}
+
+@keyframes pulse-correct {
+  0% { transform: scale(1); background-color: transparent; }
+  30% { transform: scale(1.05); background-color: rgba(22, 163, 74, 0.15); }
+  100% { transform: scale(1); background-color: transparent; }
+}
+
+@keyframes shake-incorrect {
+  0% { transform: translateX(0); }
+  15% { transform: translateX(-6px); }
+  30% { transform: translateX(5px); }
+  45% { transform: translateX(-4px); }
+  60% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
 /* ── Rounding: number line + boundary choice ── */
 
 .rounding-view {
