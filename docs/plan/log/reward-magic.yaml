@@ -71,3 +71,10 @@ entries:
     result: pass
     notes: "136 tests (134→136). ✓ US-15 complete. All 6 criteria met."
     tokens: ~7000
+  - task: 11
+    time: "2026-04-03T23:31:00Z"
+    story: US-16
+    description: "Queue ambient soundscape — filtered noise on MapScreen/QuizScreen, cross-fade, mute-aware, cleanup."
+    result: pass
+    notes: "Branch B. US-16: continuous ambient, two gain levels, cross-fade on transition."
+    tokens: ~500

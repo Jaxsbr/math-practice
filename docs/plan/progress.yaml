@@ -10,7 +10,7 @@ config:
     builds: [9, 11, 12]
 
 state:
-  task_number: 11
+  task_number: 12
   phase: reward-magic
   phase_complete: false
   review_stage: null
@@ -19,6 +19,6 @@ state:
   pr_number: null
   status: running
   last_result: pass
-  next_task: null
+  next_task: "[US-16] Add ambient soundscape — continuous filtered noise on MapScreen (louder) and QuizScreen (softer), cross-fade on screen transitions, mute-aware, cleanup on unmount"
   consecutive_fails: 0
   completed_stories: [US-12, US-13, US-14, US-15]
