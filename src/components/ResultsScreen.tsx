@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import type { ChallengeNode, ChallengeResult } from '../types'
 import { playSound, scheduleTimeout, cleanup as audioCleanup } from '../lib/audio'
 
@@ -82,13 +82,14 @@ const MESSAGES: Record<number, string> = {
 export function ResultsScreen({ node, result, onBackToMap }: ResultsScreenProps) {
   const accuracy = result.total > 0 ? Math.round((result.correct / result.total) * 100) : 0
   const [revealDone, setRevealDone] = useState(false)
+  const handleRevealComplete = useCallback(() => setRevealDone(true), [])
 
   return (
     <div className="results-screen">
       <h2 className="results-title">{node.name}</h2>
       <p className="results-message">{MESSAGES[result.stars]}</p>
 
-      <StarDisplay count={result.stars} onRevealComplete={() => setRevealDone(true)} />
+      <StarDisplay count={result.stars} onRevealComplete={handleRevealComplete} />
 
       <div className="results-stats">
         <div className="stat">

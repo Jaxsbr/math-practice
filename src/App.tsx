@@ -46,10 +46,7 @@ function App() {
     } else {
       stopAmbient()
     }
-    return () => {
-      // Stop ambient when App unmounts entirely
-      if (view.screen === 'profile') stopAmbient()
-    }
+    return () => stopAmbient()
   }, [view.screen])
 
   const handleSelectProfile = useCallback((profile: Profile) => {
