@@ -22,6 +22,7 @@ src/
     ResultsScreen.tsx   — Post-challenge results: star display, accuracy, time stats
     ConfigScreen.tsx    — (legacy, unused) Operation selection + start button
   lib/
+    audio.ts            — Sound engine: Web Audio API synthesis, mute control, ambient soundscape management, async cleanup
     profiles.ts         — Profile CRUD: create/load/save/delete profiles, name validation, localStorage persistence
     challenges.ts       — Challenge definitions: 32 nodes (6 paths × 5 + 2 milestones), difficulty configs, MILESTONE_REQUIRED
     scoring.ts          — Star scoring: accuracy + time → 1-3 stars
@@ -64,6 +65,19 @@ docs/
 - Profile data persists in `math-practice:profiles` localStorage key
 - Legacy migration: if `math-practice:map-progress` (unscoped) exists and no profiles exist, auto-create "Player 1" with first avatar and migrate progress
 - App flow: ProfileScreen → MapScreen → QuizScreen → ResultsScreen (avatar badge on map allows returning to ProfileScreen)
+
+### Audio and animation rules
+- All sounds synthesized via Web Audio API oscillators and gain envelopes — no external audio files (`.mp3`, `.ogg`, `.wav`)
+- All animations use CSS keyframes — no external animation libraries
+- `AudioContext` is created on the first user gesture (click/tap) via `initAudioContext()` in App.tsx — satisfies browser autoplay policy
+- Mute state persists in localStorage under `math-practice:audio-muted` key (global, not per-profile — device preference)
+- Mute toggle (speaker icon) visible in header area of MapScreen and QuizScreen
+- Sound types: `correct` (bright chime), `incorrect` (gentle low tone), `star1`/`star2`/`star3` (ascending chimes), `celebration` (3-star bonus), `nodeComplete` (burst)
+- Ambient soundscape: filtered noise via `AudioBufferSourceNode` + `BiquadFilterNode`, two scene levels (map: 0.08 gain, quiz: 0.03 gain), cross-fade on screen transition (~500ms gain ramp)
+- Ambient managed centrally in App.tsx based on current screen — starts on map/quiz, stops on profile
+- Animation CSS classes: `.node-completed` (idle glow), `.node-unlocked` (gentle pulse), `.node-just-completed` (one-time burst), `.feedback-correct` (green pulse), `.feedback-incorrect` (horizontal shake), `.star-reveal` (cascading pop)
+- Data attribute: `[data-feedback="correct"|"incorrect"]` on feedback elements for test targeting
+- Async cleanup: `OscillatorNode.stop()` and `disconnect()` on cleanup; `setTimeout` callbacks cleared; `animationend` listeners cleaned up on unmount; ambient nodes stopped and disconnected when leaving game screens
 
 ### Adventure map rules
 - 6 operation paths: addition, subtraction, multiplication, division, rounding, number challenge — each with 5 challenge nodes

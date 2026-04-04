@@ -1,8 +1,9 @@
-import { useMemo, memo } from 'react'
+import { useMemo, useState, useEffect, useRef, memo } from 'react'
 import type { ChallengeNode, MapProgress } from '../types'
 import type { Profile } from '../lib/profiles'
 import { CHALLENGE_NODES } from '../lib/challenges'
 import { isNodeUnlocked, isNodeCompleted, getFrontierNodeId } from '../lib/mapProgress'
+import { isMuted, setMuted, playSound, updateAmbientMute } from '../lib/audio'
 import './MapScreen.css'
 
 const AVATARS = ['🦉', '🦊', '🐰', '🐻']
@@ -10,6 +11,7 @@ const AVATARS = ['🦉', '🦊', '🐰', '🐻']
 interface MapScreenProps {
   progress: MapProgress
   activeProfile: Profile | null
+  justCompletedNodeId: string | null
   onSelectChallenge: (node: ChallengeNode) => void
   onSwitchProfile: () => void
 }
@@ -115,7 +117,26 @@ const PathLines = memo(function PathLines({ progress }: { progress: MapProgress 
   )
 })
 
-export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitchProfile }: MapScreenProps) {
+export function MapScreen({ progress, activeProfile, justCompletedNodeId, onSelectChallenge, onSwitchProfile }: MapScreenProps) {
+  const [muted, setMutedState] = useState(isMuted())
+  const burstRef = useRef<HTMLButtonElement>(null)
+  const playedSoundForRef = useRef<string | null>(null)
+
+  const toggleMute = () => {
+    const next = !muted
+    setMuted(next)
+    setMutedState(next)
+    updateAmbientMute(next)
+  }
+
+  // Play nodeComplete sound once when justCompletedNodeId changes
+  useEffect(() => {
+    if (justCompletedNodeId && justCompletedNodeId !== playedSoundForRef.current) {
+      playedSoundForRef.current = justCompletedNodeId
+      playSound('nodeComplete')
+    }
+  }, [justCompletedNodeId])
+
   const frontiers = useMemo(() => {
     const set = new Set<string>()
     for (const prefix of LANE_PREFIXES) {
@@ -132,16 +153,26 @@ export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitch
     <div className="map-screen">
       <div className="map-header-row">
         <h1 className="map-title">Math Adventure</h1>
-        {activeProfile && (
+        <div className="header-controls">
           <button
-            className="profile-badge"
-            onClick={onSwitchProfile}
-            title="Switch adventurer"
+            className="mute-toggle"
+            onClick={toggleMute}
+            title={muted ? 'Unmute sounds' : 'Mute sounds'}
+            aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
           >
-            <span className="badge-avatar">{AVATARS[activeProfile.avatarId]}</span>
-            <span className="badge-name">{activeProfile.name}</span>
+            {muted ? '\ud83d\udd07' : '\ud83d\udd0a'}
           </button>
-        )}
+          {activeProfile && (
+            <button
+              className="profile-badge"
+              onClick={onSwitchProfile}
+              title="Switch adventurer"
+            >
+              <span className="badge-avatar">{AVATARS[activeProfile.avatarId]}</span>
+              <span className="badge-name">{activeProfile.name}</span>
+            </button>
+          )}
+        </div>
       </div>
       <div className="map-legend">
         {LANE_PREFIXES.map(prefix => {
@@ -169,13 +200,16 @@ export function MapScreen({ progress, activeProfile, onSelectChallenge, onSwitch
               : PATH_COLORS[node.operations[0]] ?? '#888'
 
             let stateClass = 'locked'
-            if (completed) stateClass = 'completed'
-            else if (unlocked) stateClass = 'unlocked'
+            if (completed) stateClass = 'completed node-completed'
+            else if (unlocked) stateClass = 'unlocked node-unlocked'
+
+            const isJustCompleted = justCompletedNodeId === node.id
 
             return (
               <button
                 key={node.id}
-                className={`map-node ${stateClass} ${node.type} ${isFrontier ? 'frontier' : ''}`}
+                ref={isJustCompleted ? burstRef : undefined}
+                className={`map-node ${stateClass} ${node.type} ${isFrontier ? 'frontier' : ''}${isJustCompleted ? ' node-just-completed' : ''}`}
                 style={{
                   left: pos.x,
                   top: pos.y,

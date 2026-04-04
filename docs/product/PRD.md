@@ -25,3 +25,4 @@ Children (ages 6–12) learning basic arithmetic.
 | adventure-map | Shipped | US-01, US-02, US-03, US-04 | [phases/adventure-map.md](phases/adventure-map.md) |
 | number-sense | Shipped | US-05, US-06, US-07, US-08 | [phases/number-sense.md](phases/number-sense.md) |
 | user-profiles | Shipped | US-09, US-10, US-11 | [phases/user-profiles.md](phases/user-profiles.md) |
+| reward-magic | Shipped | US-12, US-13, US-14, US-15, US-16 | [phases/reward-magic.md](phases/reward-magic.md) |

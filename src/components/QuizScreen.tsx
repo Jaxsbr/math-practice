@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { isMuted, setMuted, playSound, updateAmbientMute } from '../lib/audio'
 import type { ChallengeNode, MapProgress, Problem } from '../types'
 import type { Profile } from '../lib/profiles'
 import { generateProblem } from '../lib/generator'
@@ -180,6 +181,15 @@ function NumberChallengeInputView({ problem }: { problem: Problem }) {
 /* ── Main quiz screen ── */
 
 export function QuizScreen({ node, problemCount, progress, activeProfile, onComplete, onAbandon }: QuizScreenProps) {
+  const [muted, setMutedState] = useState(isMuted())
+
+  const toggleMute = () => {
+    const next = !muted
+    setMuted(next)
+    setMutedState(next)
+    updateAmbientMute(next)
+  }
+
   const [seenDisplays] = useState(() => new Set<string>())
   const [problemIndex, setProblemIndex] = useState(0)
   const [problem, setProblem] = useState<Problem>(() => createUniqueProblem(node, progress, seenDisplays))
@@ -211,11 +221,24 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
     }
   }, [feedback, problem, needsTextInput])
 
+  const [feedbackAnim, setFeedbackAnim] = useState<'correct' | 'incorrect' | null>(null)
+  const feedbackRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const el = feedbackRef.current
+    if (!el || !feedbackAnim) return
+    const handler = () => setFeedbackAnim(null)
+    el.addEventListener('animationend', handler)
+    return () => el.removeEventListener('animationend', handler)
+  }, [feedbackAnim])
+
   const submitAnswer = useCallback((numAnswer: number) => {
     if (feedback) return
     const correct = numAnswer === problem.answer
     if (correct) setCorrectCount(prev => prev + 1)
     thinkingTimeRef.current += (Date.now() - problemStartRef.current) / 1000
+    playSound(correct ? 'correct' : 'incorrect')
+    setFeedbackAnim(correct ? 'correct' : 'incorrect')
     setFeedback({ correct, correctAnswer: problem.answer })
   }, [feedback, problem.answer])
 
@@ -243,6 +266,7 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
     setProblem(createUniqueProblem(node, progress, seenDisplays))
     setAnswer('')
     setFeedback(null)
+    setFeedbackAnim(null)
     setRoundingSelection(null)
   }, [problemIndex, problemCount, correctCount, onComplete, node, progress, seenDisplays])
 
@@ -261,6 +285,14 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
         <span className="challenge-name">{node.name}</span>
         <span className={`timer ${feedback ? 'paused' : ''}`}>{'\u23f1'} {displayTime}s</span>
         <span className="progress-count">{problemIndex + 1} / {problemCount}</span>
+        <button
+          className="mute-toggle"
+          onClick={toggleMute}
+          title={muted ? 'Unmute sounds' : 'Mute sounds'}
+          aria-label={muted ? 'Unmute sounds' : 'Mute sounds'}
+        >
+          {muted ? '\ud83d\udd07' : '\ud83d\udd0a'}
+        </button>
         <button className="abandon-button" onClick={onAbandon}>Quit</button>
       </div>
 
@@ -277,7 +309,11 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
             selectedAnswer={roundingSelection}
           />
           {feedback && (
-            <div className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}`}>
+            <div
+              ref={feedbackRef}
+              className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}${feedbackAnim ? ` feedback-${feedbackAnim}` : ''}`}
+              data-feedback={feedback.correct ? 'correct' : 'incorrect'}
+            >
               <p>{feedback.correct ? 'Correct!' : 'Not quite!'}</p>
               <button className="next-button" onClick={handleNext} autoFocus>
                 {problemIndex + 1 >= problemCount ? 'See Results' : 'Next'}
@@ -296,7 +332,11 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
             feedback={feedback}
           />
           {feedback && (
-            <div className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}`}>
+            <div
+              ref={feedbackRef}
+              className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}${feedbackAnim ? ` feedback-${feedbackAnim}` : ''}`}
+              data-feedback={feedback.correct ? 'correct' : 'incorrect'}
+            >
               <p>{feedback.correct ? 'Correct!' : `The answer is ${formatNumber(feedback.correctAnswer)}`}</p>
               <button className="next-button" onClick={handleNext} autoFocus>
                 {problemIndex + 1 >= problemCount ? 'See Results' : 'Next'}
@@ -330,7 +370,11 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
               <button type="submit" className="submit-button">Go!</button>
             </form>
           ) : (
-            <div className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}`}>
+            <div
+              ref={feedbackRef}
+              className={`feedback ${feedback.correct ? 'correct' : 'incorrect'}${feedbackAnim ? ` feedback-${feedbackAnim}` : ''}`}
+              data-feedback={feedback.correct ? 'correct' : 'incorrect'}
+            >
               <p>{feedback.correct ? 'Correct!' : `The answer is ${formatNumber(feedback.correctAnswer)}`}</p>
               <button className="next-button" onClick={handleNext} autoFocus>
                 {problemIndex + 1 >= problemCount ? 'See Results' : 'Next'}

@@ -50,4 +50,4 @@ Deployed to GitHub Pages on push to `main`.
 
 <!-- build-loop -->
 ---
-*Built with [build-loop](docs/plan/) — init v9 | builds v9, v11*
+*Built with [build-loop](docs/plan/) — init v9 | builds v9, v11, v12*

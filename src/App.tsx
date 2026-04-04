@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import type { ChallengeNode, MapProgress, ChallengeResult } from './types'
 import type { Profile } from './lib/profiles'
 import { ProfileScreen } from './components/ProfileScreen'
@@ -8,6 +8,7 @@ import { ResultsScreen } from './components/ResultsScreen'
 import { loadMapProgress, saveMapProgress, recordChallengeResult } from './lib/mapProgress'
 import { PROBLEMS_PER_CHALLENGE } from './lib/challenges'
 import { calculateStars } from './lib/scoring'
+import { initAudioContext, startAmbient, stopAmbient } from './lib/audio'
 import './App.css'
 
 type AppView =
@@ -17,9 +18,36 @@ type AppView =
   | { screen: 'results'; node: ChallengeNode; result: ChallengeResult }
 
 function App() {
+  useEffect(() => {
+    const handler = () => {
+      initAudioContext()
+      document.removeEventListener('click', handler)
+      document.removeEventListener('touchstart', handler)
+    }
+    document.addEventListener('click', handler)
+    document.addEventListener('touchstart', handler)
+    return () => {
+      document.removeEventListener('click', handler)
+      document.removeEventListener('touchstart', handler)
+    }
+  }, [])
+
   const [view, setView] = useState<AppView>({ screen: 'profile' })
   const [activeProfile, setActiveProfile] = useState<Profile | null>(null)
   const [progress, setProgress] = useState<MapProgress>({})
+  const [justCompletedNodeId, setJustCompletedNodeId] = useState<string | null>(null)
+
+  // Manage ambient soundscape based on current screen
+  useEffect(() => {
+    if (view.screen === 'map') {
+      startAmbient('map')
+    } else if (view.screen === 'quiz') {
+      startAmbient('quiz')
+    } else {
+      stopAmbient()
+    }
+    return () => stopAmbient()
+  }, [view.screen])
 
   const handleSelectProfile = useCallback((profile: Profile) => {
     setActiveProfile(profile)
@@ -34,6 +62,7 @@ function App() {
   }, [])
 
   const handleSelectChallenge = useCallback((node: ChallengeNode) => {
+    setJustCompletedNodeId(null)
     setView({ screen: 'quiz', node })
   }, [])
 
@@ -47,6 +76,7 @@ function App() {
       const updated = recordChallengeResult(node.id, result.stars, progress)
       setProgress(updated)
       saveMapProgress(updated, activeProfile.id)
+      setJustCompletedNodeId(node.id)
     }
     setView({ screen: 'map' })
   }, [progress, activeProfile])
@@ -83,6 +113,7 @@ function App() {
         <MapScreen
           progress={progress}
           activeProfile={activeProfile}
+          justCompletedNodeId={justCompletedNodeId}
           onSelectChallenge={handleSelectChallenge}
           onSwitchProfile={handleSwitchProfile}
         />
