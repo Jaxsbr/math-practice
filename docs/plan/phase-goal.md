@@ -49,13 +49,13 @@ Nature/adventure — enchanted forest clearing. Warm chimes for correct answers,
 - [x] Async cleanup: the `.node-just-completed` one-time burst class is removed after animation completes via `animationend` listener; listener is cleaned up if the node unmounts [US-15]
 
 #### US-16 — Ambient soundscape
-- [ ] MapScreen plays a continuous ambient nature loop via Web Audio API (filtered noise or low-frequency oscillator blend) when audio is initialized and not muted [US-16]
-- [ ] QuizScreen plays a softer, simpler ambient (lower gain value than MapScreen ambient) [US-16]
-- [ ] Transitioning between MapScreen and QuizScreen cross-fades ambient sound (gain ramps over ~500ms) — no abrupt audio cuts [US-16]
-- [ ] Ambient playback respects the mute toggle — muting sets ambient gain to 0; unmuting ramps gain back up [US-16]
-- [ ] Ambient does not start until `initAudioContext()` has been called (no attempt to create nodes before user gesture) [US-16]
-- [ ] Test: when MapScreen is mounted and audio is not muted, the ambient gain node's value is greater than 0; when muted, gain is 0 [US-16]
-- [ ] Async cleanup: ambient oscillator/noise source nodes are stopped and `disconnect()`-ed on component unmount — no audio continues playing after navigating away from the screen [US-16]
+- [x] MapScreen plays a continuous ambient nature loop via Web Audio API (filtered noise or low-frequency oscillator blend) when audio is initialized and not muted [US-16]
+- [x] QuizScreen plays a softer, simpler ambient (lower gain value than MapScreen ambient) [US-16]
+- [x] Transitioning between MapScreen and QuizScreen cross-fades ambient sound (gain ramps over ~500ms) — no abrupt audio cuts [US-16]
+- [x] Ambient playback respects the mute toggle — muting sets ambient gain to 0; unmuting ramps gain back up [US-16]
+- [x] Ambient does not start until `initAudioContext()` has been called (no attempt to create nodes before user gesture) [US-16]
+- [x] Test: when MapScreen is mounted and audio is not muted, the ambient gain node's value is greater than 0; when muted, gain is 0 [US-16]
+- [x] Async cleanup: ambient oscillator/noise source nodes are stopped and `disconnect()`-ed on component unmount — no audio continues playing after navigating away from the screen [US-16]
 
 #### Phase-level
 - [ ] `AGENTS.md` reflects the audio/animation system: new lib module (`audio.ts`), mute toggle behavior rule, browser autoplay policy handling, animation CSS class conventions (`.node-completed`, `.node-unlocked`, `.node-just-completed`, `[data-feedback]`), async cleanup rules for Web Audio nodes [phase]

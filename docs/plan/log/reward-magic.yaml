@@ -78,3 +78,10 @@ entries:
     result: pass
     notes: "Branch B. US-16: continuous ambient, two gain levels, cross-fade on transition."
     tokens: ~500
+  - task: 12
+    time: "2026-04-04T01:05:00Z"
+    story: US-16
+    description: "Add ambient soundscape — filtered noise via AudioBuffer, map/quiz gain levels, cross-fade on transition, mute-aware, stopAmbient on unmount. 7 new tests in audio.test.ts."
+    result: pass
+    notes: "143 tests (136→143). ✓ US-16 complete. All 7 criteria met. All 5 stories shipped."
+    tokens: ~8000
