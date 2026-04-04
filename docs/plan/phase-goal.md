@@ -58,8 +58,8 @@ Nature/adventure — enchanted forest clearing. Warm chimes for correct answers,
 - [x] Async cleanup: ambient oscillator/noise source nodes are stopped and `disconnect()`-ed on component unmount — no audio continues playing after navigating away from the screen [US-16]
 
 #### Phase-level
-- [ ] `AGENTS.md` reflects the audio/animation system: new lib module (`audio.ts`), mute toggle behavior rule, browser autoplay policy handling, animation CSS class conventions (`.node-completed`, `.node-unlocked`, `.node-just-completed`, `[data-feedback]`), async cleanup rules for Web Audio nodes [phase]
-- [ ] No external audio files (`.mp3`, `.ogg`, `.wav`) or animation libraries are added to the project — all effects use Web Audio API + CSS keyframes [phase]
+- [x] `AGENTS.md` reflects the audio/animation system: new lib module (`audio.ts`), mute toggle behavior rule, browser autoplay policy handling, animation CSS class conventions (`.node-completed`, `.node-unlocked`, `.node-just-completed`, `[data-feedback]`), async cleanup rules for Web Audio nodes [phase]
+- [x] No external audio files (`.mp3`, `.ogg`, `.wav`) or animation libraries are added to the project — all effects use Web Audio API + CSS keyframes [phase]
 
 ### Golden principles (phase-relevant)
 - No `dangerouslySetInnerHTML` — all user text rendered via JSX
