@@ -8,7 +8,7 @@ import { ResultsScreen } from './components/ResultsScreen'
 import { loadMapProgress, saveMapProgress, recordChallengeResult } from './lib/mapProgress'
 import { PROBLEMS_PER_CHALLENGE } from './lib/challenges'
 import { calculateStars } from './lib/scoring'
-import { initAudioContext } from './lib/audio'
+import { initAudioContext, startAmbient, stopAmbient } from './lib/audio'
 import './App.css'
 
 type AppView =
@@ -36,6 +36,21 @@ function App() {
   const [activeProfile, setActiveProfile] = useState<Profile | null>(null)
   const [progress, setProgress] = useState<MapProgress>({})
   const [justCompletedNodeId, setJustCompletedNodeId] = useState<string | null>(null)
+
+  // Manage ambient soundscape based on current screen
+  useEffect(() => {
+    if (view.screen === 'map') {
+      startAmbient('map')
+    } else if (view.screen === 'quiz') {
+      startAmbient('quiz')
+    } else {
+      stopAmbient()
+    }
+    return () => {
+      // Stop ambient when App unmounts entirely
+      if (view.screen === 'profile') stopAmbient()
+    }
+  }, [view.screen])
 
   const handleSelectProfile = useCallback((profile: Profile) => {
     setActiveProfile(profile)

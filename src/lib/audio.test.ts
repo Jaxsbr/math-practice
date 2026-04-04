@@ -7,18 +7,29 @@ import {
   isMuted,
   cleanup,
   scheduleTimeout,
+  startAmbient,
+  stopAmbient,
+  updateAmbientMute,
   _resetForTest,
 } from './audio'
 import type { SoundType } from './audio'
 
 // Minimal AudioContext mock
-function createMockAudioContext() {
-  const mockGainNode = {
-    gain: { value: 0, setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
+function createMockGainNode() {
+  return {
+    gain: {
+      value: 0,
+      setValueAtTime: vi.fn(),
+      exponentialRampToValueAtTime: vi.fn(),
+      linearRampToValueAtTime: vi.fn(function (this: { value: number }, v: number) { this.value = v }),
+      cancelScheduledValues: vi.fn(),
+    },
     connect: vi.fn(),
     disconnect: vi.fn(),
   }
+}
 
+function createMockAudioContext() {
   const mockOscillator = {
     type: 'sine' as OscillatorType,
     frequency: { value: 0 },
@@ -29,14 +40,39 @@ function createMockAudioContext() {
     onended: null as (() => void) | null,
   }
 
+  const mockBufferSource = {
+    buffer: null as AudioBuffer | null,
+    loop: false,
+    connect: vi.fn(),
+    start: vi.fn(),
+    stop: vi.fn(),
+    disconnect: vi.fn(),
+  }
+
+  const mockFilter = {
+    type: 'lowpass' as BiquadFilterType,
+    frequency: {
+      value: 0,
+      setValueAtTime: vi.fn(),
+      linearRampToValueAtTime: vi.fn(),
+    },
+    connect: vi.fn(),
+    disconnect: vi.fn(),
+  }
+
+  const mockBuffer = {
+    getChannelData: vi.fn(() => new Float32Array(44100 * 2)),
+  }
+
   const ctx = {
     currentTime: 0,
+    sampleRate: 44100,
     destination: {},
     createOscillator: vi.fn(() => ({ ...mockOscillator })),
-    createGain: vi.fn(() => ({
-      ...mockGainNode,
-      gain: { ...mockGainNode.gain },
-    })),
+    createGain: vi.fn(() => createMockGainNode()),
+    createBufferSource: vi.fn(() => ({ ...mockBufferSource })),
+    createBiquadFilter: vi.fn(() => ({ ...mockFilter, frequency: { ...mockFilter.frequency } })),
+    createBuffer: vi.fn(() => ({ ...mockBuffer })),
   }
 
   return ctx
@@ -158,6 +194,87 @@ describe('audio', () => {
       vi.advanceTimersByTime(200)
       expect(fn).not.toHaveBeenCalled()
       vi.useRealTimers()
+    })
+  })
+
+  describe('ambient', () => {
+    it('creates buffer source, filter, and gain when starting ambient', () => {
+      initAudioContext()
+      startAmbient('map')
+      expect(mockCtx.createBufferSource).toHaveBeenCalledOnce()
+      expect(mockCtx.createBiquadFilter).toHaveBeenCalledOnce()
+      // createGain called for ambient gain node
+      expect(mockCtx.createGain).toHaveBeenCalled()
+    })
+
+    it('ambient gain is greater than 0 when not muted', () => {
+      initAudioContext()
+      startAmbient('map')
+      // linearRampToValueAtTime sets the target gain
+      const gainNode = mockCtx.createGain.mock.results[0].value
+      expect(gainNode.gain.linearRampToValueAtTime).toHaveBeenCalledWith(
+        expect.any(Number),
+        expect.any(Number),
+      )
+      const targetGain = gainNode.gain.linearRampToValueAtTime.mock.calls[0][0]
+      expect(targetGain).toBeGreaterThan(0)
+    })
+
+    it('ambient gain target is 0 when muted', () => {
+      initAudioContext()
+      setMuted(true)
+      startAmbient('map')
+      const gainNode = mockCtx.createGain.mock.results[0].value
+      const targetGain = gainNode.gain.linearRampToValueAtTime.mock.calls[0][0]
+      expect(targetGain).toBe(0)
+    })
+
+    it('quiz scene has lower gain than map scene', () => {
+      initAudioContext()
+      startAmbient('map')
+      const mapGainNode = mockCtx.createGain.mock.results[0].value
+      const mapTarget = mapGainNode.gain.linearRampToValueAtTime.mock.calls[0][0]
+
+      _resetForTest()
+      mockCtx = createMockAudioContext()
+      vi.stubGlobal('AudioContext', function MockAudioContext() {
+        return mockCtx
+      })
+
+      initAudioContext()
+      startAmbient('quiz')
+      const quizGainNode = mockCtx.createGain.mock.results[0].value
+      const quizTarget = quizGainNode.gain.linearRampToValueAtTime.mock.calls[0][0]
+
+      expect(quizTarget).toBeLessThan(mapTarget)
+    })
+
+    it('does not start ambient before AudioContext is initialized', () => {
+      startAmbient('map')
+      expect(mockCtx.createBufferSource).not.toHaveBeenCalled()
+    })
+
+    it('stopAmbient stops the source after fade-out', () => {
+      vi.useFakeTimers()
+      initAudioContext()
+      startAmbient('map')
+      const src = mockCtx.createBufferSource.mock.results[0].value
+      stopAmbient()
+      vi.advanceTimersByTime(600)
+      expect(src.stop).toHaveBeenCalled()
+      expect(src.disconnect).toHaveBeenCalled()
+      vi.useRealTimers()
+    })
+
+    it('updateAmbientMute sets gain to 0 when muting', () => {
+      initAudioContext()
+      startAmbient('map')
+      const gainNode = mockCtx.createGain.mock.results[0].value
+      updateAmbientMute(true)
+      // Last call to linearRampToValueAtTime should target 0
+      const calls = gainNode.gain.linearRampToValueAtTime.mock.calls
+      const lastTarget = calls[calls.length - 1][0]
+      expect(lastTarget).toBe(0)
     })
   })
 })

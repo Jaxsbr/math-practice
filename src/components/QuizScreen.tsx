@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { isMuted, setMuted, playSound } from '../lib/audio'
+import { isMuted, setMuted, playSound, updateAmbientMute } from '../lib/audio'
 import type { ChallengeNode, MapProgress, Problem } from '../types'
 import type { Profile } from '../lib/profiles'
 import { generateProblem } from '../lib/generator'
@@ -187,6 +187,7 @@ export function QuizScreen({ node, problemCount, progress, activeProfile, onComp
     const next = !muted
     setMuted(next)
     setMutedState(next)
+    updateAmbientMute(next)
   }
 
   const [seenDisplays] = useState(() => new Set<string>())

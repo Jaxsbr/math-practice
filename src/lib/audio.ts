@@ -98,8 +98,120 @@ export function cleanup(): void {
   activeOscillators.length = 0
 }
 
+// ── Ambient soundscape ──
+
+export type AmbientScene = 'map' | 'quiz'
+
+const AMBIENT_GAINS: Record<AmbientScene, number> = {
+  map: 0.08,
+  quiz: 0.03,
+}
+
+const CROSSFADE_MS = 500
+
+let ambientSource: AudioBufferSourceNode | null = null
+let ambientGain: GainNode | null = null
+let ambientFilter: BiquadFilterNode | null = null
+let currentScene: AmbientScene | null = null
+
+function createNoiseBuffer(ctx: AudioContext): AudioBuffer {
+  const sampleRate = ctx.sampleRate
+  const length = sampleRate * 2 // 2 seconds of noise, looped
+  const buffer = ctx.createBuffer(1, length, sampleRate)
+  const data = buffer.getChannelData(0)
+  for (let i = 0; i < length; i++) {
+    data[i] = Math.random() * 2 - 1
+  }
+  return buffer
+}
+
+export function startAmbient(scene: AmbientScene): void {
+  if (!audioCtx) return
+
+  const targetGain = isMuted() ? 0 : AMBIENT_GAINS[scene]
+
+  if (ambientSource && ambientGain && ambientFilter) {
+    // Cross-fade to new scene gain and filter
+    const now = audioCtx.currentTime
+    ambientGain.gain.cancelScheduledValues(now)
+    ambientGain.gain.setValueAtTime(ambientGain.gain.value, now)
+    ambientGain.gain.linearRampToValueAtTime(targetGain, now + CROSSFADE_MS / 1000)
+    ambientFilter.frequency.setValueAtTime(ambientFilter.frequency.value, now)
+    ambientFilter.frequency.linearRampToValueAtTime(scene === 'map' ? 800 : 400, now + CROSSFADE_MS / 1000)
+    currentScene = scene
+    return
+  }
+
+  // Create new ambient chain
+  const noiseBuffer = createNoiseBuffer(audioCtx)
+  ambientSource = audioCtx.createBufferSource()
+  ambientSource.buffer = noiseBuffer
+  ambientSource.loop = true
+
+  ambientFilter = audioCtx.createBiquadFilter()
+  ambientFilter.type = 'lowpass'
+  ambientFilter.frequency.value = scene === 'map' ? 800 : 400
+
+  ambientGain = audioCtx.createGain()
+  ambientGain.gain.value = 0
+
+  ambientSource.connect(ambientFilter)
+  ambientFilter.connect(ambientGain)
+  ambientGain.connect(audioCtx.destination)
+
+  ambientSource.start()
+
+  // Fade in
+  const now = audioCtx.currentTime
+  ambientGain.gain.setValueAtTime(0, now)
+  ambientGain.gain.linearRampToValueAtTime(targetGain, now + CROSSFADE_MS / 1000)
+
+  currentScene = scene
+}
+
+export function stopAmbient(): void {
+  if (!ambientSource || !ambientGain || !audioCtx) return
+
+  const now = audioCtx.currentTime
+  ambientGain.gain.cancelScheduledValues(now)
+  ambientGain.gain.setValueAtTime(ambientGain.gain.value, now)
+  ambientGain.gain.linearRampToValueAtTime(0, now + CROSSFADE_MS / 1000)
+
+  const src = ambientSource
+  const gain = ambientGain
+  const filter = ambientFilter
+  const id = setTimeout(() => {
+    try { src.stop() } catch { /* already stopped */ }
+    src.disconnect()
+    gain.disconnect()
+    filter?.disconnect()
+    const idx = activeTimeouts.indexOf(id)
+    if (idx >= 0) activeTimeouts.splice(idx, 1)
+  }, CROSSFADE_MS + 50)
+  activeTimeouts.push(id)
+
+  ambientSource = null
+  ambientGain = null
+  ambientFilter = null
+  currentScene = null
+}
+
+export function updateAmbientMute(muted: boolean): void {
+  if (!ambientGain || !audioCtx || !currentScene) return
+  const now = audioCtx.currentTime
+  const targetGain = muted ? 0 : AMBIENT_GAINS[currentScene]
+  ambientGain.gain.cancelScheduledValues(now)
+  ambientGain.gain.setValueAtTime(ambientGain.gain.value, now)
+  ambientGain.gain.linearRampToValueAtTime(targetGain, now + 0.1)
+}
+
+export function getAmbientGainValue(): number {
+  return ambientGain?.gain.value ?? 0
+}
+
 /** Reset module state — for testing only. */
 export function _resetForTest(): void {
+  stopAmbient()
   cleanup()
   audioCtx = null
 }

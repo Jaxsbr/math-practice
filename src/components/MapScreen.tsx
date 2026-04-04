@@ -3,7 +3,7 @@ import type { ChallengeNode, MapProgress } from '../types'
 import type { Profile } from '../lib/profiles'
 import { CHALLENGE_NODES } from '../lib/challenges'
 import { isNodeUnlocked, isNodeCompleted, getFrontierNodeId } from '../lib/mapProgress'
-import { isMuted, setMuted, playSound } from '../lib/audio'
+import { isMuted, setMuted, playSound, updateAmbientMute } from '../lib/audio'
 import './MapScreen.css'
 
 const AVATARS = ['🦉', '🦊', '🐰', '🐻']
@@ -126,6 +126,7 @@ export function MapScreen({ progress, activeProfile, justCompletedNodeId, onSele
     const next = !muted
     setMuted(next)
     setMutedState(next)
+    updateAmbientMute(next)
   }
 
   // Play nodeComplete sound once when justCompletedNodeId changes
